@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'korea',  # 11/27 등록(이수경)
     'accounts',  # 11/27 등록(이수경)
     'django_bootstrap5',  # 11/27 등록(이수경)
     'django.contrib.admin',
