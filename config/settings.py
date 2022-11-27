@@ -31,9 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'imagekit',  # 11/27 등록(이수경)
     'korea',  # 11/27 등록(이수경)
     'accounts',  # 11/27 등록(이수경)
     'django_bootstrap5',  # 11/27 등록(이수경)
+    'django_cleanup.apps.CleanupConfig',  # 11/27 등록(이수경) - 글이 삭제되었을 때 로컬에 남은 이미지들도 삭제될 수 있게 처리
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,11 +122,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = "staticfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+
+# Media files (user uploaded files)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'images'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
