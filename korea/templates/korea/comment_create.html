@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}    
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block css %}
+<link href="summernote-bs5.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+
+{% endblock css %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card">
+        <div>
+            {{comment_form.as_table}}
+        </div>
+    </div>
+
+    <div class="text-right">   
+        <button type="submit" id="write" class="btn btn-sm">작성하기</button>
+    </div>
+</form>
+{% endblock content%}
+
+{% block js %}
+<!-- summernote 적용, 커스텀 -->
+<script>
+    $(document).ready(function () {
+        $('#id_content').summernote({
+            placeholder: '뇌피셜을 입력해주세요.',
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            lang: 'ko-KR',
+           
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'help']]
+            ]
+        });
+        $('p').css('margin-bottom','0')
+        $('.note-resizebar').css('display','none');
+    });
+</script>
+<!-- 페이지 벗어나기 경고창 -->
+<script type="text/javascript">
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+    $("#write").on("click", function () {
+        checkUnload = false;
+        $("submit").submit();
+    });
+</script>
+
+<script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script>
+<script src="summernote-bs5.js"></scrip>
+{% endblock js %}

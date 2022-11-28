@@ -1,5 +1,6 @@
 from django import forms
-from .models import Players
+from .models import Players, Comment
+from django_summernote.widgets import SummernoteWidget
 
 
 class PlayersForm(forms.ModelForm):
@@ -26,4 +27,13 @@ class PlayersForm(forms.ModelForm):
             "height": "신장",
             "weight": "몸무게",
             "player_image": "선수 사진",
+        }
+
+class CommentForm(forms.ModelForm):
+            
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': SummernoteWidget(),
         }

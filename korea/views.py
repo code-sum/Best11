@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
-from .forms import PlayersForm
+from django.http import JsonResponse
+from .forms import PlayersForm, CommentForm
 from .models import Players
 
 
@@ -25,7 +26,6 @@ def create(request):
         form = PlayersForm()
     context = {"form": form}
     return render(request, "korea/create_player.html", context)
-
 
 # 선수 디테일 정보
 def detail(request, player_pk):
@@ -55,3 +55,33 @@ def delete(request, player_pk):
     player = Players.objects.get(pk=player_pk)
     player.delete()
     return redirect("korea:index")
+
+# 뇌피셜 작성
+def comment_create(request):
+    # player = Players.objects.get(pk=pk)
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit = False)
+            comment.save()
+            return redirect('korea:detail_player')
+    else:
+        comment_form = CommentForm()
+    context = {
+        'comment_form': comment_form,
+    }
+    return render(request, "korea/comment_create.html", context)
+
+# 뇌피셜 좋아요
+def like(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.user in comment.like_users.all():
+        # 좋아요 삭제하고
+        comment.like_users.remove(request.user)
+        is_liked = False
+    else:  # 좋아요 누르지 않은 상태라면 좋아요에 추가하고
+        comment.like_users.add(request.user)
+        is_liked = True
+        # 상세 페이지로 redirect
+    context = {"isLiked": is_liked, "likeCount": comment.like_users.count()}
+    return JsonResponse(context)

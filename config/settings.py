@@ -31,17 +31,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "imagekit",  # 11/27 등록(이수경)
-    "korea",  # 11/27 등록(이수경)
-    "accounts",  # 11/27 등록(이수경)
-    "django_bootstrap5",  # 11/27 등록(이수경)
-    "django_cleanup.apps.CleanupConfig",  # 11/27 등록(이수경) - 글이 삭제되었을 때 로컬에 남은 이미지들도 삭제될 수 있게 처리
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    'imagekit',  # 11/27 등록(이수경)
+    'korea',  # 11/27 등록(이수경)
+    'accounts',  # 11/27 등록(이수경)
+    'django_bootstrap5',  # 11/27 등록(이수경)
+    'django_cleanup.apps.CleanupConfig',  # 11/27 등록(이수경) - 글이 삭제되었을 때 로컬에 남은 이미지들도 삭제될 수 있게 처리
+    'django_summernote', # 11/28 등록(차화영) 
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
