@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<style>
+    .account-detail-img {
+        width: 10.2180vw;
+        height: 10.2180vw;
+        object-fit: cover;
+        border-radius: 50%;
+        transform: scale(1.1);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+</style>
+<h1>{{ user }}님의 프로필</h1><br>
+<div class="container my-3">
+    <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>아이디</th>
+                <th>이름</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <h3>작성한 뇌피셜</h3>
+    <p class="text-muted">{{ user.article_set.count }}개를 작성하였습니다.</p>
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>작성글</th>
+                <th>글 제목</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in user.article_set.all %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td><a href="{% url 'articles:detail' article.pk %}">{{article.title}}</a></td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+    <h3>북마크한 선수</h3>
+    <p class="text-muted">~명의 선수를 북마크하였습니다.</p>
+    {% if request.user == user %}
+    <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
+    {% endif %}
+</div>
+
+{% endblock content %}
