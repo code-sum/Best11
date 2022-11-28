@@ -4,5 +4,22 @@
 {% block content %}
 
   <h1>korea/index.html</h1>
+  <br>
+  <hr>
+  <br>
+  <div class="container my-3 ">
+    {% for player in players %}
+      <img src="{{ player.profile_image }}" alt="선수 사진">
+      <h4>{{ player.name }}</h4>
+      <p>{{ player.english_name }}</p>
+      <p>{{ player.back_number }}</p>
+      <p>{{ player.birthdate }}</p>
+      <p>{{ player.team }}</p>
+      <p>{{ player.position }}</p>
+      <p>{{ player.height }}</p>
+      <p>{{ player.weight }}</p>
+      <hr>
+    {% endfor %}
+  </div>
 
 {% endblock %}
