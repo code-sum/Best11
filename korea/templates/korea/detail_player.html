@@ -27,5 +27,10 @@
         {{ player.weight }}kg</p>
     </div>
     <hr>
+    <button class="btn btn-dark">
+      <a href="{% url "korea:delete" player.pk %}">선수 삭제</a>
+    </button>
   </div>
+  <!-- 하단에 comment 내용 구현 추가 예정-->
+
 {% endblock %}
