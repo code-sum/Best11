@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container my-3">
+    <h1 class="text-center">{{ player.name }}
+      선수</h1>
+    <hr>
+    <br>
+    <div class="text-center">
+      <img src="{{ player.profile_image }}" alt="선수 사진">
+      <p>이름 :
+        {{ player.name }}</p>
+      <p>
+        {{ player.english_name }}</p>
+      <p>등번호 :
+        {{ player.back_number }}</p>
+      <p>
+        {{ player.birthdate }}</p>
+      <p>소속 팀 :
+        {{ player.team }}</p>
+      <p>
+        {{ player.position }}</p>
+      <p>몸무게 :
+        {{ player.height }}</p>
+      <p>키 :
+        {{ player.weight }}</p>
+    </div>
+    <hr>
+  </div>
+{% endblock %}

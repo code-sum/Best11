@@ -29,5 +29,6 @@ def create(request):
 
 # 선수 디테일 정보
 def detail(request, player_pk):
-
-    return render(request, "korea/detail.html")
+    player = Players.objects.get(pk=player_pk)
+    context = {"player": player}
+    return render(request, "korea/detail_player.html", context)
