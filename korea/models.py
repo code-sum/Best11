@@ -12,9 +12,9 @@ class Players(models.Model):
     birthdate = models.DateField()
     team = models.CharField(max_length=20)
     player_image = ProcessedImageField(
-        upload_to="",
+        upload_to="media/",
         blank=True,
-        processors=[ResizeToFill(100, 100)],
+        processors=[ResizeToFill(150, 150)],
         format="JPEG",
         options={"quality": 80},
     )
@@ -27,4 +27,4 @@ class Players(models.Model):
         if self.player_image and hasattr(self.player_image, "url"):
             return self.player_image.url
         else:
-            return "https://postfiles.pstatic.net/MjAyMDExMDFfMTA1/MDAxNjA0MjI4ODc1Mzk0.05ODadJdsa3Std55y7vd2Vm8kxU1qScjh5-3eVJ9T-4g.h7lHansSdReVq7IggiFAc44t2W_ZPTPoZWihfRMB_TYg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EB%9E%91.jpg?type=w773"
+            return "https://cdn-icons-png.flaticon.com/512/606/606668.png"

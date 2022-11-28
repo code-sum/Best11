@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import PlayersForm
+from .models import Players
 
 
 def index(request):
-    return render(request, "korea/index.html")
+    players = Players.objects.all()
+
+    context = {"players": players}
+
+    return render(request, "korea/index.html", context)
 
 
 # 선수단 생성 Create(관리자만 생성 가능)

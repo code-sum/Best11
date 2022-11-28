@@ -5,5 +5,5 @@ app_name = "korea"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("create/", views.create, name="create_player"),
+    path("create_player/", views.create, name="create_player"),
 ]

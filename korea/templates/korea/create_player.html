@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 
-  <h1>국가대표 선수 등록</h1>
+  <div class="container">
+    <h1>국가대표 선수 등록</h1>
+
+    <hr>
+    <div class="container my-3">
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-dark my-3">
+      </form>
+    </div>
+  </div>
 
 {% endblock %}
