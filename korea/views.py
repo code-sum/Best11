@@ -49,3 +49,9 @@ def update(request, player_pk):
         "player": player,
     }
     return render(request, "korea/update_player.html", context)
+
+
+def delete(request, player_pk):
+    player = Players.objects.get(pk=player_pk)
+    player.delete()
+    return redirect("korea:index")

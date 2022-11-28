@@ -7,7 +7,7 @@
   <br>
   <hr>
   <br>
-  <div class="container my-3 ">
+  <div class="container my-3 text-center">
     {% for player in players %}
       <a href="{% url "korea:detail" player.pk %}">
         <img src="{{ player.profile_image }}" alt="선수 사진">
