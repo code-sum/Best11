@@ -32,3 +32,20 @@ def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
     context = {"player": player}
     return render(request, "korea/detail_player.html", context)
+
+
+def update(request, player_pk):
+    player = Players.objects.get(pk=player_pk)
+    if request.method == "POST":
+        player_form = PlayersForm(request.POST, request.FILES, instance=player)
+        if player_form.is_valid():
+            form = player_form.save(commit=False)
+            form.save()
+            return redirect("korea:detail", player_pk)
+    else:
+        player_form = PlayersForm(instance=player)
+    context = {
+        "player_form": player_form,
+        "player": player,
+    }
+    return render(request, "korea/update_player.html", context)
