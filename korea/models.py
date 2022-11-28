@@ -1,9 +1,10 @@
 from django.db import models
+from django.conf import settings
+
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
 # Create your models here.
-
 
 class Players(models.Model):
     name = models.CharField(max_length=7)
@@ -28,3 +29,9 @@ class Players(models.Model):
             return self.player_image.url
         else:
             return "https://cdn-icons-png.flaticon.com/512/606/606668.png"
+
+class Comment(models.Model): # 선수 한 명에 대한 뇌피셜
+    players = models.ForeignKey(Players, on_delete=models.CASCADE) # 선수를 ForeignKey로 불러온다.
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_comments")

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from .models import *
+from django.contrib.auth.decorators import login_required
 from .forms import PlayersForm
 from .models import Players
-
 
 def index(request):
     players = Players.objects.all()
