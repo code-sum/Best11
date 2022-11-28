@@ -16,7 +16,7 @@ class Players(models.Model):
     player_image = ProcessedImageField(
         upload_to="",
         blank=True,
-        processors=[ResizeToFill(100, 100)],
+        processors=[ResizeToFill(200, 200)],
         format="JPEG",
         options={"quality": 80},
     )
