@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container my-3">
+    <h1 class="text-center">{{ player.name }}
+      선수</h1>
+    <hr>
+    <br>
+    <div class="text-center">
+      <img src="{{ player.profile_image }}" alt="선수 사진">
+      <p>이름 :
+        {{ player.name }}</p>
+      <p>
+        {{ player.english_name }}</p>
+      <p>등번호 :
+        {{ player.back_number }}</p>
+      <p>
+        {{ player.birthdate }}</p>
+      <p>소속 팀 :
+        {{ player.team }}</p>
+      <p>포지션 :
+        {{ player.position }}</p>
+      <p>신장 :
+        {{ player.height }}cm</p>
+      <p>몸무게 :
+        {{ player.weight }}kg</p>
+    </div>
+    <hr>
+    <button class="btn btn-dark">
+      <a href="{% url "korea:delete" player.pk %}">선수 삭제</a>
+    </button>
+  </div>
+  <!-- 하단에 comment 내용 구현 추가 예정-->
+
+{% endblock %}

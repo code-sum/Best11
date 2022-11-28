@@ -4,5 +4,30 @@
 {% block content %}
 
   <h1>korea/index.html</h1>
+  <br>
+  <hr>
+  <br>
+  <div class="container my-3 text-center">
+    {% for player in players %}
+      <a href="{% url "korea:detail" player.pk %}">
+        <img src="{{ player.profile_image }}" alt="선수 사진">
+      </a>
+      <h4 class="my-2">{{ player.name }}</h4>
+      <p>{{ player.english_name }}</p>
+      <p>등번호 :
+        {{ player.back_number }}</p>
+      <p>{{ player.birthdate }}</p>
+      <p>소속 팀:
+        {{ player.team }}</p>
+      <p>포지션 :
+        {{ player.position }}</p>
+      <p>신장 :
+        {{ player.height }}cm</p>
+      <p>몸무게 :
+        {{ player.weight }}kg</p>
+
+      <hr>
+    {% endfor %}
+  </div>
 
 {% endblock %}

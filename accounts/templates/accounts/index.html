@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
-
-  <h1>accounts/index.html</h1>
-  <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" style="width:500px;">
-
+<div class="container my-3">
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>pk</th>
+        <th>아이디</th>
+        <th>이름</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for account in accounts %}
+      <tr onClick='location.href="detail/{{account.pk}}/"' style='cursor: pointer;'>
+        <td>{{ account.pk }}</td>
+        <td>{{ account.username }}</a></td>
+        <td>{{ account.first_name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

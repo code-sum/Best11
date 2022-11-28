@@ -2,20 +2,20 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
-<!-- 관리자만 생성 할 수 있도록 차후 검증여부 추가 예정-->
+<!-- 관리자만 수정 할 수 있도록 차후 검증여부 추가 예정-->
 {% block content %}
 
   <div class="container">
-    <h1>국가대표 선수 등록</h1>
+    <h1>{{ player.name }}
+      선수 정보 수정</h1>
 
     <hr>
     <div class="container my-3">
       <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_form player_form %}
         <input type="submit" class="btn btn-dark my-3">
       </form>
     </div>
   </div>
-
 {% endblock %}

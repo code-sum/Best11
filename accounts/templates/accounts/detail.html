@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+<style>
+    .account-detail-img {
+        width: 10.2180vw;
+        height: 10.2180vw;
+        object-fit: cover;
+        border-radius: 50%;
+        transform: scale(1.1);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+
+    .account-detail-follow-btn {
+        margin-left: 1.0899vw;
+        padding: 0.0681vw 0.6812vw;
+        border-radius: 0.8856vw;
+        background-color: #111B54;
+        font-size: 1.1580vw;
+    }
+</style>
+<h1>{{ user }}님의 프로필</h1><br>
+<div class="container my-3">
+    {% if user.profile_image %}
+    <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
+    {% else %}
+    <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
+    {% endif %}
+    <br><br>
+    <div class="counts">
+        <div class="me-5">
+            <p class="fs-6" data-bs-target="#followerModal" data-bs-toggle="modal">
+                팔로워
+                <span class="ms-2 fw-bold" id="followers-count">
+                    {{ user.followers.count }}
+                </span>
+            </p>
+        </div>
+        <div class="me-5">
+            <p class="fs-6">팔로우<span class="ms-2 fw-bold" id="followings-count">{{ user.followings.count }}</span>
+            </p>
+        </div>
+    </div>
+    {% if request.user != user %}
+    <a href="{% url 'accounts:follow' user.pk %}">
+        {% if request.user in user.followers.all %}
+        <button type="button" class="btn btn-danger">팔로우 취소</button>
+        {% else %}
+        <button type="button" class="btn btn-primary">팔로우</button>
+        {% endif %}
+    </a>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>아이디</th>
+                <th>이름</th>
+                <th>활동지수</th>
+                <th>직업</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.exp }}</td>
+                {% if user.exp < 30 %} <td>벤치</td>
+                    {% elif user.exp < 80 %} <td>선수</td>
+                        {% else %}
+                        <!-- 감독 조건 추가 필요 -->
+                        <td>감독</td>
+                        {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <h3>작성한 뇌피셜</h3>
+    <p class="text-muted">{{ user.article_set.count }}개를 작성하였습니다.</p>
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>작성글</th>
+                <th>글 제목</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in user.article_set.all %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td><a href="{% url 'articles:detail' article.pk %}">{{article.title}}</a></td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+    <h3>북마크한 선수</h3>
+    <p class="text-muted">~명의 선수를 북마크하였습니다.</p>
+    {% if request.user == user %}
+    <a href="{% url 'accounts:update' %}" type="button" class="btn btn-primary">수정</a>
+    <a href="{% url 'accounts:change_password' %}" class='btn btn-warning'>비밀번호 변경</a>
+    <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
+    {% endif %}
+</div>
+
+{% endblock content %}
