@@ -34,6 +34,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+        labels = {
+            'content' : '뇌피셜 한 줄',
+        }
         widgets = {
             'content': SummernoteWidget(),
         }
