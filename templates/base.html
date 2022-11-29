@@ -17,6 +17,84 @@
   </head>
 
   <body>
+    <!-- 헤더 영역 - 네비게이션 바 -->
+    <header class="header">
+      <a class="logo" href="{% url 'korea:index' %}"><img src="{% static 'images/logo.png' %}" alt="logo" style="width: 200px;"></a>
+      <input class="menu-btn" type="checkbox" id="menu-btn"/>
+      <label class="menu-icon" for="menu-btn">
+        <span class="navicon"></span></label>
+      <ul class="menu">
+        <li>
+          <a href="#two" class="header-a link link-theme link-arrow">경기일정</a>
+        </li>
+        <li>
+          <a href="#three" class="header-a link link-theme link-arrow">아카이브</a>
+        </li>
+        <li>
+          <a href="#four" class="header-a link link-theme link-arrow">축구상식</a>
+        </li>
+        <li>
+          <a href="#five" class="header-a link link-theme link-arrow">미니게임</a>
+        </li>
+      </ul>
+    </header>
+    <!-- 헤더 영역 - 회원관리 버튼 -->
+    <div class="ball-and-shadow" data-bs-toggle="modal" data-bs-target="#ballModal">
+      <div class="ball-container">
+        {% if request.user.is_authenticated %}
+          {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%;" alt="profile">
+          {% else %}
+            <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+          {% endif %}
+        {% else %}
+          <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+        {% endif %}
+      </div>
+      <div class="ball-shadow"></div>
+    </div>
+    <!-- 헤더 영역 - 회원관리 버튼 - 클릭 시 열리는 모달 -->
+    <div class="modal fade" id="ballModal" tabindex="-1" aria-labelledby="ballModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- 회원에게 보여지는 모달창 -->
+            {% if request.user.is_authenticated %}
+              <div class="d-flex flex-column align-items-center my-5">
+                {% if request.user.profile_image %}
+                  <img src="{{ request.user.profile_image.url }}" alt="profile" style="width: 15rem; border-radius: 50%;" class="my-3">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
+                {% endif %}
+                <h1>{{ request.user.username }}님</h1>
+              </div>
+              <div class="d-flex justify-content-center mb-5">
+                <h4>
+                  <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="{% url 'accounts:logout' %}" class="a-black-red">로그아웃</a>
+                </h4>
+              </div>
+              <!-- 비회원에게 보여지는 모달창 -->
+            {% else %}
+              <div class="d-flex flex-column align-items-center my-5">
+                <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
+                <h1>비회원님</h1>
+              </div>
+              <div class="d-flex justify-content-center mb-5">
+                <h4>
+                  <a href="{% url 'accounts:login' %}" class="a-black-red">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="{% url 'accounts:signup' %}" class="a-black-red">회원가입</a>
+                </h4>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="wrapper" class="container">
       <!-- content -->
       {% block content %}{% endblock content %}
@@ -25,24 +103,20 @@
     <!-- Top Button -->
     <div class="d-flex justify-content-end mb-5 me-5 fixed-bottom" style="z-index: 2;">
       <button id="hexagon" class="text-white fs-4" title="Go to the top" onclick="topFunction()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-compact-up" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-compact-up" viewbox="0 0 16 16">
           <path fill-rule="evenodd" d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894l6-3z"/>
         </svg>
         <div>
-            위로
+          위로
         </div>
       </button>
     </div>
     <!-- Footer -->
     <footer style="z-index: 1;">
-      <hr />
+      <hr/>
       <div class="d-flex justify-content-between px-5 pb-5" style="margin: 0rem 10rem 0rem 7rem;">
         <div class="col-4" style="padding-top: .5rem;">
-          <img
-            src="{% static 'images/베스트일레븐 로고.png' %}"
-            alt=""
-            style="width: 20rem; height: 12.5rem;"
-          />
+          <img src="{% static 'images/베스트일레븐 로고.png' %}" alt="" style="width: 20rem; height: 12.5rem;"/>
         </div>
         <div class="d-flex justify-content-end" style="padding-top: 4rem;">
           <div class="me-5">
@@ -52,16 +126,10 @@
           </div>
           <div>
             <p class="fw-bold" style="font-size: 1.8rem">팀 베스트일레븐</p>
-            <a
-              href="https://www.notion.so/BEST-ELEVEN-9fa6ddeb45cf4aa3825a46744cba42c7"
-              target="_blank"
-            >
+            <a href="https://www.notion.so/BEST-ELEVEN-9fa6ddeb45cf4aa3825a46744cba42c7" target="_blank">
               <p class="text-secondary">베스트일레븐 홈그라운드</p>
             </a>
-            <a
-              href="https://www.notion.so/164d3be10e96452fb8ae11adf368b8b6"
-              target="_blank"
-            >
+            <a href="https://www.notion.so/164d3be10e96452fb8ae11adf368b8b6" target="_blank">
               <p class="text-secondary">프로젝트 기획서</p>
             </a>
           </div>
@@ -74,106 +142,75 @@
         <div class="d-flex">
           <a href="https://github.com/JeongJinGan" target="_blank" class="me-3">
             <button class="btn border-0 p-0">
-              <img
-                src="{% static 'images/간정진.jpg' %}"
-                style="width: 5rem; border-radius: 5rem"
-                alt=""
-              />
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
-              <p class="text-secondary pt-2 mb-0">간정진</p>
-            </button>
-          </a>
-          <a href="https://github.com/code-sum" target="_blank" class="me-3">
-            <button class="btn border-0 p-0">
-              <img
-                src="{% static 'images/이수경.jpg' %}"
-                style="width: 5rem; border-radius: 5rem"
-                alt=""
-              />
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
-              <p class="text-secondary pt-2 mb-0">이수경</p>
-            </button>
-          </a>
-          <a href="https://github.com/snnzzoo" target="_blank" class="me-3">
-            <button class="btn border-0 p-0">
-              <img
-                src="{% static 'images/임선주.jpg' %}"
-                style="width: 5rem; border-radius: 5rem"
-                alt=""
-              />
-              <p class="text-secondary pt-2 mb-0">임선주</p>
-            </button>
-          </a>
-          <a href="https://github.com/JOO-10000-Zi" target="_blank" class="me-3">
-            <button class="btn border-0 p-0">
-              <img
-                src="{% static 'images/주세환.jpg' %}"
-                style="width: 5rem; border-radius: 5rem"
-                alt=""
-              />
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
-              <p class="text-secondary pt-2 mb-0">주세환</p>
-            </button>
-          </a>
-          <a href="https://github.com/forwardyoung" target="_blank">
-            <button class="btn border-0 p-0">
-              <img
-                src="{% static 'images/차화영.jpg' %}"
-                style="width: 5rem; border-radius: 5rem"
-                alt=""
-              />
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
-              <p class="text-secondary pt-2 mb-0">차화영</p>
-            </button>
-          </a>
-        </div>
-      </div>
-    </footer>
+              <img src="{% static 'images/간정진.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            <p class="text-secondary pt-2 mb-0">간정진</p>
+          </button>
+        </a>
+        <a href="https://github.com/code-sum" target="_blank" class="me-3">
+          <button class="btn border-0 p-0">
+            <img src="{% static 'images/이수경.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <p class="text-secondary pt-2 mb-0">이수경</p>
+        </button>
+      </a>
+      <a href="https://github.com/snnzzoo" target="_blank" class="me-3">
+        <button class="btn border-0 p-0">
+          <img src="{% static 'images/임선주.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+          <p class="text-secondary pt-2 mb-0">임선주</p>
+        </button>
+      </a>
+      <a href="https://github.com/JOO-10000-Zi" target="_blank" class="me-3">
+        <button class="btn border-0 p-0">
+          <img src="{% static 'images/주세환.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <p class="text-secondary pt-2 mb-0">주세환</p>
+      </button>
+    </a>
+    <a href="https://github.com/forwardyoung" target="_blank">
+      <button class="btn border-0 p-0">
+        <img src="{% static 'images/차화영.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <p class="text-secondary pt-2 mb-0">차화영</p>
+    </button>
+  </a>
+</div>
+</div>
+</footer>
 
-    <script>
-      // Top Button
+<script>
+// Top Button
 
-      // get the button
-      let myBtn = document.getElementById("myBtn")
+// get the button
+let myBtn = document.getElementById("myBtn")
 
-      // When the user scrolls down 30px from the top of the document, show the button
-      window.onscroll = function () {
-        scrollFunction();
-      };
+// When the user scrolls down 30px from the top of the document, show the button
+window.onscroll = function () {
+scrollFunction();
+};
 
-      function scrollFunction() {
-        if (
-          document.body.scrollTop > 30 ||
-          document.documentElement.scrollTop > 30
-        ) {
-          myBtn.style.display = "block";
-        } else {
-          myBtn.style.display = "none";
-        }
-      }
+function scrollFunction() {
+if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+  myBtn.style.display = "block";
+} else {
+  myBtn.style.display = "none";
+}
+}
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0; // for Safari
-        document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
-      }
-    </script>
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+document.body.scrollTop = 0; // for Safari
+document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
+}
+</script>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    {% block script %}{% endblock script %}
-  </body>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+{% block script %}{% endblock script %}
+</body>
 
 </html>
