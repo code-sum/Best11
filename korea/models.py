@@ -23,7 +23,9 @@ class Players(models.Model):
     position = models.CharField(max_length=10)
     height = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
-    # fans = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="like_player")
+    fans = models.ManyToManyField(
+        to=settings.AUTH_USER_MODEL, related_name="like_player"
+    )
 
     def profile_image(self):
         if self.player_image and hasattr(self.player_image, "url"):

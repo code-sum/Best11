@@ -69,11 +69,10 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.exp }}</td>
-                {% if user.exp < 30 %} <td>벤치</td>
-                    {% elif user.exp < 80 %} <td>선수</td>
-                        {% else %}
-                        <!-- 감독 조건 추가 필요 -->
-                        <td>감독</td>
+                {% if user.exp >= 80 and comment_count > 12 %} <td>감독</td>
+                {% elif user.exp < 30 %} <td>벤치</td>
+                    {% elif user.exp < 80 %}<td>선수</td>
+                        {% else %}<td>선수</td>
                         {% endif %}
             </tr>
         </tbody>
