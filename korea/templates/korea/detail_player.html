@@ -26,10 +26,18 @@
       <p>몸무게 :
         {{ player.weight }}kg</p>
     </div>
+    <div>
+      <p>{{ player.fans.count }}</p>
+      <form action="{% url "korea:like_player" player.pk %}">
+        <button type="submit" class="btn btn-dark my-3">응원해요</button>
+      </form>
+    </div>
     <hr>
-    <button class="btn btn-dark">
-      <a href="{% url "korea:delete" player.pk %}">선수 삭제</a>
-    </button>
+    {% if master == "admin" %}
+      <button class="btn btn-dark">
+        <a href="{% url "korea:delete" player.pk %}">선수 삭제</a>
+      </button>
+    {% endif %}
   </div>
   <!-- 하단에 comment 내용 구현 추가 예정-->
 
