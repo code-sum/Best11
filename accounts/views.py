@@ -45,7 +45,7 @@ def login(request):
 # 로그아웃
 def logout(request):
     auth_logout(request)
-    return redirect("accounts:login")
+    return redirect("korea:index")
 
 # 회원 정보
 def detail(request, pk):

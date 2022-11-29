@@ -24,6 +24,14 @@ a {
   text-decoration: none;
 }
 
+.a-black-red {
+  color: black;
+}
+
+.a-black-red:hover {
+  color: #C82D36;
+}
+
 hr {
   text-align: center;
   margin: auto;
@@ -124,6 +132,7 @@ hr {
   position: fixed;
   width: 80%;
   z-index: 3;
+  margin-top: 2%;
   margin-left: 10%;
   margin-right: 10%;
   padding: 20px 0;
@@ -261,6 +270,61 @@ hr {
 @media (min-width: 48em) {
   .section-split a {
     width: 50%;
+  }
+}
+
+/* base.html - Ball CSS */
+
+.ball-and-shadow {
+  float: right;
+  margin-top: 20rem;
+  margin-right: 14rem;
+  cursor: pointer;
+}
+
+.ball-container {
+  margin: auto;
+  animation: floating 4s ease-in-out infinite;
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  position: relative;
+}
+
+@keyframes floating {
+  0% {
+    transform: translatey(0px);
+  }
+
+  50% {
+    transform: translatey(-15px);
+  }
+
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+.ball-shadow {
+  width: 40px;
+  height: 15px;
+  top: 50%;
+  animation: expanding 5s infinite;
+  position: relative;
+  border-radius: 50%;
+  margin: auto;
+  background: radial-gradient(circle at 75% 30%, rgb(221 215 243) 5px, rgb(36, 187, 187) 8%, rgb(228, 26, 26) 60%, rgb(173, 221, 221) 100%);
+  box-shadow: inset 0 0 20px #fff, inset 10px 0 46px #3f51b500, inset 88px 0px 60px #ffffff99, inset -20px -60px 100px #87878791, inset 0 50px 140px #ffffff, 0 0 90px #39316b;
+}
+
+@keyframes expanding {
+  0%,
+  100% {
+    transform: scale(0.5);
+  }
+
+  50% {
+    transform: scale(0.75);
   }
 }
 

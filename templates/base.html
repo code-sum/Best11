@@ -17,9 +17,9 @@
   </head>
 
   <body>
-    <!-- 헤더 영역(네비게이션바 + 회원관리 버튼) -->
+    <!-- 헤더 영역 - 네비게이션 바 -->
     <header class="header">
-      <a class="logo" href=".page-top"><img src="{% static 'images/logo.png' %}" alt="logo" style="width: 200px;"></a>
+      <a class="logo" href="{% url 'korea:index' %}"><img src="{% static 'images/logo.png' %}" alt="logo" style="width: 200px;"></a>
       <input class="menu-btn" type="checkbox" id="menu-btn"/>
       <label class="menu-icon" for="menu-btn">
         <span class="navicon"></span></label>
@@ -38,6 +38,62 @@
         </li>
       </ul>
     </header>
+    <!-- 헤더 영역 - 회원관리 버튼 -->
+    <div class="ball-and-shadow" data-bs-toggle="modal" data-bs-target="#ballModal">
+      <div class="ball-container">
+        {% if request.user.is_authenticated %}
+          {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%;" alt="profile">
+          {% else %}
+            <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+          {% endif %}
+        {% else %}
+          <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+        {% endif %}
+      </div>
+      <div class="ball-shadow"></div>
+    </div>
+    <!-- 헤더 영역 - 회원관리 버튼 - 클릭 시 열리는 모달 -->
+    <div class="modal fade" id="ballModal" tabindex="-1" aria-labelledby="ballModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- 회원에게 보여지는 모달창 -->
+            {% if request.user.is_authenticated %}
+              <div class="d-flex flex-column align-items-center my-5">
+                {% if request.user.profile_image %}
+                  <img src="{{ request.user.profile_image.url }}" alt="profile" style="width: 15rem; border-radius: 50%;" class="my-3">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
+                {% endif %}
+                <h1>{{ request.user.username }}님</h1>
+              </div>
+              <div class="d-flex justify-content-center mb-5">
+                <h4>
+                  <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="{% url 'accounts:logout' %}" class="a-black-red">로그아웃</a>
+                </h4>
+              </div>
+              <!-- 비회원에게 보여지는 모달창 -->
+            {% else %}
+              <div class="d-flex flex-column align-items-center my-5">
+                <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
+                <h1>비회원님</h1>
+              </div>
+              <div class="d-flex justify-content-center mb-5">
+                <h4>
+                  <a href="{% url 'accounts:login' %}" class="a-black-red">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="{% url 'accounts:signup' %}" class="a-black-red">회원가입</a>
+                </h4>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="wrapper" class="container">
       <!-- content -->
