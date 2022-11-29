@@ -22,7 +22,7 @@ def create(request):
             if form.is_valid():
                 form.save()
                 return redirect("korea:index")
-  
+
         else:
             form = PlayersForm()
         context = {"form": form}
@@ -76,21 +76,28 @@ def delete(request, player_pk):
 # 선수 좋아요
 @login_required
 def like_player(request, player_pk):
-    player = Players.objects.get(pk=player_pk)
-    if request.user in player.fans.all():
-        player.fans.remove(request.user)
+    if request.user.is_authenticated:
+        player = Players.objects.get(pk=player_pk)
+        if player.fans.filter(pk=request.user.pk).exists():
+            player.fans.remove(request.user)
+            is_liked = False
+        else:
+            player.fans.add(request.user)
+            is_liked = True
+        return JsonResponse({"is_liked": is_liked})
     else:
-        player.fans.add(request.user)
-    return redirect("korea:detail", player_pk)
+        return redirect("korea:detail", player_pk)
 
 
 # 뇌피셜 생성
 def comment_create(request, player_pk):
     player = Players.objects.get(pk=player_pk)
     if request.method == "POST":
-        comment_form = CommentForm(request.POST, request.FILES) #instance=player 불필요한 argument임!
+        comment_form = CommentForm(
+            request.POST, request.FILES
+        )  # instance=player 불필요한 argument임!
         if comment_form.is_valid():
-            comment = comment_form.save(commit = False)
+            comment = comment_form.save(commit=False)
             comment.players = player
             # print(comment.players)
             comment.user = request.user
@@ -98,40 +105,43 @@ def comment_create(request, player_pk):
             user.exp += 1
             user.save()
             comment.save()
-            return redirect('korea:detail', player_pk)
+            return redirect("korea:detail", player_pk)
     else:
         comment_form = CommentForm()
     context = {
-        'comment_form': comment_form,
-        'player': player,
+        "comment_form": comment_form,
+        "player": player,
     }
     return render(request, "korea/comment_create.html", context)
+
 
 # 뇌피셜 수정
 def comment_update(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user == comment.user:
         if request.method == "POST":
-            comment_form = CommentForm(request.POST, request.FILES, instance=comment) 
+            comment_form = CommentForm(request.POST, request.FILES, instance=comment)
             if comment_form.is_valid():
-                comment = comment_form.save(commit = False)
-                return redirect('korea:detail', player_pk)
+                comment = comment_form.save(commit=False)
+                return redirect("korea:detail", player_pk)
         else:
             comment_form = CommentForm(instance=comment)
         context = {
-            'comment_form': comment_form,
-            'comment': comment,
+            "comment_form": comment_form,
+            "comment": comment,
         }
         return render(request, "korea/comment_update.html", context)
-    return redirect('korea:detail', player_pk)
+    return redirect("korea:detail", player_pk)
+
 
 # 뇌피셜 삭제
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user == comment.user:
         comment.delete()
-    return redirect('korea:detail', player_pk)
-    
+    return redirect("korea:detail", player_pk)
+
+
 # 뇌피셜 좋아요
 def like(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
