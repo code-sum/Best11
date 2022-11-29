@@ -31,7 +31,7 @@ class Players(models.Model):
         if self.player_image and hasattr(self.player_image, "url"):
             return self.player_image.url
         else:
-            return "https://www.upinews.kr/data/upi/image/2020/02/06/upi202002060214.478x.0.png"
+            return "../static/images/Soccer-Ball.png"
 
 
 class Comment(models.Model):  # 선수 한 명에 대한 뇌피셜
