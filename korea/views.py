@@ -145,9 +145,14 @@ def likes(request, player_pk, comment_pk):
         if request.user in comment.like_users.all():
             comment.like_users.remove(request.user)
             is_liked = False
+            comment.user.exp -= 2
+            comment.user.save()
+
         else:
             comment.like_users.add(request.user)
             is_liked = True
+            comment.user.exp += 2
+            comment.user.save()
         context = {
             "isLiked": is_liked,
             "likeCount": comment.like_users.count(),
