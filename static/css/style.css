@@ -13,7 +13,6 @@ html {
 
 body {
   height: 100vh;
-  margin: 0;
 }
 
 p {
@@ -79,7 +78,7 @@ hr {
   padding-bottom: 4px;
   text-transform: uppercase;
   font-family: Montserrat, helvetica, arial, sans-serif;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .link:active,
@@ -128,14 +127,13 @@ hr {
 /* base.html - header box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1); */
 
 .header {
-  background-color: rgba(rgba(255, 255, 255, 0.616));
+  background-color: rgba(255, 255, 255, 0.725);
   position: fixed;
-  width: 80%;
+  width: 100%;
   z-index: 3;
-  margin-top: 2%;
-  margin-left: 10%;
+  margin-top: 0;
   margin-right: 10%;
-  padding: 20px 0;
+  padding: 3rem 15rem;
 }
 
 .header ul {
@@ -143,7 +141,7 @@ hr {
   padding: 0;
   list-style: none;
   overflow: hidden;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .header li a {
@@ -154,7 +152,7 @@ hr {
 
 .header li a:hover,
 .header .menu-btn:hover {
-  background-color: #fff;
+  background: transparent;
 }
 
 .header .logo {
@@ -326,6 +324,15 @@ hr {
   50% {
     transform: scale(0.75);
   }
+}
+
+/* base.html - container-css */
+
+.container-css {
+  padding-top: 26rem;
+  margin-left: 20rem;
+  margin-right: 20rem;
+  margin-bottom: 10rem;
 }
 
 
