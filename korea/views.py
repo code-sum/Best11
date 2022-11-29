@@ -22,7 +22,7 @@ def create(request):
             if form.is_valid():
                 form.save()
                 return redirect("korea:index")
-  
+
         else:
             form = PlayersForm()
         context = {"form": form}
@@ -77,12 +77,17 @@ def delete(request, player_pk):
 # 선수 좋아요
 @login_required
 def like_player(request, player_pk):
-    player = Players.objects.get(pk=player_pk)
-    if request.user in player.fans.all():
-        player.fans.remove(request.user)
+    if request.user.is_authenticated:
+        player = Players.objects.get(pk=player_pk)
+        if player.fans.filter(pk=request.user.pk).exists():
+            player.fans.remove(request.user)
+            is_liked = False
+        else:
+            player.fans.add(request.user)
+            is_liked = True
+        return JsonResponse({"is_liked": is_liked})
     else:
-        player.fans.add(request.user)
-    return redirect("korea:detail", player_pk)
+        return redirect("korea:detail", player_pk)
 
 
 # 뇌피셜 생성
@@ -129,14 +134,16 @@ def comment_update(request, player_pk, comment_pk):
         return render(request, "korea/comment_update.html", context)
     return redirect('korea:detail', player_pk)
 
+
 # 뇌피셜 삭제
 @login_required
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user.is_authenticated and request.user == comment.user:
         comment.delete()
-    return redirect('korea:detail', player_pk)
-    
+    return redirect("korea:detail", player_pk)
+
+
 # 뇌피셜 좋아요
 def likes(request, player_pk, comment_pk):
     player = Players.objects.get(pk=player_pk)
@@ -175,4 +182,3 @@ def likes(request, player_pk, comment_pk):
     #         }
     #     return JsonResponse(context)
     # return redirect('accounts:login')
-  
