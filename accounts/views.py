@@ -6,11 +6,14 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
+from django.db.models import Count
+
 # 회원 목록(변경필요)
 def index(request):
     accounts = get_user_model().objects.order_by("-pk")
     context = {"accounts": accounts}
     return render(request, "accounts/index.html", context)
+
 
 # 회원가입
 def signup(request):
@@ -27,6 +30,7 @@ def signup(request):
     }
     return render(request, "accounts/signup.html", context)
 
+
 # 로그인
 def login(request):
     if request.method == "POST":
@@ -42,25 +46,37 @@ def login(request):
     }
     return render(request, "accounts/login.html", context)
 
+
 # 로그아웃
 def logout(request):
     auth_logout(request)
     return redirect("korea:index")
 
+
 # 회원 정보
 def detail(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    comments = Comment.objects.all()
-    comment_list = []
-    for comment in comments:
-        if comment.user.pk == pk:
-            comment_list.append(comment)
-    comment_count = len(comment_list)
+    comments = (
+        user.comment_set.values("players_id")
+        .annotate(play=Count("players_id"))
+        .order_by("players_id")
+    )
+    # comments = (
+    #     comments_user.values_list("players_id", flat=True).distinct().order_by("pk")
+    # )
+
+    # comment_list = []
+    # for comment in comments:
+    #     if comment.user.pk == pk:
+    #         comment_list.append(comment)
+    comment_count = len(comments)
+    print(comment_count)
     context = {
         "user": user,
-        "comment_count":comment_count,
+        "comment_count": comment_count,
     }
     return render(request, "accounts/detail.html", context)
+
 
 # 팔로우
 def follow(request, pk):
@@ -77,6 +93,7 @@ def follow(request, pk):
         accounts.save()
     return redirect("accounts:detail", pk)
 
+
 # 회원 정보 수정
 def update(request):
     if request.method == "POST":
@@ -90,6 +107,7 @@ def update(request):
         "form": form,
     }
     return render(request, "accounts/update.html", context)
+
 
 # 회원 비밀번호 변경
 def change_password(request):
@@ -105,6 +123,7 @@ def change_password(request):
         "form": form,
     }
     return render(request, "accounts/change_password.html", context)
+
 
 # 회원 삭제
 def delete(request):
