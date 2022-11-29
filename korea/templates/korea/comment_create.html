@@ -28,28 +28,23 @@
 {% block js %}
 <!-- summernote 적용, 커스텀 -->
 <script>
-    $(document).ready(function () {
-        $('#id_content').summernote({
-            placeholder: '뇌피셜을 입력해주세요.',
-            height: 500,
-            minHeight: 500,
-            maxHeight: 500,
-            lang: 'ko-KR',
-           
-            toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'help']]
-            ]
-        });
-        $('p').css('margin-bottom','0')
-        $('.note-resizebar').css('display','none');
-    });
+  $('#summernote').summernote({height: 300,  focus:true,  maxWidth:500,  
+    lang : 'ko-KR',
+    callbacks: {
+      onImageUpload: function(image) {
+             var file = image[0];
+             var reader = new FileReader();
+            reader.onloadend = function() {
+                var image = $('<img>').attr('src',  reader.result);
+                   image.attr('width','100%');
+                $('#summernote').summernote("insertNode", image[0]);
+            }
+           reader.readAsDataURL(file);
+      }
+  }
+ });
 </script>
+
 <!-- 페이지 벗어나기 경고창 -->
 <script type="text/javascript">
     var checkUnload = true;

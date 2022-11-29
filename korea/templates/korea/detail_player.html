@@ -28,17 +28,96 @@
     </div>
     <div>
       <p>{{ player.fans.count }}</p>
-      <form action="{% url "korea:like_player" player.pk %}">
+      <form action="{% url 'korea:like_player' player.pk %}">
         <button type="submit" class="btn btn-dark my-3">응원해요</button>
       </form>
+      <p>{{ player.comment_set.count }}</p>
+      <form action="{% url 'korea:comment_create' player.pk %}">
+        <button type="submit" class="btn btn-dark my-3">뇌피셜 작성</button>
+      </form>
     </div>
+    {% for comment in comments %}
+      <div class='py-3'>  
+        <div class="align-items-center">
+          <a class="text-decoration-none fw-bolder" style='color:gray' href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>&nbsp;&nbsp;
+          <span class="text-break">{{ comment.content | safe }}</span>
+        </div>
+        <!-- 좋아요 버튼 -->
+        {% if request.user.is_authenticated %}
+        <span>
+          <a class="like-heart text-decoration-none" href="{% url 'korea:likes' player.pk comment.pk %}">
+            {% if request.user in comment.like_users.all %}
+            <i class="bi bi-heart-fill"></i>
+            {% else %}
+            <i class="bi bi-heart"></i>
+            {% endif %}
+          </a>
+          {{ comment.like_users.count }}
+          <!-- <form class="like-forms" data-comment-id="{{ comment.pk }}">
+            {% csrf_token %}
+            {% if request.user in comment.like_users.all %}
+              <input type="submit" value="좋아요취소" id="like-{{ player.pk}}-{{ comment.pk }}">
+            {% else%}
+              <input type="submit" value="좋아요" id="like-{{ player.pk }}-{{ comment.pk }}">
+            {% endif%} 
+          </form> -->
+        </span>
+        {% endif %}
+        <!-- 요청한 유저가 뇌피셜을 작성한 유저일 경우 -->
+        {% if user.is_authenticated and comment.user == request.user %}
+        <div class="d-flex">
+          <form action="{% url 'korea:comment_update' player.pk comment.pk %}" method="GET" class="my-0">
+            {% csrf_token %}  
+            <input type="submit" class="btn btn-outline-danger mt-2" value="수정">
+          </form>
+          <form action="{% url 'korea:comment_delete' player.pk comment.pk %}" method="POST" class="my-0">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-outline-danger mt-2 mx-2" value="삭제">
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    {% endfor %}  
     <hr>
     {% if master == "admin" %}
       <button class="btn btn-dark">
-        <a href="{% url "korea:delete" player.pk %}">선수 삭제</a>
+        <a href="{% url 'korea:delete' player.pk %}">선수 삭제</a>
       </button>
     {% endif %}
   </div>
   <!-- 하단에 comment 내용 구현 추가 예정-->
 
 {% endblock %}
+
+{% block js %}
+<script>
+  // const forms = document.querySelectorAll('.like-forms')
+  // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  // forms.forEach((form) => {
+  //   form.addEventListener('submit', function (event) {
+  //     event.preventDefault()
+  //     const commentId = event.target.dataset.commentId
+  //     const playerId = event.target.dataset.playerId
+      
+  //     axios({
+  //       method: 'post',
+  //       url: `korea/detail/${playerId}/${commentId}/likes/`,
+  //       headers: {'X-CSRFToken': csrftoken},
+  //     })
+  //         .then((response) => {
+  //         const isLiked = response.data.is_liked
+  //         const likeBtn = document.querySelector(`#like-${playerId}-${commentId}`)
+  //         if (isLiked === true) {
+  //         likeBtn.value = '좋아요 취소'
+  //         } else {
+  //         likeBtn.value = '좋아요'
+  //         }
+  //       })
+  //       .catch((error) => {
+  //       console.log(error.response)
+  //       })
+  //   })
+  // })
+  
+</script>
+{% endblock js %}
