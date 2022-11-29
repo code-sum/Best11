@@ -34,8 +34,6 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    context = {
-        "player": player
     master = str(request.user)
     context = {
         "player": player,
