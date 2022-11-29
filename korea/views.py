@@ -16,45 +16,73 @@ def index(request):
 
 # 선수단 생성 Create(관리자만 생성 가능)
 def create(request):
-    if request.method == "POST":
-        form = PlayersForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("korea:index")
+    if str(request.user) == "admin":
+        if request.method == "POST":
+            form = PlayersForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect("korea:index")
 
+        else:
+            form = PlayersForm()
+        context = {"form": form}
+        return render(request, "korea/create_player.html", context)
     else:
-        form = PlayersForm()
-    context = {"form": form}
-    return render(request, "korea/create_player.html", context)
+        return redirect("korea:index")
+
 
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    context = {"player": player}
+    master = str(request.user)
+    context = {
+        "player": player,
+        "master": master,
+    }
     return render(request, "korea/detail_player.html", context)
 
 
+# 선수단 정보 업데이트(관리자만 생성 가능)
 def update(request, player_pk):
-    player = Players.objects.get(pk=player_pk)
-    if request.method == "POST":
-        player_form = PlayersForm(request.POST, request.FILES, instance=player)
-        if player_form.is_valid():
-            form = player_form.save(commit=False)
-            form.save()
-            return redirect("korea:detail", player_pk)
+    if str(request.user) == "admin":
+        player = Players.objects.get(pk=player_pk)
+        if request.method == "POST":
+            player_form = PlayersForm(request.POST, request.FILES, instance=player)
+            if player_form.is_valid():
+                form = player_form.save(commit=False)
+                form.save()
+                return redirect("korea:detail", player_pk)
+        else:
+            player_form = PlayersForm(instance=player)
+        context = {
+            "player_form": player_form,
+            "player": player,
+        }
+        return render(request, "korea/update_player.html", context)
     else:
-        player_form = PlayersForm(instance=player)
-    context = {
-        "player_form": player_form,
-        "player": player,
-    }
-    return render(request, "korea/update_player.html", context)
+        return redirect("korea:index")
 
 
+# 선수단 삭제(관리자만 생성 가능)
 def delete(request, player_pk):
+    if str(request.user) == "admin":
+        player = Players.objects.get(pk=player_pk)
+        player.delete()
+        return redirect("korea:index")
+    else:
+        return redirect("korea:index")
+
+
+# 선수 좋아요
+@login_required
+def like_player(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    player.delete()
-    return redirect("korea:index")
+    if request.user in player.fans.all():
+        player.fans.remove(request.user)
+    else:
+        player.fans.add(request.user)
+    return redirect("korea:detail", player_pk)
+
 
 # 뇌피셜 작성
 def comment_create(request):
@@ -62,15 +90,16 @@ def comment_create(request):
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            comment = comment_form.save(commit = False)
+            comment = comment_form.save(commit=False)
             comment.save()
-            return redirect('korea:detail_player')
+            return redirect("korea:detail_player")
     else:
         comment_form = CommentForm()
     context = {
-        'comment_form': comment_form,
+        "comment_form": comment_form,
     }
     return render(request, "korea/comment_create.html", context)
+
 
 # 뇌피셜 좋아요
 def like(request, pk):
