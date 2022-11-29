@@ -1,5 +1,50 @@
-/* static css 테스트 */
+/* 반응형 */
+html {
+  font-size: 62.5%;
+  font-family: "Noto Sans KR", sans-serif;
+}
 
-h1 {
-  color: red;
+@media all and (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+body {
+  height: 100vh;
+}
+
+p {
+  font-size: 1.6rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+hr {
+  text-align: center;
+  margin: auto;
+}
+
+/* footer 하단 고정 */
+#wrapper {
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 31.1rem;
+}
+
+footer {
+  height: 31.1rem;
+  position: relative;
+  transform: translateY(-100%);
+  background-color: #f6f6f6;
+}
+
+/* Top 버튼 */
+#hexagon {
+  background-color: #111b54;
+  height: 7rem;
+  width: 7.5rem;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }

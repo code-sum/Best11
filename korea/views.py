@@ -97,6 +97,7 @@ def comment_create(request, player_pk):
             user = comment.user
             user.exp += 1
             user.save()
+            comment.save()
             return redirect('korea:detail', player_pk)
     else:
         comment_form = CommentForm()
