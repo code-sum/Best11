@@ -96,23 +96,24 @@
             {% endfor%}
         </tbody>
     </table>
-    <h3>북마크한 선수</h3>
+    <br>
+    <h3>찜한 선수</h3>
     <p class="text-muted">{% if user.like_player %}{{ user.like_player.count }}
         {% else %}0
-        {% endif %}명의 선수를 북마크 하였습니다.</p>
+        {% endif %}명의 선수를 찜 하였습니다.</p>
     </p>
     <table class="table">
         <thead>
             <tr class="thead-dark">
-                <th>북마크 수</th>
-                <th>북마크한 선수</th>
+                <th>찜한 수</th>
+                <th>찜한 선수</th>
             </tr>
         </thead>
         <tbody>
             {% for like in user.like_player.all %}
             <tr>
                 <td>{{ forloop.counter}}</td>
-                <td><a href="#">{{like.player}}</a></td>
+                <td><a href="{% url 'korea:detail' like.pk %}">{{like.name}}</a></td>
             </tr>
             {% endfor%}
         </tbody>
