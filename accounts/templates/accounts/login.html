@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <h2>로그인</h2>
-  <form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">로그인</button>
-  </form>
+  <div class="layout-center">
+    <h2>로그인</h2>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">로그인</button>
+    </form>
+  </div>
 {% endblock content %}

@@ -36,6 +36,17 @@ hr {
   margin: auto;
 }
 
+/* 레이아웃 정리 */
+.layout-center {
+  padding-top: 10rem;
+  margin-bottom: 10rem;
+  display: flex;
+  justify-content: center;
+  margin-right: 25rem;
+  margin-left: 25rem;
+}
+
+
 /* 기본 버튼(네이비 컬러) CSS */
 
 .button {

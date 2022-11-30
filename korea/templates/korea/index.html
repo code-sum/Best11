@@ -14,28 +14,30 @@
       </div>
     </div>
     <!-- 인트로 영상 끝 -->
-    <!-- 선수 카드 영역 시작 -->
-    <div class="container my-3 text-center border">
-      {% for player in players %}
-        <a href="{% url "korea:detail" player.pk %}">
-          <img src="{{ player.profile_image }}" alt="선수 사진">
-        </a>
-        <h4 class="my-2">{{ player.name }}</h4>
-        <p>{{ player.english_name }}</p>
-        <p>등번호 :
-          {{ player.back_number }}</p>
-        <p>{{ player.birthdate }}</p>
-        <p>소속 팀:
-          {{ player.team }}</p>
-        <p>포지션 :
-          {{ player.position }}</p>
-        <p>신장 :
-          {{ player.height }}cm</p>
-        <p>몸무게 :
-          {{ player.weight }}kg</p>
-      {% endfor %}
+    <div class="layout-center">
+      <!-- 선수 카드 영역 시작 -->
+      <div class="container my-3 text-center border">
+        {% for player in players %}
+          <a href="{% url "korea:detail" player.pk %}">
+            <img src="{{ player.profile_image }}" alt="선수 사진">
+          </a>
+          <h4 class="my-2">{{ player.name }}</h4>
+          <p>{{ player.english_name }}</p>
+          <p>등번호 :
+            {{ player.back_number }}</p>
+          <p>{{ player.birthdate }}</p>
+          <p>소속 팀:
+            {{ player.team }}</p>
+          <p>포지션 :
+            {{ player.position }}</p>
+          <p>신장 :
+            {{ player.height }}cm</p>
+          <p>몸무게 :
+            {{ player.weight }}kg</p>
+        {% endfor %}
+      </div>
+      <!-- 선수 카드 영역 끝 -->
     </div>
-    <!-- 선수 카드 영역 끝 -->
   </main>
 
 {% endblock %}
