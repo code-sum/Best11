@@ -46,6 +46,14 @@ hr {
   margin-left: 25rem;
 }
 
+/* 세로선 */
+
+.updown {
+  border: 0.1rem solid rgb(105, 105, 105);
+  width: 0.1rem;
+  height: 20rem;
+}
+
 
 /* 기본 버튼(네이비 컬러) CSS */
 
@@ -442,3 +450,22 @@ footer {
 
 video {
   width: 100%; }
+
+
+/* korea/index.html main 태그 내부 div */
+
+.under-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* korea/index.html 대한민국 카드 */
+
+.korea-card {
+  width: 50rem;
+  background-color: #f6f6f6;
+  padding: 5rem;
+  margin: 1.5rem;
+}
