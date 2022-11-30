@@ -79,25 +79,44 @@
     </table>
     <br><br>
     <h3>작성한 뇌피셜</h3>
-    <p class="text-muted">{{ user.article_set.count }}개를 작성하였습니다.</p>
+    <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
     <table class="table">
         <thead>
             <tr class="thead-dark">
-                <th>작성글</th>
-                <th>글 제목</th>
+                <th>작성 선수</th>
+                <th>뇌피셜 내용</th>
             </tr>
         </thead>
         <tbody>
-            {% for article in user.article_set.all %}
+            {% for comment in user.comment_set.all %}
             <tr>
-                <td>{{ forloop.counter}}</td>
-                <td><a href="{% url 'articles:detail' article.pk %}">{{article.title}}</a></td>
+                <td>{{ comment.players.name }}</td>
+                <td><a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content}}</a></td>
             </tr>
             {% endfor%}
         </tbody>
     </table>
     <h3>북마크한 선수</h3>
-    <p class="text-muted">~명의 선수를 북마크하였습니다.</p>
+    <p class="text-muted">{% if user.like_player %}{{ user.like_player.count }}
+        {% else %}0
+        {% endif %}명의 선수를 북마크 하였습니다.</p>
+    </p>
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>북마크 수</th>
+                <th>북마크한 선수</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for like in user.like_player.all %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td><a href="#">{{like.player}}</a></td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
     {% if request.user == user %}
     <a href="{% url 'accounts:update' %}" type="button" class="btn btn-primary">수정</a>
     <a href="{% url 'accounts:change_password' %}" class='btn btn-warning'>비밀번호 변경</a>
