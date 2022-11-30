@@ -169,9 +169,8 @@ def likes(request, player_pk, comment_pk):
             comment.user.exp += 2
             comment.user.save()
         context = {
-            "isLiked": is_liked,
+            "is_liked": is_liked,
             "likeCount": comment.like_users.count(),
-            "player": player,
         }
         return JsonResponse(context)
         # return redirect("korea:detail", player_pk)
