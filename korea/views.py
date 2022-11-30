@@ -77,8 +77,10 @@ def delete(request, player_pk):
 # 선수 좋아요
 @login_required
 def like_player(request, player_pk):
+    print(request.POST)
     if request.user.is_authenticated:
         player = Players.objects.get(pk=player_pk)
+        print(player)
         if player.fans.filter(pk=request.user.pk).exists():
             player.fans.remove(request.user)
             is_liked = False
