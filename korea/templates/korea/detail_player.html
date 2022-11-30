@@ -53,21 +53,23 @@
           <a class="text-decoration-none fw-bolder" style='color:gray' href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>&nbsp;&nbsp;
           <span class="text-break">{{ comment.content | safe }}</span>
         </div>
+        
         <!-- 좋아요 버튼 -->
           {% if request.user.is_authenticated %}
-            <!-- <div class="ms-3 d-flex align-items-center"> {% if request.user in comment.like_users.all %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart-fill"></i> {% else %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart"></i> {% endif %} <div class="ms-2" id="like-count">{{ comment.like_users.count }}</div> </div> -->
-            <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
-              {% csrf_token %}
-              {% if request.user in comment.like_users.all %}
-                <input class='border-0' type="submit" value="좋아요취소" id="like-{{ comment.pk }}">
-                <!-- <div class="ms-2" id="like-counts">{{ comment.like_users.count }}</div> -->
-              {% else %}
-                <input class='border-0' type="submit" value="좋아요" id="like-{{ comment.pk }}">
-                <!-- <div class="ms-2" id="like-counts">{{ comment.like_users.count }}</div> -->
-              {% endif %}
-              <div class="ms-2" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</div>
-            </form>
+          <!-- <div class="ms-3 d-flex align-items-center"> {% if request.user in comment.like_users.all %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart-fill"></i> {% else %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart"></i> {% endif %} <div class="ms-2" id="like-count">{{ comment.like_users.count }}</div> </div> -->
+          <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+            {% csrf_token %}
+            {% if request.user in comment.like_users.all %}
+              <input class='border-0' type="submit" value="좋아요취소" id="like-{{ comment.pk }}">
+              <!-- <div class="ms-2" id="like-counts">{{ comment.like_users.count }}</div> -->
+            {% else %}
+              <input class='border-0' type="submit" value="좋아요" id="like-{{ comment.pk }}">
+              <!-- <div class="ms-2" id="like-counts">{{ comment.like_users.count }}</div> -->
+            {% endif %}
+            <div class="ms-2" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</div>
+          </form>
           {% endif %}
+          
         <!-- 요청한 유저가 뇌피셜을 작성한 유저일 경우 -->
         {% if user.is_authenticated and comment.user == request.user %}
           <div class="d-flex">
