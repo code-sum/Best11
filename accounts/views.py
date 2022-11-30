@@ -60,7 +60,7 @@ def detail(request, pk):
         user.comment_set.values("players_id")
         .annotate(play=Count("players_id"))
         .order_by("players_id")
-    )
+    )   
     # comments = (
     #     comments_user.values_list("players_id", flat=True).distinct().order_by("pk")
     # )
