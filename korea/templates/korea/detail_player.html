@@ -54,7 +54,7 @@
           <span class="text-break">{{ comment.content | safe }}</span>
         </div>
         <!-- 좋아요 버튼 -->
-        {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated %}
           <!-- <div class="ms-3 d-flex align-items-center"> {% if request.user in comment.like_users.all %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart-fill"></i> {% else %} <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart"></i> {% endif %} <div class="ms-2" id="like-count">{{ comment.like_users.count }}</div> </div> -->
           <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
             {% csrf_token %}
