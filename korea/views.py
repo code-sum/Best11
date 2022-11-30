@@ -33,12 +33,12 @@ def create(request):
 
 # 선수 디테일 정보
 def detail(request, player_pk):
-    player = Players.objects.get(pk=player_pk)  
+    player = Players.objects.get(pk=player_pk)
     master = str(request.user)
     context = {
         "player": player,
         "master": master,
-        'comments': player.comment_set.all(),
+        "comments": player.comment_set.all(),
     }
     return render(request, "korea/detail_player.html", context)
 
@@ -85,7 +85,12 @@ def like_player(request, player_pk):
         else:
             player.fans.add(request.user)
             is_liked = True
-        return JsonResponse({"is_liked": is_liked})
+        return JsonResponse(
+            {
+                "is_liked": is_liked,
+                "like_count": player.fans.count(),
+            }
+        )
     else:
         return redirect("korea:detail", player_pk)
 
@@ -95,24 +100,27 @@ def like_player(request, player_pk):
 def comment_create(request, player_pk):
     player = Players.objects.get(pk=player_pk)
     if request.method == "POST":
-        comment_form = CommentForm(request.POST, request.FILES) #instance=player 불필요한 argument임!
+        comment_form = CommentForm(
+            request.POST, request.FILES
+        )  # instance=player 불필요한 argument임!
         if comment_form.is_valid():
-            comment = comment_form.save(commit = False)
+            comment = comment_form.save(commit=False)
             comment.players = player
             # print(comment.players)
             comment.user = request.user
             user = comment.user
             user.exp += 1
             user.save()
-            comment.save()  
-            return redirect('korea:detail', player_pk)
+            comment.save()
+            return redirect("korea:detail", player_pk)
     else:
         comment_form = CommentForm()
     context = {
-        'comment_form': comment_form,
-        'player': player,
+        "comment_form": comment_form,
+        "player": player,
     }
     return render(request, "korea/comment_create.html", context)
+
 
 # 뇌피셜 수정
 @login_required
@@ -120,19 +128,19 @@ def comment_update(request, player_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user == comment.user:
         if request.method == "POST":
-            comment_form = CommentForm(request.POST, request.FILES, instance=comment) 
+            comment_form = CommentForm(request.POST, request.FILES, instance=comment)
             if comment_form.is_valid():
-                comment = comment_form.save(commit = False)
-                comment.save() # 자나깨나 save  
-                return redirect('korea:detail', player_pk)  
+                comment = comment_form.save(commit=False)
+                comment.save()  # 자나깨나 save
+                return redirect("korea:detail", player_pk)
         else:
             comment_form = CommentForm(instance=comment)
         context = {
-            'comment_form': comment_form,
-            'comment': comment,
+            "comment_form": comment_form,
+            "comment": comment,
         }
         return render(request, "korea/comment_update.html", context)
-    return redirect('korea:detail', player_pk)
+    return redirect("korea:detail", player_pk)
 
 
 # 뇌피셜 삭제
@@ -163,7 +171,7 @@ def likes(request, player_pk, comment_pk):
         context = {
             "isLiked": is_liked,
             "likeCount": comment.like_users.count(),
-            'player': player,
+            "player": player,
         }
         return JsonResponse(context)
         # return redirect("korea:detail", player_pk)
@@ -177,7 +185,7 @@ def likes(request, player_pk, comment_pk):
     #     else:
     #         comment.like_users.add(request.user)
     #         is_liked= True
-    #     context= { 
+    #     context= {
     #         'is_liked': is_liked,
     #         'player': player,
     #         }
