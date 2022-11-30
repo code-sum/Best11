@@ -15,6 +15,11 @@ body {
   height: 100vh;
 }
 
+::selection {
+  background-color: #B52B33;
+  color: rgb(255, 255, 255);
+}
+
 p {
   font-size: 1.6rem;
 }
