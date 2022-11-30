@@ -40,7 +40,7 @@
         </form>
       {% endif %}
 
-      <p>{{ player.comment_set.count }}</p>
+      <p>{{ player.comment_set.count }}개의 뇌피셜이 있습니다.</p>
       <form action="{% url 'korea:comment_create' player.pk %}">
         <button type="submit" class="btn btn-dark my-3">뇌피셜 작성</button>
       </form>
@@ -54,23 +54,23 @@
         </div>
         <!-- 좋아요 버튼 -->
         {% if request.user.is_authenticated %}
-        <span>
-          <a class="like-heart text-decoration-none" href="{% url 'korea:likes' player.pk comment.pk %}">
-            {% if request.user in comment.like_users.all %}
-            <i class="bi bi-heart-fill"></i>
-            {% else %}
-            <i class="bi bi-heart"></i>
-            {% endif %}
-          </a>
-          {{ comment.like_users.count }}
-          <!-- <form class="like-forms" data-comment-id="{{ comment.pk }}">
+          <!-- <div class="ms-3 d-flex align-items-center">
+              {% if request.user in comment.like_users.all %}
+                <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart-fill"></i>
+              {% else %}
+                <i id="like-btn" data-comment-id="{{ comment.pk }}" class="text-danger bi bi-heart"></i>
+              {% endif %}
+              <div class="ms-2" id="like-count">{{ comment.like_users.count }}</div>
+          </div> -->
+          <form class="like-form" data-comment-id="{{ comment.pk }}">
             {% csrf_token %}
             {% if request.user in comment.like_users.all %}
-              <input type="submit" value="좋아요취소" id="like-{{ player.pk}}-{{ comment.pk }}">
+              <input type="submit" value="좋아요취소" id="like-{{ comment.pk }}">
             {% else%}
-              <input type="submit" value="좋아요" id="like-{{ player.pk }}-{{ comment.pk }}">
-            {% endif%} 
-          </form> -->
+              <input type="submit" value="좋아요" id="like-{{ comment.pk }}">
+              <div class="ms-2" id="like-count">{{ comment.like_users.count }}</div>
+            {% endif %}
+          </form>
         </span>
         {% endif %}
         <!-- 요청한 유저가 뇌피셜을 작성한 유저일 경우 -->
@@ -135,39 +135,83 @@
         })
       })
   </script>
+
+<script>
+  const form = document.querySelectorAll('.like-form')
+    const csrftokens = document.querySelector('[name=csrfmiddlewaretoken]').value
+    forms.forEach((form) => {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault()
+        const commentId = event.target.dataset.commentId
+        const playerId = event.target.dataset.playerId
+        
+
+        axios({
+          method: 'post',
+          url: `korea/detail/${playerId}/${commentId}/likes/`,
+          headers: {'X-CSRFToken': csrftokens},
+        })
+            .then((response) => {
+            const isLiked = response.data.is_liked
+            const likeBtn = document.querySelector(`#like-${playerId}-${commentId}`)
+            if (isLiked === true) {
+            likeBtn.value = '좋아요 취소'
+            } else {
+            likeBtn.value = '좋아요'
+            }
+          })
+          .catch((error) => {
+          console.log(error.response)
+          })
+      })
+    })
+  // // (1) 좋아요 버튼
+  // const likeBtn = document.querySelector('#like-btn')
+  // console.log(likeBtn)
+  
+  // const playerId = event
+  //           .target
+  //           .dataset
+  //           .playerId
+  // console.log(playerId)
+  // const commentId = event.target.dataset.commentId
+  // console.log(commentId)
+            
+  //   // (2) 좋아요 버튼을 클릭하면, 함수 실행
+  //   likeBtn.addEventListener('click', function (event) {
+  //       // 서버로 비동기 요청을 하고 싶음
+  //       console.log(event.target.dataset)
+  //       axios({method: 'get',
+  //             url: `/korea/detail/${event.target.dataset.playerId}/${event.target.dataset.commentId}/likes/`})
+  //             .then(response => {
+  //           if (response.data.isLiked === true) {
+  //               event
+  //                   .target
+  //                   .classList
+  //                   .add('bi-heart-fill')
+  //               event
+  //                   .target
+  //                   .classList
+  //                   .remove('bi-heart')
+  //           } else {
+  //               event
+  //                   .target
+  //                   .classList
+  //                   .add('bi-heart')
+  //               event
+  //                   .target
+  //                   .classList
+  //                   .remove('bi-heart-fill')
+  //           }
+  //           const likeCount = document.querySelector('#like-count')
+  //           likeCount.innerText = response.data.likeCount
+  //       })
+  //   })
+</script>
+
 {% endblock %}
 
 
-{% block js %}
-<script>
-  // const forms = document.querySelectorAll('.like-forms')
-  // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  // forms.forEach((form) => {
-  //   form.addEventListener('submit', function (event) {
-  //     event.preventDefault()
-  //     const commentId = event.target.dataset.commentId
-  //     const playerId = event.target.dataset.playerId
-      
-  //     axios({
-  //       method: 'post',
-  //       url: `korea/detail/${playerId}/${commentId}/likes/`,
-  //       headers: {'X-CSRFToken': csrftoken},
-  //     })
-  //         .then((response) => {
-  //         const isLiked = response.data.is_liked
-  //         const likeBtn = document.querySelector(`#like-${playerId}-${commentId}`)
-  //         if (isLiked === true) {
-  //         likeBtn.value = '좋아요 취소'
-  //         } else {
-  //         likeBtn.value = '좋아요'
-  //         }
-  //       })
-  //       .catch((error) => {
-  //       console.log(error.response)
-  //       })
-  //   })
-  // })
-  
-</script>
-{% endblock js %}
+
+
 

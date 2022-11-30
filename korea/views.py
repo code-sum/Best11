@@ -165,7 +165,8 @@ def likes(request, player_pk, comment_pk):
             "likeCount": comment.like_users.count(),
             'player': player,
         }
-        return redirect("korea:detail", player_pk)
+        return JsonResponse(context)
+        # return redirect("korea:detail", player_pk)
 
     # player = Players.objects.get(pk=player_pk)
     # if request.user.is_authenticated:
