@@ -2,294 +2,311 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <style>
-    .account-detail-img {
-      width: 10.2180vw;
-      height: 10.2180vw;
-      object-fit: cover;
-      border-radius: 50%;
-      transform: scale(1.1);
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+<style>
+  .account-detail-img {
+    width: 10.2180vw;
+    height: 10.2180vw;
+    object-fit: cover;
+    border-radius: 50%;
+    transform: scale(1.1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-    .account-detail-follow-btn {
-      margin-left: 1.0899vw;
-      padding: 0.0681vw 0.6812vw;
-      border-radius: 0.8856vw;
-      background-color: #111B54;
-      font-size: 1.1580vw;
-    }
+  .account-detail-follow-btn {
+    margin-left: 1.0899vw;
+    padding: 0.0681vw 0.6812vw;
+    border-radius: 0.8856vw;
+    background-color: #111B54;
+    font-size: 1.1580vw;
+  }
 
-    .modal-followers img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
+  .modal-followers img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
-    .account-detail-picture img {
-      width: 270px;
-      height: 270px;
-      margin: 0 10px;
-      object-fit: cover;
-    }
-  </style>
-  <!-- 팔로워 모달 -->
-  <div class="modal fade title-font" id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followerModalLabel">Followers</h5>
-        </div>
-        <div class="modal-body">
-          {% if user.followers.all %}
-            {% for follower in user.followers.all %}
-              <a href="{% url 'accounts:detail' follower.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
-                  <!-- 프로필 이미지가 있으면 -->
-                  {% if follower.profile_image %}
-                    <img src="{{ follower.profile_image.url }}">
-                  {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
-                  {% endif %}
-                  <h1>{{ follower.username }}</h1>
-                </div>
-              </a>
-            {% endfor %}
-          {% else %}
-            <div class="text-center">팔로워가 없습니다.</div>
-          {% endif %}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
-        </div>
+  .account-detail-picture img {
+    width: 270px;
+    height: 270px;
+    margin: 0 10px;
+    object-fit: cover;
+  }
+</style>
+<!-- 팔로워 모달 -->
+<div class="modal fade title-font" id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="followerModalLabel">Followers</h5>
       </div>
-    </div>
-  </div>
-  <!-- 팔로잉 모달 -->
-  <div class="modal fade title-font" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followingModalLabel">Followings</h5>
-        </div>
-        <div class="modal-body">
-          {% if user.followings.all %}
-            {% for following in user.followings.all %}
-              <a href="{% url 'accounts:detail' following.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
-                  <!-- 프로필 이미지가 있으면 -->
-                  {% if following.profile_image %}
-                    <img src="{{ following.profile_image.url }}">
-                  {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
-                  {% endif %}
-                  <h1>{{ following.username }}</h1>
-                </div>
-              </a>
-            {% endfor %}
-          {% else %}
-            <div class="text-center">팔로우 중인 사람이 없습니다.</div>
-          {% endif %}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <h1>{{ user }}님의 프로필</h1><br>
-  <div class="container my-3">
-    {% if user.profile_image %}
-      <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
-    {% else %}
-      <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
-    {% endif %}
-    <br><br>
-    <div class="counts">
-      <div class="me-5">
-        <p class="fs-6" data-bs-target="#followerModal" data-bs-toggle="modal">
-          팔로워
-          <span class="ms-2 fw-bold" id="followers-count">
-            {{ user.followers.count }}
-          </span>
-        </p>
-      </div>
-      <div class="me-5">
-        <p class="fs-6" data-bs-target="#followingModal" data-bs-toggle="modal">팔로우
-          <span class="ms-2 fw-bold" id="followings-count">
-            {{ user.followings.count }}
-          </span>
-        </p>
-      </div>
-    </div>
-    {% if request.user != user %}
-      <form method="POST" class="follow-forms" data-user-id="{{ user.pk }}">
-        {% csrf_token %}
-        {% if request.user in user.followers.all %}
-          <button type="submit" class="btn btn-danger" id="follow-{{ user.pk }}">팔로우 취소</button>
-        {% else %}
-          <button type="submit" class="btn btn-primary" id="follow-{{ user.pk }}">팔로우</button>
-        {% endif %}
-      </form>
-    {% endif %}
-
-    <table class="table">
-      <thead>
-        <tr class="thead-dark">
-          <th>아이디</th>
-          <th>이름</th>
-          <th>활동지수</th>
-          <th>직업</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ user.username }}</td>
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.exp }}</td>
-          {% if user.exp >= 80 and comment_count > 12 %}
-            <td>감독</td>
-          {% elif user.exp < 30 %}
-            <td>벤치</td>
-          {% elif user.exp < 80 %}
-            <td>선수</td>
-          {% else %}
-            <td>선수</td>
-          {% endif %}
-        </tr>
-      </tbody>
-    </table>
-    <br><br>
-    <h3>작성한 뇌피셜</h3>
-    <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
-    <table class="table">
-      <thead>
-        <tr class="thead-dark">
-          <th>작성 선수</th>
-          <th>뇌피셜 내용</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for comment in user.comment_set.all %}
-          <tr>
-            <td>{{ comment.players.name }}</td>
-            <td>
-              <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
-            </td>
-          </tr>
-          {% endfor%}
-        </tbody>
-      </table>
-      <br>
-      <h3>찜한 선수</h3>
-      <p class="text-muted">
-        {% if user.like_player %}{{ user.like_player.count }}
-        {% else %}0
-        {% endif %}명의 선수를 찜 하였습니다.</p>
-    </p>
-    <table class="table">
-      <thead>
-        <tr class="thead-dark">
-          <th>찜한 수</th>
-          <th>찜한 선수</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for like in user.like_player.all %}
-          <tr>
-            <td>{{ forloop.counter}}</td>
-            <td>
-              <a href="{% url 'korea:detail' like.pk %}">{{like.name}}</a>
-            </td>
-          </tr>
-          {% endfor%}
-        </tbody>
-      </table>
-
-      <!-- 찜한 선수 -->
-      <div class="account-detail-picture title-font">
-        {% for like in user.like_player.all %}
-          {% if like.player_image %}
-            <a href="{% url 'korea:detail' like.pk %}">
-              <img src="{{ like.player_image }}">
-            </a>
-          {% else %}
-            <a href="{% url 'korea:detail' like.pk %}">
-              <img src='https://img.khan.co.kr/news/2022/11/10/l_2022111101000537100046401.jpg'>
-            </a>
-          {% endif %}
+      <div class="modal-body">
+        {% if user.followers.all %}
+        {% for follower in user.followers.all %}
+        <a href="{% url 'accounts:detail' follower.pk %}" class="modal-followers"
+          style="color: #111B54; text-decoration: none;">
+          <div class="d-flex align-items-center">
+            <!-- 프로필 이미지가 있으면 -->
+            {% if follower.profile_image %}
+            <img src="{{ follower.profile_image.url }}">
+            {% else %}
+            <img src="{% static 'images/ddung.jpg' %}">
+            {% endif %}
+            <h1>{{ follower.username }}</h1>
+          </div>
+        </a>
         {% endfor %}
+        {% else %}
+        <div class="text-center">팔로워가 없습니다.</div>
+        {% endif %}
       </div>
-
-      <br>
-
-      {% if request.user == user %}
-        <a href="{% url 'accounts:update' %}" type="button" class="btn btn-primary">수정</a>
-        <a href="{% url 'accounts:change_password' %}" class='btn btn-warning'>비밀번호 변경</a>
-        <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
-      {% endif %}
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
+<!-- 팔로잉 모달 -->
+<div class="modal fade title-font" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="followingModalLabel">Followings</h5>
+      </div>
+      <div class="modal-body">
+        {% if user.followings.all %}
+        {% for following in user.followings.all %}
+        <a href="{% url 'accounts:detail' following.pk %}" class="modal-followers"
+          style="color: #111B54; text-decoration: none;">
+          <div class="d-flex align-items-center">
+            <!-- 프로필 이미지가 있으면 -->
+            {% if following.profile_image %}
+            <img src="{{ following.profile_image.url }}">
+            {% else %}
+            <img src="{% static 'images/ddung.jpg' %}">
+            {% endif %}
+            <h1>{{ following.username }}</h1>
+          </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <div class="text-center">팔로우 중인 사람이 없습니다.</div>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- 팔로우 비동기 -->
-    <!-- 비동기 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<h1>{{ user }}님의 프로필</h1><br>
+<div class="container my-3">
+  {% if user.profile_image %}
+  <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
+  {% else %}
+  <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
+  {% endif %}
+  <br><br>
+  <div class="counts">
+    <div class="me-5">
+      <p class="fs-6" data-bs-target="#followerModal" data-bs-toggle="modal">
+        팔로워
+        <span class="ms-2 fw-bold" id="followers-count">
+          {{ user.followers.count }}
+        </span>
+      </p>
+    </div>
+    <div class="me-5">
+      <p class="fs-6" data-bs-target="#followingModal" data-bs-toggle="modal">팔로우
+        <span class="ms-2 fw-bold" id="followings-count">
+          {{ user.followings.count }}
+        </span>
+      </p>
+    </div>
+  </div>
+  {% if request.user != user %}
+  <form method="POST" class="follow-forms" data-user-id="{{ user.pk }}">
+    {% csrf_token %}
+    {% if request.user in user.followers.all %}
+    <button type="submit" class="btn btn-danger" id="follow-{{ user.pk }}">팔로우 취소</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary" id="follow-{{ user.pk }}">팔로우</button>
+    {% endif %}
+  </form>
+  {% endif %}
 
-    <script>
-      const forms = document.querySelectorAll(".follow-forms")
-      const csrftoken = document
-        .querySelector('[name=csrfmiddlewaretoken]')
-        .value
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>아이디</th>
+        <th>이름</th>
+        <th>활동지수</th>
+        <th>직업</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.first_name }}</td>
+        <td class="follow-forms" id="exp-count">{{ user.exp }}</td>
+        <!-- {% if user.exp >= 80 and comment_count > 12 %}
+        <td>감독</td>
+        {% elif user.exp < 30 %} <td>벤치</td>
+          {% elif user.exp < 80 %} <td>선수</td>
+            {% else %}
+            <td>선수</td>
+            {% endif %} -->
+        <td class="follow-forms" id="job">{{ job }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br><br>
+  <h3>작성한 뇌피셜</h3>
+  <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>작성 선수</th>
+        <th>뇌피셜 내용</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for comment in user.comment_set.all %}
+      <tr>
+        <td>{{ comment.players.name }}</td>
+        <td>
+          <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
+        </td>
+      </tr>
+      {% endfor%}
+    </tbody>
+  </table>
+  <br>
+  <h3>찜한 선수</h3>
+  <p class="text-muted">
+    {% if user.like_player %}{{ user.like_player.count }}
+    {% else %}0
+    {% endif %}명의 선수를 찜 하였습니다.</p>
+  </p>
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>찜한 수</th>
+        <th>찜한 선수</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for like in user.like_player.all %}
+      <tr>
+        <td>{{ forloop.counter}}</td>
+        <td>
+          <a href="{% url 'korea:detail' like.pk %}">{{like.name}}</a>
+        </td>
+      </tr>
+      {% endfor%}
+    </tbody>
+  </table>
 
-        forms
-        .forEach((form) => {
-          form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const userId = event
-              .target
-              .dataset
-              .userId
+  <!-- 찜한 선수 -->
+  <div class="account-detail-picture title-font">
+    {% for like in user.like_player.all %}
+    {% if like.player_image %}
+    <a href="{% url 'korea:detail' like.pk %}">
+      <img src="{{ like.player_image }}">
+    </a>
+    {% else %}
+    <a href="{% url 'korea:detail' like.pk %}">
+      <img src='https://img.khan.co.kr/news/2022/11/10/l_2022111101000537100046401.jpg'>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
 
-              axios({
-                method: 'post',
-                url: `/accounts/${userId}/follow/`,
-                headers: {
-                  'X-CSRFToken': csrftoken
-                }
-              })
-              .then((response) => {
-                console.log(response.data)
-                const isFollowed = response.data.is_Followed
-                const followBtn = document.querySelector(`#follow-${userId}`)
-                if (isFollowed === true) {
-                  followBtn.innerText = "팔로우 취소"
-                  followBtn
-                    .classList
-                    .remove('btn-primary')
-                  followBtn
-                    .classList
-                    .add('btn-danger')
-                } else {
-                  followBtn.innerText = "팔로우"
-                  followBtn
-                    .classList
-                    .remove('btn-danger')
-                  followBtn
-                    .classList
-                    .add('btn-primary')
-                }
-                const followersCount = response.data.followers_count
-                const followingsCount = response.data.followings_count
-                const followersCountTag = document.querySelector('#followers-count')
-                const followingsCountTag = document.querySelector('#followings-count')
-                followersCountTag.innerText = followersCount
-                followingsCountTag.innerText = followingsCount
-              })
-          })
+  <br>
+
+  {% if request.user == user %}
+  <a href="{% url 'accounts:update' %}" type="button" class="btn btn-primary">수정</a>
+  <a href="{% url 'accounts:change_password' %}" class='btn btn-warning'>비밀번호 변경</a>
+  <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
+  {% endif %}
+</div>
+
+<!-- 팔로우 비동기 -->
+<!-- 비동기 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  const forms = document.querySelectorAll(".follow-forms")
+  const csrftoken = document
+    .querySelector('[name=csrfmiddlewaretoken]')
+    .value
+
+  forms
+    .forEach((form) => {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const userId = event
+          .target
+          .dataset
+          .userId
+
+        axios({
+          method: 'post',
+          url: `/accounts/${userId}/follow/`,
+          headers: {
+            'X-CSRFToken': csrftoken
+          }
         })
-    </script>
-  {% endblock content %}
+          .then((response) => {
+            console.log(response.data)
+            const isFollowed = response.data.is_Followed
+            const followBtn = document.querySelector(`#follow-${userId}`)
+            if (isFollowed === true) {
+              followBtn.innerText = "팔로우 취소"
+              followBtn
+                .classList
+                .remove('btn-primary')
+              followBtn
+                .classList
+                .add('btn-danger')
+            } else {
+              followBtn.innerText = "팔로우"
+              followBtn
+                .classList
+                .remove('btn-danger')
+              followBtn
+                .classList
+                .add('btn-primary')
+            }
+            const followersCount = response.data.followers_count
+            const followingsCount = response.data.followings_count
+            const expCount = response.data.exp_count
+            const commentCount = response.data.comment_count
+            const jobtd = document.querySelector('#job')
+            const followersCountTag = document.querySelector('#followers-count')
+            const followingsCountTag = document.querySelector('#followings-count')
+            const expCountTag = document.querySelector('#exp-count')
+            followersCountTag.innerText = followersCount
+            followingsCountTag.innerText = followingsCount
+            expCountTag.innerText = expCount
+            if (expCount < 30) {
+              jobtd.innerText = '벤치'
+            }
+            else if (expCount < 80) {
+              jobtd.innerText = '선수'
+            }
+            else if (expCount >= 80 && commentCount > 12) {
+              jobtd.innerText = '감독'
+            }
+          })
+      })
+    })
+</script>
+{% endblock content %}
