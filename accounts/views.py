@@ -63,19 +63,20 @@ def detail(request, pk):
         .annotate(play=Count("players_id"))
         .order_by("players_id")
     )
-    # comments = (
-    #     comments_user.values_list("players_id", flat=True).distinct().order_by("pk")
-    # )
-
-    # comment_list = []
-    # for comment in comments:
-    #     if comment.user.pk == pk:
-    #         comment_list.append(comment)
     comment_count = len(comments)
-    print(comment_count)
+    job = "벤치"
+    if user.exp < 30:
+        job = "벤치"
+    elif user.exp >= 30 and user.exp < 80:
+        job = "선수"
+    elif user.exp >= 80 and comment_count > 12:
+        job = "감독"
+    else:
+        job = "선수"
     context = {
         "user": user,
         "comment_count": comment_count,
+        "job": job,
     }
     return render(request, "accounts/detail.html", context)
 
@@ -83,6 +84,13 @@ def detail(request, pk):
 # 팔로우
 def follow(request, pk):
     accounts = get_user_model().objects.get(pk=pk)
+    comments = (
+        accounts.comment_set.values("players_id")
+        .annotate(play=Count("players_id"))
+        .order_by("players_id")
+    )
+    comment_count = len(comments)
+    print(accounts.exp)
     if request.user != accounts:
         if request.user in accounts.followers.all():
             accounts.followers.remove(request.user)
@@ -92,12 +100,14 @@ def follow(request, pk):
         else:
             accounts.followers.add(request.user)
             is_followed = True
-            accounts.exp += 1
+            accounts.exp += 50
             accounts.save()
         context = {
             "is_Followed": is_followed,
             "followers_count": accounts.followers.count(),
             "followings_count": accounts.followings.count(),
+            "exp_count": accounts.exp,
+            "comment_count": comment_count,
         }
     return JsonResponse(context)
 
