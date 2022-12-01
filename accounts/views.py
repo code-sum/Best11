@@ -7,6 +7,8 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
 from django.db.models import Count
+from django.http import JsonResponse
+
 
 # 회원 목록(변경필요)
 def index(request):
@@ -60,7 +62,7 @@ def detail(request, pk):
         user.comment_set.values("players_id")
         .annotate(play=Count("players_id"))
         .order_by("players_id")
-    )   
+    )
     # comments = (
     #     comments_user.values_list("players_id", flat=True).distinct().order_by("pk")
     # )
@@ -81,17 +83,23 @@ def detail(request, pk):
 # 팔로우
 def follow(request, pk):
     accounts = get_user_model().objects.get(pk=pk)
-    if request.user == accounts:
-        return redirect("accounts:detail", pk)
-    if request.user in accounts.followers.all():
-        accounts.followers.remove(request.user)
-        accounts.exp -= 1
-        accounts.save()
-    else:
-        accounts.followers.add(request.user)
-        accounts.exp += 1
-        accounts.save()
-    return redirect("accounts:detail", pk)
+    if request.user != accounts:
+        if request.user in accounts.followers.all():
+            accounts.followers.remove(request.user)
+            is_followed = False
+            accounts.exp -= 1
+            accounts.save()
+        else:
+            accounts.followers.add(request.user)
+            is_followed = True
+            accounts.exp += 1
+            accounts.save()
+        context = {
+            "is_Followed": is_followed,
+            "followers_count": accounts.followers.count(),
+            "followings_count": accounts.followings.count(),
+        }
+    return JsonResponse(context)
 
 
 # 회원 정보 수정
