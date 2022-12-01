@@ -7,6 +7,8 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
 from django.db.models import Count
+from django.http import JsonResponse
+
 
 # 회원 목록(변경필요)
 def index(request):
@@ -60,20 +62,21 @@ def detail(request, pk):
         user.comment_set.values("players_id")
         .annotate(play=Count("players_id"))
         .order_by("players_id")
-    )   
-    # comments = (
-    #     comments_user.values_list("players_id", flat=True).distinct().order_by("pk")
-    # )
-
-    # comment_list = []
-    # for comment in comments:
-    #     if comment.user.pk == pk:
-    #         comment_list.append(comment)
+    )
     comment_count = len(comments)
-    print(comment_count)
+    job = "벤치"
+    if user.exp < 30:
+        job = "벤치"
+    elif user.exp >= 30 and user.exp < 80:
+        job = "선수"
+    elif user.exp >= 80 and comment_count > 12:
+        job = "감독"
+    else:
+        job = "선수"
     context = {
         "user": user,
         "comment_count": comment_count,
+        "job": job,
     }
     return render(request, "accounts/detail.html", context)
 
@@ -81,17 +84,32 @@ def detail(request, pk):
 # 팔로우
 def follow(request, pk):
     accounts = get_user_model().objects.get(pk=pk)
-    if request.user == accounts:
-        return redirect("accounts:detail", pk)
-    if request.user in accounts.followers.all():
-        accounts.followers.remove(request.user)
-        accounts.exp -= 1
-        accounts.save()
-    else:
-        accounts.followers.add(request.user)
-        accounts.exp += 1
-        accounts.save()
-    return redirect("accounts:detail", pk)
+    comments = (
+        accounts.comment_set.values("players_id")
+        .annotate(play=Count("players_id"))
+        .order_by("players_id")
+    )
+    comment_count = len(comments)
+    print(accounts.exp)
+    if request.user != accounts:
+        if request.user in accounts.followers.all():
+            accounts.followers.remove(request.user)
+            is_followed = False
+            accounts.exp -= 1
+            accounts.save()
+        else:
+            accounts.followers.add(request.user)
+            is_followed = True
+            accounts.exp += 50
+            accounts.save()
+        context = {
+            "is_Followed": is_followed,
+            "followers_count": accounts.followers.count(),
+            "followings_count": accounts.followings.count(),
+            "exp_count": accounts.exp,
+            "comment_count": comment_count,
+        }
+    return JsonResponse(context)
 
 
 # 회원 정보 수정

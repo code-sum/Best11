@@ -34,11 +34,14 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
+    comments = player.comment_set.all().order_by('-pk')  
+    
+    print(comments)
     master = str(request.user)
     context = {
         "player": player,
         "master": master,
-        "comments": player.comment_set.all(),
+        "comments": comments,
     }
     return render(request, "korea/detail_player.html", context)
 
