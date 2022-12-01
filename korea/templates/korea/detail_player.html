@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
+  <style>
+    .player-comment img {
+      object-fit: cover;
+      transform: scale(0.7);
+    }
+  </style>
   <!-- <header> <script> function getCookie(name) { var cookieValue = null; if (document.cookie && document.cookie !== '') { var cookies = document.cookie.split(';'); for (var i = 0; i < cookies.length; i++) { var cookie = cookies[i].trim(); // Does this cookie string begin with the name we want? if (cookie.substring(0, name.length + 1) === (name + '=')) { cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); break; } } } return cookieValue; } var csrftoken = getCookie('csrftoken'); function csrfSafeMethod(method) { // these HTTP methods do not require CSRF protection return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method)); } $.ajaxSetup({ beforeSend: function (xhr, settings) { if (!csrfSafeMethod(settings.type) && !this.crossDomain) { xhr.setRequestHeader("X-CSRFToken", csrftoken); } } }); </script> </header> -->
   <div class="container my-3">
     <h1 class="text-center">{{ player.name }}
@@ -49,11 +56,17 @@
 
     </div>
     {% for comment in comments %}
-      <div class='py-3'>
+      <div class='player-comment'>
         <div class="align-items-center">
           <a class="text-decoration-none fw-bolder" style='color:gray' href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>&nbsp;&nbsp;
           <span class="text-break">{{ comment.content | safe }}</span>
         </div>
+
+        {% if comment.created_string == False %}
+        <span style="float:right;">{{ comment.created|date:'m월 d일' }}</span>
+        {% else %}
+        <span style="float:right;">{{ comment.created_string }}</span>
+        {% endif %}
 
         <!-- 좋아요 버튼 -->
         {% if request.user.is_authenticated %}

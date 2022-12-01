@@ -60,6 +60,13 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = ["http://127.0.0.1:8000", "http://localhost:8000"]
 CORS_ALLOW_CREDENTIALS = True
 
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'width': '100%',
+        'height': '480',
+    }
+}
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [

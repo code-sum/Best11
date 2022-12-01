@@ -66,7 +66,7 @@
         {% endif %}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -100,31 +100,32 @@
         {% endif %}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" style="background-color: #C82D36;" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
-<h1>{{ user }}님의 프로필</h1><br>
+
 <div class="container my-3">
   {% if user.profile_image %}
-  <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
-  {% else %}
-  <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
-  {% endif %}
+  <div class="d-flex justify-content-center">
+    <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
+    {% else %}
+    <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
+    {% endif %}
+  </div>
   <br><br>
-  <div class="counts">
-    <div class="me-5">
-      <p class="fs-6" data-bs-target="#followerModal" data-bs-toggle="modal">
+  <h1 class="text-center">{{ user }}</h1><br>
+  <div class="counts d-flex justify-content-center mb-3 flex-row-reverse">
+    <div class="">
+      <p class="fs-6 text-center" data-bs-target="#followerModal" data-bs-toggle="modal">
         팔로워
         <span class="ms-2 fw-bold" id="followers-count">
           {{ user.followers.count }}
         </span>
       </p>
-    </div>
-    <div class="me-5">
-      <p class="fs-6" data-bs-target="#followingModal" data-bs-toggle="modal">팔로우
+      <p class="fs-6 text-center" data-bs-target="#followingModal" data-bs-toggle="modal">팔로잉
         <span class="ms-2 fw-bold" id="followings-count">
           {{ user.followings.count }}
         </span>
@@ -132,44 +133,46 @@
     </div>
   </div>
   {% if request.user != user %}
-  <form method="POST" class="follow-forms" data-user-id="{{ user.pk }}">
+  <form method="POST" class="follow-forms d-flex justify-content-center" data-user-id="{{ user.pk }}">
     {% csrf_token %}
     {% if request.user in user.followers.all %}
-    <button type="submit" class="btn btn-danger" id="follow-{{ user.pk }}">팔로우 취소</button>
+    <button type="submit" class="btn fw-bold" style="border-radius:10rem; border-color: #C82D36;" id="follow-{{ user.pk }}">팔로우 취소</button>
     {% else %}
-    <button type="submit" class="btn btn-primary" id="follow-{{ user.pk }}">팔로우</button>
+    <button type="submit" class="btn fw-bold" style="border-radius:10rem; background-color: #C82D36; color:white" id="follow-{{ user.pk }}">팔로우</button>
     {% endif %}
   </form>
   {% endif %}
 
-  <table class="table">
-    <thead>
-      <tr class="thead-dark">
-        <th>아이디</th>
-        <th>이름</th>
-        <th>활동지수</th>
-        <th>직업</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ user.username }}</td>
-        <td>{{ user.first_name }}</td>
-        <td class="follow-forms" id="exp-count">{{ user.exp }}</td>
-        <!-- {% if user.exp >= 80 and comment_count > 12 %}
-        <td>감독</td>
-        {% elif user.exp < 30 %} <td>벤치</td>
-          {% elif user.exp < 80 %} <td>선수</td>
-            {% else %}
-            <td>선수</td>
-            {% endif %} -->
-        <td class="follow-forms" id="job">{{ job }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container" style="width:70%">
+    <table class="table mt-3 text-center">
+      <thead>
+        <tr class="thead-dark">
+          <!-- <th>아이디</th>
+          <th>이름</th> -->
+          <th style="background-color: #e9ecef;">활동지수</th>
+          <th style="background-color: #e9ecef;">직업</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- <td>{{ user.username }}</td>
+          <td>{{ user.first_name }}</td> -->
+          <td class="follow-forms" id="exp-count" style="color:#111B54">{{ user.exp }}</td>
+          <!-- {% if user.exp >= 80 and comment_count > 12 %}
+          <td>감독</td>
+          {% elif user.exp < 30 %} <td>벤치</td>
+            {% elif user.exp < 80 %} <td>선수</td>
+              {% else %}
+              <td>선수</td>
+              {% endif %} -->
+          <td class="follow-forms" id="job" style="color:#111B54">{{ job }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <br><br>
-  <h3>작성한 뇌피셜</h3>
-  <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
+  <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">작성한 피셜</h2>
+  <p class="fw-bolder" style="color:#111B54">총 {{ user.comment_set.count }}개</p>
   <table class="table">
     <thead>
       <tr class="thead-dark">
@@ -189,13 +192,16 @@
     </tbody>
   </table>
   <br>
-  <h3>찜한 선수</h3>
-  <p class="text-muted">
-    {% if user.like_player %}{{ user.like_player.count }}
-    {% else %}0
-    {% endif %}명의 선수를 찜 하였습니다.</p>
-  </p>
-  <table class="table">
+  <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center mt-5">응원하는 선수</h2>
+  <div class="container">
+    <p class="fw-bolder" style="color:#111B54">
+      {% if user.like_player %}{{ user.like_player.count }}
+      {% else %}0
+      {% endif %}명을 응원하는 중</p>
+    </p>
+    <hr>
+  </div>
+  <!-- <table class="table">
     <thead>
       <tr class="thead-dark">
         <th>찜한 수</th>
@@ -212,29 +218,37 @@
       </tr>
       {% endfor%}
     </tbody>
-  </table>
-
+  </table> -->
   <!-- 찜한 선수 -->
-  <div class="account-detail-picture title-font">
-    {% for like in user.like_player.all %}
-    {% if like.player_image %}
-    <a href="{% url 'korea:detail' like.pk %}">
-      <img src="{{ like.player_image }}">
-    </a>
-    {% else %}
-    <a href="{% url 'korea:detail' like.pk %}">
-      <img src='https://img.khan.co.kr/news/2022/11/10/l_2022111101000537100046401.jpg'>
-    </a>
-    {% endif %}
-    {% endfor %}
+  <div class="container text-center">
+    <div class="container row">
+      {% if user.like_player.count != 0 %}
+        {% for like in user.like_player.all %}
+        <!-- 응원하는 선수 Card -->
+        <div class="card my-4 mx-3 col-1 col-sm-2 col-md-6 col-lg-12" style="width:20%; border-radius:3rem; border-color: rgb(155, 149, 149); box-shadow:1rem 3rem 3rem 1.5rem rgba(141, 88, 88, 0.687)">
+          <img src="{{ like.player_image.url }}" class="card-img-top" style='border-radius:3rem 3rem 0 0; object-fit: contain;' alt="player image">
+          <div class="card-body">
+            <p class="card-text text-center fw-bolder">{{ like.name }} {{ like.english_name }} </p>
+            <p class="card-text text-center fw-bolder">{{ like.team }}</p>
+            <p class="card-text text-center fw-bolder">{{ like.position }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <a href="{% url 'korea:index' %}" style="color:#111B54">
+        <h4 class="mt-5 fw-bolder">우리나라 선수를 응원해주세요!!!</h4>
+      </a>  
+      {% endif %}
+    </div>
   </div>
 
   <br>
 
   {% if request.user == user %}
-  <a href="{% url 'accounts:update' %}" type="button" class="btn btn-primary">수정</a>
-  <a href="{% url 'accounts:change_password' %}" class='btn btn-warning'>비밀번호 변경</a>
-  <a href="{% url 'accounts:delete' %}" type="button" class="btn btn-danger">탈퇴</a>
+  <div class="float-end mx-5 px-5">
+    <a href="{% url 'accounts:update' %}" type="button" class="btn me-3" style="background-color: #111B54; color:white">개인 정보 수정</a>
+    <a href="{% url 'accounts:change_password' %}" class='btn' style="border-color:#111B54; color:#111B54">비밀번호 변경</a>
+  </div>
   {% endif %}
 </div>
 
