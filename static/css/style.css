@@ -516,19 +516,6 @@ video {
   object-fit: cover;
 }
 
-/* 응원 popovers */
-.custom-popover {
-  --bs-popover-max-width: 20rem;
-  --bs-popover-border-color: var(--bs-primary);
-  --bs-popover-body-padding-x: 1rem;
-  --bs-popover-body-padding-y: 0.5rem;
-  font-size: 1.6rem;
-  border: 1px solid #c82d36;
-}
-.popover-arrow::before {
-  border-right-color: #c82d36 !important;
-}
-
 /* 채팅창 디자인 */
 .wrap {
   padding: 4rem 0;
