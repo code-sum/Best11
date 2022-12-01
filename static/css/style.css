@@ -485,6 +485,244 @@ video {
   background-color: #f6f6f6;
   padding: 5rem;
   margin: 1.5rem;
+  transition: all 0.3s ease-out;
+}
+
+/* korea/index.html 선수 포지션 탭 */
+
+.position-tab {
+  height: 100%;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 3rem;
+  line-height: 1.5;
+}
+
+.tabs {
+  height: 100%;
+  font-size: 1.5rem;
+}
+
+input[name=tabs] {
+  float: left;
+  opacity: 0;
+  position: absolute;
+}
+
+input[name=tabs] ~ label {
+  padding: 1em;
+  width: 20%;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+input[name=tabs] ~ label:hover {
+  background: #d9d9d9;
+}
+input[name=tabs] ~ label:focus {
+  outline: 0;
+}
+
+.tab {
+  height: 100%;
+  width: 100%;
+  display: none;
+  padding: 8rem 1rem 1rem;
+}
+
+label[for=toggle-apples] {
+  border-top: 0.8rem solid #B52B33;
+  background: #FFF;
+  text-transform: uppercase;
+}
+
+#toggle-apples:checked ~ .tab-apples {
+  display: block;
+  background: #F6F6F6;
+}
+
+#toggle-apples:checked ~ label[for=toggle-apples] {
+  cursor: default;
+  background: #F6F6F6;
+  color: #B52B33;
+}
+
+label[for=toggle-bananas] {
+  border-top: 0.8rem solid #aac706;
+  background: #FFF;
+  border-left: 0.1rem solid #7e7e7e;
+  text-transform: uppercase;
+}
+
+#toggle-bananas:checked ~ .tab-bananas {
+  display: block;
+  background: #F6F6F6;
+}
+
+#toggle-bananas:checked ~ label[for=toggle-bananas] {
+  cursor: default;
+  background: #F6F6F6;
+  color: #aac706;
+}
+
+label[for=toggle-cherries] {
+  border-top: 0.8rem solid #15c68e;
+  background: #FFF;
+  border-left: 0.1rem solid #7e7e7e;
+  text-transform: uppercase;
+}
+
+#toggle-cherries:checked ~ .tab-cherries {
+  display: block;
+  background: #F6F6F6;
+}
+
+#toggle-cherries:checked ~ label[for=toggle-cherries] {
+  cursor: default;
+  background: #F6F6F6;
+  color: #15c68e;
+}
+
+label[for=toggle-oranges] {
+  border-top: 0.8rem solid #14a3bb;
+  background: #FFF;
+  border-left: 0.1rem solid #7e7e7e;
+  text-transform: uppercase;
+}
+
+#toggle-oranges:checked ~ .tab-oranges {
+  display: block;
+  background: #F6F6F6;
+}
+
+#toggle-oranges:checked ~ label[for=toggle-oranges] {
+  cursor: default;
+  background: #F6F6F6;
+  color: #14a3bb;
+}
+
+label[for=toggle-pears] {
+  border-top: 0.8rem solid #776eef;
+  background: #FFF;
+  border-left: 0.1rem solid #7e7e7e;
+  text-transform: uppercase;
+}
+
+#toggle-pears:checked ~ .tab-pears {
+  display: block;
+  background: #F6F6F6;
+}
+
+#toggle-pears:checked ~ label[for=toggle-pears] {
+  cursor: default;
+  background: #F6F6F6;
+  color: #776eef;
+}
+
+.text-title {
+  display: none;
+}
+@media screen and (min-width: 900px) {
+  .text-title {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+@media (min-width: 576px) {
+  .text-title {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+
+/* korea/index.html player-card */
+
+.player-card {
+  background-color: #fff;
+  margin: 1.5rem;
+  padding: 4rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 14px 26px rgba(0,0,0,0.04);
+  transition: all 0.3s ease-out;
+}
+
+.player-card:hover {
+  transform: translateY(-5px) scale(1.005) translateZ(0);
+  box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+    0 24px 46px var(--box-shadow-color);
+}
+
+.player-card:hover .overlay {
+  transform: scale(4) translateZ(0);
+}
+
+
+/* korea/index.html position-color */
+
+.position-color {
+  --bg-color: #B52B33;
+  --bg-color-light: #d37679;
+  --text-color-hover: #fff;
+  --box-shadow-color: rgba(252, 178, 178, 0.48);
+}
+
+/* korea/index.html overlay */
+
+.overlay {
+  width: auto;
+  height: auto;
+  position: absolute; 
+  border-radius: 50%;
+  background: var(--bg-color);
+  top: auto;
+  left: auto;
+  z-index: 0;
+  transition: transform 0.3s ease-out;
+}
+
+/* korea/index.html position-box */
+
+.position-box {
+  background-color: #B52B33;
+  padding: 1rem;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.fw-position-box {
+  background-color: #aac706;
+  padding: 1rem;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.mf-position-box {
+  background-color: #15c68e;
+  padding: 1rem;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.df-position-box {
+  background-color: #14a3bb;
+  padding: 1rem;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.gk-position-box {
+  background-color: #776eef;
+  padding: 1rem;
+  color: #FFF;
+  font-weight: bold;
 }
 
 /* korea/detail.html */

@@ -22,7 +22,7 @@
         <div class="updown"></div>
         <h1 style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">대한민국</h1>
         <p style="margin-top: 2rem;">&nbsp;&nbsp;&nbsp;FIFA 랭킹 28위&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;감독 파울루 벤투</p>
-        <div class="d-flex row justify-content-center" style="margin-top: 3rem;">
+        <div class="d-flex row justify-content-center" style="margin-top: 3rem; margin-bottom: 5rem;">
           <div class="col-lg-5 col-sm-12 korea-card">
             <h2 style="font-weight: bold; margin-bottom: 3rem;">역대 월드컵 성적</h2>
             <p>2018&nbsp;&nbsp;러시아 · 19위 (1승 0무 2패)</p>
@@ -37,7 +37,7 @@
             <p>2022-11-24&nbsp;&nbsp;대한민국 0 : 0 우루과이</p>
             <p>2022-11-28&nbsp;&nbsp;대한민국 2 : 3 가나</p>
             <div class="mt-5">
-              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/태극기.jpg' %}" alt="대한민국">
+              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/태극기.png' %}" alt="대한민국">
               <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/우루과이.png' %}" alt="우루과이">
               <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/가나.png' %}" alt="가나">
               <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/포르투갈.png' %}" alt="포르투갈">
@@ -47,28 +47,187 @@
       </div>
       <!-- 대한민국 소개 영역 끝 -->
 
-      <!-- 선수 카드 영역 시작 -->
-      <div class="my-3 text-center border">
-        {% for player in players %}
-          <a href="{% url "korea:detail" player.pk %}">
-            <img src="{{ player.player_image }}" alt="선수 사진">
-          </a>
-          <h4 class="my-2">{{ player.name }}</h4>
-          <p>{{ player.english_name }}</p>
-          <p>등번호 :
-            {{ player.back_number }}</p>
-          <p>{{ player.birthdate }}</p>
-          <p>소속 팀:
-            {{ player.team }}</p>
-          <p>포지션 :
-            {{ player.position }}</p>
-          <p>신장 :
-            {{ player.height }}cm</p>
-          <p>몸무게 :
-            {{ player.weight }}kg</p>
-        {% endfor %}
+      <!-- 선수 카드 모음 시작 -->
+      <div class="under-main" style="margin-top: 3rem;">
+        <!-- 세로선 -->
+        <div class="updown"></div>
+        <h1 style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">국가대표</h1>
+        <p style="margin-top: 2rem;">2022년 11월 12일 대표팀&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;FIFA 카타르 월드컵 명단</p>
+
+        <!-- 선수 포지션 탭 시작 -->
+        <div class="position-tab">
+          <div class="tabs">
+            <input type="radio" name="tabs" id="toggle-apples" checked="checked"/>
+            <label for="toggle-apples">
+              <span class="text-title">All</span>
+            </label>
+            <input type="radio" name="tabs" id="toggle-bananas"/>
+            <label for="toggle-bananas">
+              <span class="text-title">FW</span>
+            </label>
+            <input type="radio" name="tabs" id="toggle-cherries"/>
+            <label for="toggle-cherries">
+              <span class="text-title">MF</span>
+            </label>
+            <input type="radio" name="tabs" id="toggle-oranges"/>
+            <label for="toggle-oranges">
+              <span class="text-title">DF</span>
+            </label>
+            <input type="radio" name="tabs" id="toggle-pears"/>
+            <label for="toggle-pears">
+              <span class="text-title">GK</span>
+            </label>
+            <div class="tab tab-apples">
+              <!-- ALL 선수 카드 반복문 시작 -->
+              <div class="row justify-content-center text-center">
+                <!-- 실제 카드 시작 -->
+                {% for player in players %}
+                  <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+                    <a href="{% url "korea:detail" player.pk %}" class="a-black-red">
+                      <div class="overlay"></div>
+                      <!-- 포지션, 사진/이름, 정보 -->
+                      <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="position-box">{{ player.position }}</div>
+                        <div class="d-flex flex-column">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image.url }}" alt="선수 사진">
+                          <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
+                        </div>
+                        <div class="d-flex flex-column text-start">
+                          <p style="font-size: 1.4rem; margin-bottom:0;">{{ player.birthdate|date:'Y-m-d' }}</p>
+                          <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ player.height }}cm /
+                            {{ player.weight }}kg</p>
+                          <p style="font-size: 1.4rem; margin-top:0;">{{ player.team }}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+                <!-- 실제 카드 끝 -->
+              </div>
+              <!-- ALL 선수 카드 반복문 끝 -->
+            </div>
+            <div class="tab tab-bananas">
+              <!-- FW 선수 카드 반복문 시작 -->
+              <div class="row justify-content-center text-center">
+                <!-- 실제 카드 시작 -->
+                {% for fw_player in fw_players %}
+                  <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+                    <a href="{% url "korea:detail" fw_player.pk %}" class="a-black-red">
+                      <div class="overlay"></div>
+                      <!-- 포지션, 사진/이름, 정보 -->
+                      <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="fw-position-box">{{ fw_player.position }}</div>
+                        <div class="d-flex flex-column">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ fw_player.player_image.url }}" alt="선수 사진">
+                          <h2 class="text-center mt-2 fw-bold">{{ fw_player.name }}</h2>
+                        </div>
+                        <div class="d-flex flex-column text-start">
+                          <p style="font-size: 1.4rem; margin-bottom:0;">{{ fw_player.birthdate|date:'Y-m-d' }}</p>
+                          <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ fw_player.height }}cm /
+                            {{ fw_player.weight }}kg</p>
+                          <p style="font-size: 1.4rem; margin-top:0;">{{ fw_player.team }}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+                <!-- 실제 카드 끝 -->
+              </div>
+              <!-- FW 선수 카드 반복문 끝 -->
+            </div>
+            <div class="tab tab-cherries">
+              <!-- MF 선수 카드 반복문 시작 -->
+              <div class="row justify-content-center text-center">
+                <!-- 실제 카드 시작 -->
+                {% for mf_player in mf_players %}
+                  <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+                    <a href="{% url "korea:detail" mf_player.pk %}" class="a-black-red">
+                      <div class="overlay"></div>
+                      <!-- 포지션, 사진/이름, 정보 -->
+                      <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="mf-position-box">{{ mf_player.position }}</div>
+                        <div class="d-flex flex-column">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ mf_player.player_image.url }}" alt="선수 사진">
+                          <h2 class="text-center mt-2 fw-bold">{{ mf_player.name }}</h2>
+                        </div>
+                        <div class="d-flex flex-column text-start">
+                          <p style="font-size: 1.4rem; margin-bottom:0;">{{ mf_player.birthdate|date:'Y-m-d' }}</p>
+                          <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ mf_player.height }}cm /
+                            {{ mf_player.weight }}kg</p>
+                          <p style="font-size: 1.4rem; margin-top:0;">{{ mf_player.team }}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+                <!-- 실제 카드 끝 -->
+              </div>
+              <!-- MF 선수 카드 반복문 끝 -->
+            </div>
+            <div class="tab tab-oranges">
+              <!-- DF 선수 카드 반복문 시작 -->
+              <div class="row justify-content-center text-center">
+                <!-- 실제 카드 시작 -->
+                {% for df_player in df_players %}
+                  <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+                    <a href="{% url "korea:detail" df_player.pk %}" class="a-black-red">
+                      <div class="overlay"></div>
+                      <!-- 포지션, 사진/이름, 정보 -->
+                      <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="df-position-box">{{ df_player.position }}</div>
+                        <div class="d-flex flex-column">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ df_player.player_image.url }}" alt="선수 사진">
+                          <h2 class="text-center mt-2 fw-bold">{{ df_player.name }}</h2>
+                        </div>
+                        <div class="d-flex flex-column text-start">
+                          <p style="font-size: 1.4rem; margin-bottom:0;">{{ df_player.birthdate|date:'Y-m-d' }}</p>
+                          <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ df_player.height }}cm /
+                            {{ df_player.weight }}kg</p>
+                          <p style="font-size: 1.4rem; margin-top:0;">{{ df_player.team }}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+                <!-- 실제 카드 끝 -->
+              </div>
+              <!-- DF 선수 카드 반복문 끝 -->
+            </div>
+            <div class="tab tab-pears">
+              <!-- GK 선수 카드 반복문 시작 -->
+              <div class="row justify-content-center text-center">
+                <!-- 실제 카드 시작 -->
+                {% for gk_player in gk_players %}
+                  <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+                    <a href="{% url "korea:detail" gk_player.pk %}" class="a-black-red">
+                      <div class="overlay"></div>
+                      <!-- 포지션, 사진/이름, 정보 -->
+                      <div class="d-flex flex-row justify-content-center align-items-center">
+                        <div class="gk-position-box">{{ gk_player.position }}</div>
+                        <div class="d-flex flex-column">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ gk_player.player_image.url }}" alt="선수 사진">
+                          <h2 class="text-center mt-2 fw-bold">{{ gk_player.name }}</h2>
+                        </div>
+                        <div class="d-flex flex-column text-start">
+                          <p style="font-size: 1.4rem; margin-bottom:0;">{{ gk_player.birthdate|date:'Y-m-d' }}</p>
+                          <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ gk_player.height }}cm /
+                            {{ gk_player.weight }}kg</p>
+                          <p style="font-size: 1.4rem; margin-top:0;">{{ gk_player.team }}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+                <!-- 실제 카드 끝 -->
+              </div>
+              <!-- GK 선수 카드 반복문 끝 -->
+            </div>
+          </div>
+        </div>
+        <!-- 선수 포지션 탭 끝 -->
       </div>
-      <!-- 선수 카드 영역 끝 -->
+      <!-- 선수 카드 모음 영역 끝 -->
+
     </div>
   </main>
 

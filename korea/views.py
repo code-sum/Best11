@@ -7,9 +7,19 @@ from .models import Players
 
 
 def index(request):
-    players = Players.objects.all()
-
-    context = {"players": players}
+    players = Players.objects.order_by("english_name")
+    fw_players = Players.objects.filter(position="FW")
+    mf_players = Players.objects.filter(position="MF")
+    df_players = Players.objects.filter(position="DF")
+    gk_players = Players.objects.filter(position="GK")
+    
+    context = {
+        "players": players,
+        "fw_players": fw_players,
+        "mf_players": mf_players,
+        "df_players": df_players,
+        "gk_players": gk_players
+        }
 
     return render(request, "korea/index.html", context)
 
