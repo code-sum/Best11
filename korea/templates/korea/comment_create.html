@@ -10,26 +10,32 @@
 
 {% endblock css %}
 
-{% block content %}
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="card">
-        <div>
-            {{comment_form.as_table}}
-        </div>
-    </div>
 
-    <div class="text-right">   
-        <button type="submit" id="write" class="btn btn-sm">작성하기</button>
-    </div>
-</form>
+{% block content %}
+<div class="container mt-5">
+    <form action="" method="POST" enctype="multipart/form-data" class="d-flex justify-content-center">
+        {% csrf_token %}
+        <div class="card m-0">
+            <div>
+                {{comment_form.as_table}}
+            </div>
+        </div>
+    
+        <div class="">   
+            <button type="submit" id="write" class="btn btn-sm">작성하기</button>
+        </div>
+    </form>
+</div>
 {% endblock content%}
 
 {% block js %}
 <!-- summernote 적용, 커스텀 -->
 <script>
-  $('#summernote').summernote({height: 300,  focus:true,  maxWidth:500,  
+  $('#summernote').summernote({
+    placeholder: '여기에 내용 입력하세요~ 그림파일 용량은 2MB까지입니다~',
+    height: 300,  focus:true,  maxWidth:500,  
     lang : 'ko-KR',
+    maximumImageFileSize:2000,
     callbacks: {
       onImageUpload: function(image) {
              var file = image[0];
@@ -40,8 +46,9 @@
                 $('#summernote').summernote("insertNode", image[0]);
             }
            reader.readAsDataURL(file);
-      }
-  }
+           
+      }  
+    }
  });
 </script>
 
