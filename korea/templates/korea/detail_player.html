@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
 
   <!-- 선수별 뇌피셜 페이지 -->
@@ -18,7 +17,7 @@
     <!-- 선수 정보 -->
     <div class="d-flex flex-column justify-content-center align-items-center m-0">
       <div class="player-pic-wrapper mb-5">
-        <img class="player-pic" src="{{ player.player_image.url }}" alt="선수 사진">
+        <img class="player-pic" src="{{ player.player_image }}" alt="선수 사진">
       </div>
       <h2 class="text-center fw-bold mb-0" style="font-size: 2.5rem;">
         {{ player.name }}
@@ -35,7 +34,10 @@
         </span>
       </p>
       <p style="font-size: 1.8rem;">
-        {{ player.birthdate }} / {{ player.height }}cm / {{ player.weight }}kg
+        {{ player.birthdate }}
+        /
+        {{ player.height }}cm /
+        {{ player.weight }}kg
       </p>
       <p style="font-size: 1.8rem;">
         {{ player.team }}
@@ -55,7 +57,7 @@
             <p class="text-navy fw-bold mb-4" style="font-size: 1.8rem;">{{ player.comment_set.count }}개의 피셜</p>
             <a href="{% url 'korea:comment_create' player.pk %}">
               <div class="input-group mb-3" style="height: 4.1rem;">
-                <input disabled style="background-color: white;" type="text" class="form-control" placeholder="선수에 대해 알고있는 정보를 공유해 주세요!" aria-label="피셜 작성" aria-describedby="basic-addon2">
+                <input disabled="disabled" style="background-color: white;" type="text" class="form-control" placeholder="선수에 대해 알고있는 정보를 공유해 주세요!" aria-label="피셜 작성" aria-describedby="basic-addon2">
                 <span class="input-group-text text-white d-flex justify-content-center" id="basic-addon2" style="width: 10rem; font-size: 1.6rem; background-color: #111b54;">등록</span>
               </div>
             </a>
@@ -98,41 +100,44 @@
                             </div>
                           </div>
                         </div>
-                      </div> <!-- 신고 Modal -->
+                      </div>
+                      <!-- 신고 Modal -->
                     {% endif %}
                   </div>
                 </div>
 
-                
                 <!-- 피셜 내용 -->
                 <p class="">
                   <!-- 이미지가 있으면 크기 조정-->
                   {{ comment.content | safe }}
                 </p>
               </div>
-  
+
               <!-- 좋아요 버튼 -->
               {% if request.user.is_authenticated %}
                 <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
                   {% csrf_token %}
                   {% if request.user in comment.like_users.all %}
-                      <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                        <i class="like-fficial bi bi-suit-heart-fill"></i>
-                      </button>
+                    <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                      <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart-fill"></i>
+                    </button>
                   {% else %}
                     <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                      <i class="like-fficial bi bi-suit-heart"></i>
+                      <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart"></i>
                     </button>
                   {% endif %}
                 </form>
               {% endif %}
-              
+
             </div>
           {% endfor %}
-      
-        </div> <!-- wrap -->
-      </div> <!-- col-8 -->
-    </div> <!-- 하단 채팅 레이아웃 -->
+
+        </div>
+        <!-- wrap -->
+      </div>
+      <!-- col-8 -->
+    </div>
+    <!-- 하단 채팅 레이아웃 -->
 
     <!-- 원본 -->
     <div>
@@ -151,60 +156,59 @@
       {% endif %}
 
     </div>
-    
+
     <hr>
     {% if master == "admin" %}
       <button class="btn btn-dark">
         <a href="{% url 'korea:delete' player.pk %}">선수 삭제</a>
       </button>
     {% endif %}
-  </div> <!-- container -->
-
+  </div>
+  <!-- container -->
 
   <!-- script -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>    
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 
   <script>
     // summernote 적용, 커스텀
-    $('#summernote').summernote({height: 300,  focus:true,  maxWidth:500,  
-      lang : 'ko-KR',
+    $('#summernote').summernote({
+      height: 300,
+      focus: true,
+      maxWidth: 500,
+      lang: 'ko-KR',
       callbacks: {
-        onImageUpload: function(image) {
-               var file = image[0];
-               var reader = new FileReader();
-              reader.onloadend = function() {
-                  var image = $('<img>').attr('src',  reader.result);
-                     image.attr('width','100%');
-                  $('#summernote').summernote("insertNode", image[0]);
-              }
-             reader.readAsDataURL(file);
+        onImageUpload: function (image) {
+          var file = image[0];
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            var image = $('<img>').attr('src', reader.result);
+            image.attr('width', '100%');
+            $('#summernote').summernote("insertNode", image[0]);
+          }
+          reader.readAsDataURL(file);
         }
-    }
-   });
+      }
+    });
   </script>
-  
+
   <script type="text/javascript">
     // 페이지 벗어나기 경고창
-      var checkUnload = true;
-      $(window).on('beforeunload', function () {
-          if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-      });
-      $("#write").on("click", function () {
-          checkUnload = false;
-          $("submit").submit();
-      });
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+      if (checkUnload) 
+        return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+      }
+    );
+    $("#write").on("click", function () {
+      checkUnload = false;
+      $("submit").submit();
+    });
   </script>
-  
-  <!-- <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script>
-  <script src="summernote-bs5.js"></script>
-  --> 
+
+  <!-- <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script> <script src="summernote-bs5.js"></script> -->
 
   <script>
     // 선수 응원하기
@@ -246,7 +250,6 @@
       })
   </script>
 
-  
   <script>
     // 좋아요
     const form = document.querySelectorAll('.like-form')
@@ -273,12 +276,21 @@
             })
             .then((response) => {
               const isLiked = response.data.is_liked
-              const likeBtn = document.querySelector(`#like-comment-${commentId}`)
-              console.log(likeBtn)
+              const likeBtn = document.querySelector(`#like-i-${commentId}`)
               if (isLiked === true) {
-                likeBtn.value = '좋아요 취소'
+                likeBtn
+                  .classList
+                  .remove('bi-suit-heart')
+                likeBtn
+                  .classList
+                  .add('bi-suit-heart-fill')
               } else {
-                likeBtn.value = '좋아요'
+                likeBtn
+                  .classList
+                  .remove('bi-suit-heart-fill')
+                likeBtn
+                  .classList
+                  .add('bi-suit-heart')
               }
               const likeCountTag = document.querySelector(`#like-count-${commentId}`)
               const likeCount = response.data.likeCount
