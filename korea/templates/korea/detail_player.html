@@ -2,31 +2,147 @@
 {% load static %}
 
 {% block content %}
+  <!-- 선수별 뇌피셜 페이지 -->
   <!-- <header> <script> function getCookie(name) { var cookieValue = null; if (document.cookie && document.cookie !== '') { var cookies = document.cookie.split(';'); for (var i = 0; i < cookies.length; i++) { var cookie = cookies[i].trim(); // Does this cookie string begin with the name we want? if (cookie.substring(0, name.length + 1) === (name + '=')) { cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); break; } } } return cookieValue; } var csrftoken = getCookie('csrftoken'); function csrfSafeMethod(method) { // these HTTP methods do not require CSRF protection return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method)); } $.ajaxSetup({ beforeSend: function (xhr, settings) { if (!csrfSafeMethod(settings.type) && !this.crossDomain) { xhr.setRequestHeader("X-CSRFToken", csrftoken); } } }); </script> </header> -->
-  <div class="container my-3">
-    <h1 class="text-center">{{ player.name }}
-      선수</h1>
-    <hr>
-    <br>
-    <div class="text-center">
-      <img src="{{ player.player_image }}" alt="선수 사진">
-      <p>이름 :
-        {{ player.name }}</p>
-      <p>
-        {{ player.english_name }}</p>
-      <p>등번호 :
-        {{ player.back_number }}</p>
-      <p>
-        {{ player.birthdate }}</p>
-      <p>소속 팀 :
-        {{ player.team }}</p>
-      <p>포지션 :
-        {{ player.position }}</p>
-      <p>신장 :
-        {{ player.height }}cm</p>
-      <p>몸무게 :
-        {{ player.weight }}kg</p>
+  <div class="container-css">
+    <!-- 선수 정보 -->
+    <div class="d-flex flex-column justify-content-center align-items-center m-0">
+      <!-- <button type="button" class="player-pic-wrapper mb-5 border-0" data-toggle="popover" data-bs-trigger="focus"  data-bs-custom-class="custom-popover" data-bs-content="사진을 클릭해서 선수를 응원할 수 있어요!">
+        <img class="player-pic" src="{{ player.player_image.url }}" alt="선수 사진">
+      </button> -->
+      {% if request.user.is_authenticated %}
+        <form class="like-forms" data-player-id="{{ player.pk }}">
+          {% csrf_token %}
+          {% if request.user in player.fans.all %}
+            <div class="d-flex justify-content-center">
+              <button type="submit" id="like-{{ player.pk }}" class="player-pic-wrapper-support mb-5" data-toggle="popover" data-bs-trigger="focus"  data-bs-custom-class="custom-popover" data-bs-content="내가 응원하는 선수에요!">
+                <img class="player-pic" src="{{ player.player_image.url }}" alt="선수 사진">
+              </button>
+            </div>
+          {% else %}
+          <div class="d-flex justify-content-center">
+            <button type="submit" id="like-{{ player.pk }}" class="player-pic-wrapper mb-5" data-toggle="popover" data-bs-trigger="focus"  data-bs-custom-class="custom-popover" data-bs-content="사진을 클릭해서 선수를 응원할 수 있어요!">
+              <img class="player-pic" src="{{ player.player_image.url }}" alt="선수 사진">
+            </button>
+          </div>
+          {% endif %}
+        </form>
+      {% endif %}
+      <h2 class="text-center fw-bold mb-0" style="font-size: 2.5rem;">
+        {{ player.name }}
+      </h2>
+      <p class="fw-bold mb-0" style="font-size: 2.5rem;">
+        {{ player.english_name }}
+      </p>
+      <p class="fw-bold mb-4" style="font-size: 2.5rem;">
+        <span>
+          {{ player.back_number }}
+        </span>
+        <span class="text-red">
+          {{ player.position }}
+        </span>
+      </p>
+      <p style="font-size: 1.8rem;">
+        {{ player.birthdate }} / {{ player.height }}cm / {{ player.weight }}kg
+      </p>
+      <p style="font-size: 1.8rem;">
+        {{ player.team }}
+      </p>
+      <p class="text-muted mt-4">
+        소속은 대표팀으로 선발되었을 당시 소속 입니다.
+      </p>
     </div>
+    <hr class="my-5">
+
+    <!-- 하단 채팅 레이아웃 -->
+    <div class="d-flex justify-content-center my-5">
+      <div class="col-8">
+        <div class="wrap row justify-content-center">
+          <!-- 입력창 모양 -->
+          <div class="col-11">
+            <p class="text-navy fw-bold mb-4" style="font-size: 1.8rem;">{{ player.comment_set.count }}개의 피셜</p>
+            <a href="{% url 'korea:comment_create' player.pk %}">
+              <div class="input-group mb-3" style="height: 4.1rem;">
+                <input disabled style="background-color: white;" type="text" class="form-control" placeholder="선수에 대해 알고있는 정보를 공유해 주세요!" aria-label="피셜 작성" aria-describedby="basic-addon2">
+                <span class="input-group-text text-white d-flex justify-content-center" id="basic-addon2" style="width: 10rem; font-size: 1.6rem; background-color: #111b54;">등록</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- 피셜 출력 -->
+          {% for comment in comments %}
+            <div class="chat ch1 align-items-center">
+              <div class="textbox">
+                <div class="d-flex justify-content-between mb-4">
+                  <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
+                  <div>
+                    <small class="text-muted">
+                      <i class="bi bi-suit-heart-fill" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                    </small>
+                    <small class="text-muted">|</small>
+                    <small class="text-muted">방금 전</small>
+                    <small class="text-muted">|</small>
+                    <!-- 작성자만 수정 삭제 -->
+                    {% if user.is_authenticated and comment.user == request.user %}
+                      <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+                      <small class="text-muted">|</small>
+                      <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="small text-muted">삭제</a>
+                    {% else %}
+                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal">신고</a>
+                      <!-- 신고 Modal -->
+                      <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="reportModalLabel">Modal title</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              해당 피셜을 신고하시겠어요?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div> <!-- 신고 Modal -->
+                    {% endif %}
+                  </div>
+                </div>
+
+                
+                <!-- 피셜 내용 -->
+                <p class="">
+                  <!-- 이미지가 있으면 크기 조정-->
+                  {{ comment.content | safe }}
+                </p>
+              </div>
+  
+              <!-- 좋아요 버튼 -->
+              {% if request.user.is_authenticated %}
+                <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                  {% csrf_token %}
+                  {% if request.user in comment.like_users.all %}
+                      <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                        <i class="like-fficial bi bi-suit-heart-fill"></i>
+                      </button>
+                  {% else %}
+                    <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                      <i class="like-fficial bi bi-suit-heart"></i>
+                    </button>
+                  {% endif %}
+                </form>
+              {% endif %}
+              
+            </div>
+          {% endfor %}
+      
+        </div> <!-- wrap -->
+      </div> <!-- col-8 -->
+    </div> <!-- 하단 채팅 레이아웃 -->
+
+    <!-- 원본 -->
     <div>
       <!-- 선수 응원하기 버튼(찜하기) 비동기-->
       <p>Fans :
@@ -42,60 +158,73 @@
         </form>
       {% endif %}
 
-      <p>{{ player.comment_set.count }}개의 뇌피셜이 있습니다.</p>
-      <form action="{% url 'korea:comment_create' player.pk %}">
-        <button type="submit" class="btn btn-dark my-3">뇌피셜 작성</button>
-      </form>
-
     </div>
-    {% for comment in comments %}
-      <div class='py-3'>
-        <div class="align-items-center">
-          <a class="text-decoration-none fw-bolder" style='color:gray' href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>&nbsp;&nbsp;
-          <span class="text-break">{{ comment.content | safe }}</span>
-        </div>
-
-        <!-- 좋아요 버튼 -->
-        {% if request.user.is_authenticated %}
-          <form class="like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
-            {% csrf_token %}
-            {% if request.user in comment.like_users.all %}
-              <input class='border-0' type="submit" value="좋아요취소" id="like-comment-{{ comment.pk }}">
-            {% else %}
-              <input class='border-0' type="submit" value="좋아요" id="like-comment-{{ comment.pk }}">
-            {% endif %}
-            <div class="ms-2" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</div>
-          </form>
-        {% endif %}
-
-        <!-- 요청한 유저가 뇌피셜을 작성한 유저일 경우 -->
-        {% if user.is_authenticated and comment.user == request.user %}
-          <div class="d-flex">
-            <form action="{% url 'korea:comment_update' player.pk comment.pk %}" method="GET" class="my-0">
-              {% csrf_token %}
-              <input type="submit" class="btn btn-outline-danger mt-2" value="수정">
-            </form>
-            <form action="{% url 'korea:comment_delete' player.pk comment.pk %}" method="POST" class="my-0">
-              {% csrf_token %}
-              <input type="submit" class="btn btn-outline-danger mt-2 mx-2" value="삭제">
-            </form>
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
+    
     <hr>
     {% if master == "admin" %}
       <button class="btn btn-dark">
         <a href="{% url 'korea:delete' player.pk %}">선수 삭제</a>
       </button>
     {% endif %}
-  </div>
-  <!-- 하단에 comment 내용 구현 추가 예정-->
+  </div> <!-- container -->
+
 
   <!-- script -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>    
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  <script>
+    // popovers
+      $( function () {
+        $( '[data-toggle="popover"]' ).popover()
+      } );
+
+      $(document).ready(function() {
+          $("button").popover("show");
+      });
+  </script>
 
   <script>
+    // summernote 적용, 커스텀
+    $('#summernote').summernote({height: 300,  focus:true,  maxWidth:500,  
+      lang : 'ko-KR',
+      callbacks: {
+        onImageUpload: function(image) {
+               var file = image[0];
+               var reader = new FileReader();
+              reader.onloadend = function() {
+                  var image = $('<img>').attr('src',  reader.result);
+                     image.attr('width','100%');
+                  $('#summernote').summernote("insertNode", image[0]);
+              }
+             reader.readAsDataURL(file);
+        }
+    }
+   });
+  </script>
+  
+  <script type="text/javascript">
+    // 페이지 벗어나기 경고창
+      var checkUnload = true;
+      $(window).on('beforeunload', function () {
+          if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+      });
+      $("#write").on("click", function () {
+          checkUnload = false;
+          $("submit").submit();
+      });
+  </script>
+  
+  <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script>
+  <script src="summernote-bs5.js"></script>
+
+  <script>
+    // 선수 응원하기
     const forms = document.querySelectorAll(".like-forms")
     const csrftoken = document
       .querySelector('[name=csrfmiddlewaretoken]')
@@ -134,7 +263,9 @@
       })
   </script>
 
+  
   <script>
+    // 좋아요
     const form = document.querySelectorAll('.like-form')
     console.log(form)
     const csrftokens = document

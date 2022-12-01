@@ -11,12 +11,16 @@ html {
   }
 }
 
+/* Tag */
+
 body {
   height: 100vh;
+  width: 100%;
+  font-size: 1.6rem;
 }
 
 ::selection {
-  background-color: #B52B33;
+  background-color: #b52b33;
   color: rgb(255, 255, 255);
 }
 
@@ -26,6 +30,32 @@ p {
 
 a {
   text-decoration: none;
+  font-size: 1.6rem;
+}
+
+hr {
+  text-align: center;
+  margin: auto;
+}
+
+input::placeholder {
+  font-size: 1.6rem;
+  vertical-align: middle;
+}
+
+button {
+  font-size: 1.6rem;
+}
+
+/* Class */
+
+/* text */
+.text-red {
+  color: #c82d36;
+}
+
+.text-navy {
+  color: #111b54;
 }
 
 .a-black-red {
@@ -33,12 +63,15 @@ a {
 }
 
 .a-black-red:hover {
-  color: #C82D36;
+  color: #c82d36;
 }
 
-hr {
-  text-align: center;
-  margin: auto;
+.a-navy-red {
+  color: #111b54;
+}
+
+.a-navy-red:hover {
+  color: #c82d36;
 }
 
 /* 레이아웃 정리 */
@@ -52,16 +85,13 @@ hr {
 }
 
 /* 세로선 */
-
 .updown {
   border: 0.1rem solid rgb(105, 105, 105);
   width: 0.1rem;
   height: 20rem;
 }
 
-
 /* 기본 버튼(네이비 컬러) CSS */
-
 .button {
   min-width: 150px;
   max-width: 250px;
@@ -104,7 +134,7 @@ hr {
   transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
 .button--wayra::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -116,20 +146,21 @@ hr {
   transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
   -webkit-transform-origin: 0% 100%;
   transform-origin: 0% 100%;
-  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s, background-color 0.3s;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s,
+    background-color 0.3s;
   transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
 }
 .button--wayra:hover {
   color: #fff;
-  border-color: #111B54;
+  border-color: #111b54;
 }
 .button--wayra.button--inverted:hover {
-  color: #111B54;
+  color: #111b54;
   border-color: #fff;
 }
 .button--wayra:hover::before {
   opacity: 1;
-  background-color: #111B54;
+  background-color: #111b54;
   -webkit-transform: rotate3d(0, 0, 1, 0deg);
   transform: rotate3d(0, 0, 1, 0deg);
   -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
@@ -139,40 +170,39 @@ hr {
   background-color: #fff;
 }
 
-
 /* base.html - header CSS */
 .header {
   width: 80%;
 }
 
 .header-a {
-  font-size: 2.3rem; 
+  font-size: 2.3rem;
   color: inherit;
 }
 
 /* base.html - header link under */
 .link-arrow:after {
-  content: '';
+  content: "";
   background-size: 100% 100%;
   width: 16px;
   height: 12px;
   position: absolute;
   top: 5px;
   right: -28px;
-  -webkit-transition: all .4s cubic-bezier(.35, 1, .33, 1);
-  transition: all .4s cubic-bezier(.35, 1, .33, 1)
+  -webkit-transition: all 0.4s cubic-bezier(0.35, 1, 0.33, 1);
+  transition: all 0.4s cubic-bezier(0.35, 1, 0.33, 1);
 }
 
 .link-arrow:hover:after {
-  right: -35px
+  right: -35px;
 }
 
 .link-arrow.link-arrow-white:after {
-  background-size: 100% 100%
+  background-size: 100% 100%;
 }
 
 .link-arrow-hover:after {
-  right: -35px
+  right: -35px;
 }
 
 .link {
@@ -188,48 +218,46 @@ hr {
 .link:active,
 .link:focus,
 .link:hover {
-  outline: 0
+  outline: 0;
 }
 
 .link:before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   background: #000;
   width: 0;
   height: 2px;
-  -webkit-transition: all .4s cubic-bezier(.35, 1, .33, 1);
-  transition: all .4s cubic-bezier(.35, 1, .33, 1)
+  -webkit-transition: all 0.4s cubic-bezier(0.35, 1, 0.33, 1);
+  transition: all 0.4s cubic-bezier(0.35, 1, 0.33, 1);
 }
 
 .link:hover {
-  color: #000
+  color: #000;
 }
 
 .link:hover:before {
-  width: 100%
+  width: 100%;
 }
 
 .link-theme:before {
-  background: #C82D36;
+  background: #c82d36;
 }
 
-@media only screen and (min-width:250px) {
-  .main {
-    padding-top: 150px;
-  }
-}
-  
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 250px) {
   .main {
     padding-top: 150px;
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .main {
+    padding-top: 150px;
+  }
+}
 
 /* base.html - header box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1); */
-
 .header {
   background-color: rgba(255, 255, 255, 0.725);
   position: fixed;
@@ -267,19 +295,16 @@ hr {
   text-decoration: none;
 }
 
-
 /* base.html - header menu */
-
 .header .menu {
   margin-top: 10px;
   font-size: 1.2rem;
   clear: both;
   max-height: 0;
-  transition: max-height .2s ease-out;
+  transition: max-height 0.2s ease-out;
 }
 
 /* base.html - header menu icon */
-
 .header .menu-icon {
   cursor: pointer;
   display: inline-block;
@@ -295,18 +320,18 @@ hr {
   display: block;
   height: 3px;
   position: relative;
-  transition: background .2s ease-out;
+  transition: background 0.2s ease-out;
   width: 18px;
 }
 
 .header .menu-icon .navicon:before,
 .header .menu-icon .navicon:after {
   background: #333;
-  content: '';
+  content: "";
   display: block;
   height: 100%;
   position: absolute;
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
   width: 100%;
 }
 
@@ -318,9 +343,7 @@ hr {
   top: -5px;
 }
 
-
 /* base.html - header menu btn */
-
 .header .menu-btn {
   display: none;
 }
@@ -346,9 +369,7 @@ hr {
   top: 0;
 }
 
-
 /* base.html - header 48em = 768px */
-
 @media (min-width: 875px) {
   .header li {
     float: left;
@@ -368,7 +389,6 @@ hr {
 }
 
 /* base.html - header 48em = 768px */
-
 @media (min-width: 48em) {
   .section-split a {
     width: 50%;
@@ -376,7 +396,6 @@ hr {
 }
 
 /* base.html - Ball CSS */
-
 .ball-and-shadow {
   float: right;
   margin-top: 15rem;
@@ -409,22 +428,20 @@ hr {
 }
 
 /* base.html - container-css */
-
 .container-css {
   padding-top: 10rem;
   margin-bottom: 10rem;
 }
 
-
 /* base.html - footer 하단 고정 */
 #wrapper {
   height: auto;
   min-height: 100%;
-  padding-bottom: 31.1rem;
+  padding-bottom: 31.4rem;
 }
 
 footer {
-  height: 31.1rem;
+  height: 31.4rem;
   position: relative;
   transform: translateY(-100%);
   background-color: #f6f6f6;
@@ -433,44 +450,135 @@ footer {
 /* base.html - Top 버튼 */
 #hexagon {
   background-color: #111b54;
-  height: 7rem;
-  width: 7.5rem;
+  height: 6rem;
+  width: 6.5rem;
   clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
-
 /* korea/index.html - 인트로 동영상 */
-
 .jb-container {
-  padding: 0px; 
+  padding: 0px;
   margin: 0px;
 }
 
 .jb-box {
-  width: 100%; 
-  height: auto; 
+  width: 100%;
+  height: auto;
   overflow: hidden;
-  position: relative; 
+  position: relative;
 }
 
 video {
-  width: 100%; }
-
+  width: 100%;
+}
 
 /* korea/index.html main 태그 내부 div */
-
 .under-main {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-
 /* korea/index.html 대한민국 카드 */
-
 .korea-card {
   width: 50rem;
   background-color: #f6f6f6;
   padding: 5rem;
   margin: 1.5rem;
+}
+
+/* korea/detail.html */
+
+/* 선수 프로필사진 */
+.player-pic-wrapper {
+  width: 23rem;
+  height: 23rem;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.player-pic-wrapper-support {
+  width: 23rem;
+  height: 23rem;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.player-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 응원 popovers */
+.custom-popover {
+  --bs-popover-max-width: 20rem;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: 0.5rem;
+  font-size: 1.6rem;
+  border: 1px solid #c82d36;
+}
+.popover-arrow::before {
+  border-right-color: #c82d36 !important;
+}
+
+/* 채팅창 디자인 */
+.wrap {
+  padding: 4rem 0;
+  background-color: #f6f6f6;
+  /* border: 1px solid #111b545b; */
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.wrap .chat {
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem;
+  max-width: calc(100% - 0.5rem);
+}
+
+.wrap .chat .textbox {
+  position: relative;
+  /* 말풍선은 텍스트의 양에 따라 크기가 달라져야 하기에 display: inline-block;
+  인라인 속성이면 크기가 사라지기 때문에 상하 마진이나 패딩이 먹히지 않는다.
+  div의 기본값인 block 상태 => 텍스트의 양과 상관 없이 늘 최대 가로 사이즈가 100%로 적용 */
+  display: inline-block;
+  max-width: calc(100% - 0.5rem);
+  min-width: 40rem;
+  padding: 1.5rem;
+  font-size: 1.6rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.8px;
+}
+
+.wrap .chat .textbox::before {
+  position: absolute;
+  display: block;
+  top: 0;
+  font-size: 1.6rem;
+}
+
+.wrap .ch1 .textbox {
+  margin-left: 2rem;
+  background-color: white;
+}
+
+.wrap .ch1 .textbox::before {
+  left: -1.3rem;
+  content: "◀";
+  color: white;
+}
+
+/* 아이콘 */
+.like-fficial {
+  color: #c82d36;
+  font-size: 2rem;
 }
