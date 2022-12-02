@@ -292,7 +292,7 @@ button {
   z-index: 3;
   margin-top: 0;
   margin-right: 10%;
-  padding: 3rem 15rem;
+  padding: 3rem 9rem;
 }
 
 .header ul {
@@ -425,8 +425,8 @@ button {
 /* base.html - Ball CSS */
 .ball-and-shadow {
   float: right;
-  margin-top: 15rem;
-  margin-right: 14rem;
+  margin-top: 20rem;
+  margin-right: 10rem;
   cursor: pointer;
 }
 
@@ -459,6 +459,17 @@ button {
   padding-top: 10rem;
   margin-bottom: 10rem;
 }
+
+/* base.html  .scrollToTop  */
+.scrollToTop {
+  z-index: 2;
+  all: unset;
+  cursor: pointer;
+  position: fixed;
+  right: 8rem;
+  bottom: 9rem;
+}
+
 
 /* base.html - footer 하단 고정 */
 #wrapper {
@@ -519,7 +530,7 @@ video {
 
 .position-tab {
   height: 100%;
-  width: 100%;
+  width: 50rem;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
@@ -661,7 +672,7 @@ label[for="toggle-pears"] {
   }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 300px) {
   .text-title {
     display: inline-block;
     vertical-align: middle;
