@@ -100,7 +100,7 @@ def follow(request, pk):
         else:
             accounts.followers.add(request.user)
             is_followed = True
-            accounts.exp += 50
+            accounts.exp += 1
             accounts.save()
         context = {
             "is_Followed": is_followed,
