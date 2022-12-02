@@ -40,7 +40,7 @@ def login(request):
         if form.is_valid():
             auth_login(request, form.get_user())
             # 주소 수정 필요
-            return redirect(request.GET.get("next") or "korea:index")
+            return redirect("korea:index")
     else:
         form = AuthenticationForm()
     context = {
