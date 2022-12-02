@@ -529,8 +529,8 @@ video {
 /* korea/index.html 선수 포지션 탭 */
 
 .position-tab {
-  height: 100%;
-  width: 50rem;
+  height: auto;
+  width: auto;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
