@@ -17,7 +17,7 @@ def index(request):
     return render(request, "accounts/index.html", context)
 
 
-# 회원가입
+# 회원가입 
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
