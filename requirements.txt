@@ -22,6 +22,7 @@ django-cors-headers==3.13.0
 django-debug-toolbar==3.7.0
 django-extensions==3.2.1
 django-imagekit==4.1.0
+django-multiselectfield==0.1.12
 django-shortcuts==1.6
 django-summernote==0.8.20.0
 django-widget-tweaks==1.4.12
