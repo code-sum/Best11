@@ -170,6 +170,33 @@ button {
   background-color: #fff;
 }
 
+.btn {
+  font-size: 1.6rem;
+}
+
+.btn-navy {
+  color: white;
+  background-color: #111b54;
+  border: 1px solid #111b54;
+}
+.btn-navy:hover {
+  color: white;
+  background-color: #090e2b;
+  border: 1px solid #090e2b;
+}
+
+.btn-outline-navy {
+  color: #111b54;
+  background-color: white;
+  border: 1px solid #111b54;
+}
+.btn-outline-navy:hover {
+  color: #111b54;
+  font-weight: 550;
+  background-color: white;
+  border: 1px solid #111b54;
+}
+
 /* base.html - header CSS */
 .header {
   width: 80%;
@@ -506,13 +533,13 @@ video {
   font-size: 1.5rem;
 }
 
-input[name=tabs] {
+input[name="tabs"] {
   float: left;
   opacity: 0;
   position: absolute;
 }
 
-input[name=tabs] ~ label {
+input[name="tabs"] ~ label {
   padding: 1em;
   width: 20%;
   float: left;
@@ -521,10 +548,10 @@ input[name=tabs] ~ label {
   transition: background 0.3s;
   font-weight: bold;
 }
-input[name=tabs] ~ label:hover {
+input[name="tabs"] ~ label:hover {
   background: #d9d9d9;
 }
-input[name=tabs] ~ label:focus {
+input[name="tabs"] ~ label:focus {
   outline: 0;
 }
 
@@ -535,92 +562,92 @@ input[name=tabs] ~ label:focus {
   padding: 8rem 1rem 1rem;
 }
 
-label[for=toggle-apples] {
-  border-top: 0.8rem solid #B52B33;
-  background: #FFF;
+label[for="toggle-apples"] {
+  border-top: 0.8rem solid #b52b33;
+  background: #fff;
   text-transform: uppercase;
 }
 
 #toggle-apples:checked ~ .tab-apples {
   display: block;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
-#toggle-apples:checked ~ label[for=toggle-apples] {
+#toggle-apples:checked ~ label[for="toggle-apples"] {
   cursor: default;
-  background: #F6F6F6;
-  color: #B52B33;
+  background: #f6f6f6;
+  color: #b52b33;
 }
 
-label[for=toggle-bananas] {
+label[for="toggle-bananas"] {
   border-top: 0.8rem solid #aac706;
-  background: #FFF;
+  background: #fff;
   border-left: 0.1rem solid #7e7e7e;
   text-transform: uppercase;
 }
 
 #toggle-bananas:checked ~ .tab-bananas {
   display: block;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
-#toggle-bananas:checked ~ label[for=toggle-bananas] {
+#toggle-bananas:checked ~ label[for="toggle-bananas"] {
   cursor: default;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #aac706;
 }
 
-label[for=toggle-cherries] {
+label[for="toggle-cherries"] {
   border-top: 0.8rem solid #15c68e;
-  background: #FFF;
+  background: #fff;
   border-left: 0.1rem solid #7e7e7e;
   text-transform: uppercase;
 }
 
 #toggle-cherries:checked ~ .tab-cherries {
   display: block;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
-#toggle-cherries:checked ~ label[for=toggle-cherries] {
+#toggle-cherries:checked ~ label[for="toggle-cherries"] {
   cursor: default;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #15c68e;
 }
 
-label[for=toggle-oranges] {
+label[for="toggle-oranges"] {
   border-top: 0.8rem solid #14a3bb;
-  background: #FFF;
+  background: #fff;
   border-left: 0.1rem solid #7e7e7e;
   text-transform: uppercase;
 }
 
 #toggle-oranges:checked ~ .tab-oranges {
   display: block;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
-#toggle-oranges:checked ~ label[for=toggle-oranges] {
+#toggle-oranges:checked ~ label[for="toggle-oranges"] {
   cursor: default;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #14a3bb;
 }
 
-label[for=toggle-pears] {
+label[for="toggle-pears"] {
   border-top: 0.8rem solid #776eef;
-  background: #FFF;
+  background: #fff;
   border-left: 0.1rem solid #7e7e7e;
   text-transform: uppercase;
 }
 
 #toggle-pears:checked ~ .tab-pears {
   display: block;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
-#toggle-pears:checked ~ label[for=toggle-pears] {
+#toggle-pears:checked ~ label[for="toggle-pears"] {
   cursor: default;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: #776eef;
 }
 
@@ -641,7 +668,6 @@ label[for=toggle-pears] {
   }
 }
 
-
 /* korea/index.html player-card */
 
 .player-card {
@@ -650,13 +676,13 @@ label[for=toggle-pears] {
   padding: 4rem;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 14px 26px rgba(0,0,0,0.04);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease-out;
 }
 
 .player-card:hover {
   transform: translateY(-5px) scale(1.005) translateZ(0);
-  box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11),
     0 24px 46px var(--box-shadow-color);
 }
 
@@ -664,11 +690,10 @@ label[for=toggle-pears] {
   transform: scale(4) translateZ(0);
 }
 
-
 /* korea/index.html position-color */
 
 .position-color {
-  --bg-color: #B52B33;
+  --bg-color: #b52b33;
   --bg-color-light: #d37679;
   --text-color-hover: #fff;
   --box-shadow-color: rgba(252, 178, 178, 0.48);
@@ -679,7 +704,7 @@ label[for=toggle-pears] {
 .overlay {
   width: auto;
   height: auto;
-  position: absolute; 
+  position: absolute;
   border-radius: 50%;
   background: var(--bg-color);
   top: auto;
@@ -691,37 +716,37 @@ label[for=toggle-pears] {
 /* korea/index.html position-box */
 
 .position-box {
-  background-color: #B52B33;
+  background-color: #b52b33;
   padding: 1rem;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
 }
 
 .fw-position-box {
   background-color: #aac706;
   padding: 1rem;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
 }
 
 .mf-position-box {
   background-color: #15c68e;
   padding: 1rem;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
 }
 
 .df-position-box {
   background-color: #14a3bb;
   padding: 1rem;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
 }
 
 .gk-position-box {
   background-color: #776eef;
   padding: 1rem;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
 }
 

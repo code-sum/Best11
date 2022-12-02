@@ -17,7 +17,7 @@
     <!-- 선수 정보 -->
     <div class="d-flex flex-column justify-content-center align-items-center m-0">
       <div class="player-pic-wrapper mb-5">
-        <img class="player-pic" src="{{ player.player_image }}" alt="선수 사진">
+        <img class="player-pic" src="{{ player.player_image.url }}" alt="선수 사진">
       </div>
       <h2 class="text-center fw-bold mb-0" style="font-size: 2.5rem;">
         {{ player.name }}
@@ -45,8 +45,21 @@
       <p class="text-muted mt-4">
         소속은 대표팀으로 선발되었을 당시 소속 입니다.
       </p>
+      <!-- 응원하기 버튼 -->
+      <div>
+        {% if request.user.is_authenticated %}
+          <form class="like-forms d-flex justify-content-center" data-player-id="{{ player.pk }}">
+            {% csrf_token %}
+            {% if request.user in player.fans.all %}
+              <input type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}" value="응원취소">
+            {% else %}
+              <input type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}" value="응원하기">
+            {% endif %}
+          </form>
+        {% endif %}
+        <small><span id="like-count">{{player.fans.all|length}}</span>명이 응원해요</small>
+      </div>
     </div>
-    <hr class="my-5">
 
     <!-- 하단 채팅 레이아웃 -->
     <div class="d-flex justify-content-center my-5">
@@ -74,7 +87,33 @@
                       <i class="bi bi-suit-heart-fill" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
                     </small>
                     <small class="text-muted">|</small>
-                    <small class="text-muted">방금 전</small>
+                    <small class="text-muted">
+                      {% if comment.created_string == False %}
+                        <span>{{ comment.created|date:'m월 d일' }}</span>
+                      {% else %}
+                        <span>{{ comment.created_string }}</span>
+                      {% endif %}
+                    </small>
+
+                    <!-- {% if comment.is_updated == False %}
+                      <small class="text-muted">
+                        {% if comment.created_string == False %}
+                          {{ comment.created_at|date:'Y.m.d' }}
+                        {% else %}
+                          {{ comment.created_string }}
+                        {% endif %}
+                      </small>
+                    {% else %}
+                      <small class="text-muted">
+                        {% if comment.created_string == False %}
+                          {{ comment.updated_at|date:'Y.m.d' }}
+                        {% else %}
+                          {{ comment.created_string }}
+                        {% endif %}
+                        (수정됨)
+                      </small>
+                    {% endif %} -->
+                    
                     <small class="text-muted">|</small>
                     <!-- 작성자만 수정 삭제 -->
                     {% if user.is_authenticated and comment.user == request.user %}
@@ -85,18 +124,17 @@
                       <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal">신고</a>
                       <!-- 신고 Modal -->
                       <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="reportModalLabel">Modal title</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
+                        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                          <div class="modal-content" style="width: 40rem; height: rem;">
+                              <div class="d-flex justify-content-end my-4">
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                            <div class="modal-body text-center">
                               해당 피셜을 신고하시겠어요?
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary">Save changes</button>
+                            <div class="d-flex justify-content-center my-4">
+                              <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                              <button type="button" class="btn btn-outline-navy ms-2">신고하기</button>
                             </div>
                           </div>
                         </div>
@@ -138,33 +176,7 @@
       <!-- col-8 -->
     </div>
     <!-- 하단 채팅 레이아웃 -->
-
-    <!-- 원본 -->
-    <div>
-      <!-- 선수 응원하기 버튼(찜하기) 비동기-->
-      <p>Fans :
-        <span id="like-count">{{player.fans.all|length}}</span></p>
-      {% if request.user.is_authenticated %}
-        <form class="like-forms" data-player-id="{{ player.pk }}">
-          {% csrf_token %}
-          {% if request.user in player.fans.all %}
-            <input type="submit" class="btn btn-dark my-3" id="like-{{ player.pk }}" value="응원 취소">
-          {% else %}
-            <input type="submit" class="btn btn-dark my-3" id="like-{{ player.pk }}" value="응원 해요">
-          {% endif %}
-        </form>
-      {% endif %}
-
-    </div>
-
-    <hr>
-    {% if master == "admin" %}
-      <button class="btn btn-dark">
-        <a href="{% url 'korea:delete' player.pk %}">선수 삭제</a>
-      </button>
-    {% endif %}
-  </div>
-  <!-- container -->
+  </div> <!-- container -->
 
   <!-- script -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -238,9 +250,9 @@
               const isLikeds = response.data.is_likeds
               const likeBtn = document.querySelector(`#like-${playerId}`)
               if (isLikeds === true) {
-                likeBtn.value = "응원 취소"
+                likeBtn.value = "응원취소"
               } else {
-                likeBtn.value = "응원 해요"
+                likeBtn.value = "응원하기"
               }
               const likeCountTag = document.querySelector('#like-count')
               const likeCount = response.data.like_count
@@ -267,6 +279,7 @@
             .target
             .dataset
             .commentId
+
             axios({
               method: 'post',
               url: `/korea/detail/${playerId}/${commentId}/likes/`,
