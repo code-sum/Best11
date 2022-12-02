@@ -15,14 +15,13 @@
 <div class="container mt-5">
     <form action="" method="POST" enctype="multipart/form-data" class="d-flex justify-content-center">
         {% csrf_token %}
-        <div class="card m-0">
+        <div>
             <div>
                 {{comment_form.as_table}}
             </div>
-        </div>
-    
-        <div class="">   
-            <button type="submit" id="write" class="btn btn-sm">작성하기</button>
+            <div class="d-flex justify-content-center">
+                <button type="submit" id="write" class="button button--wayra button--border-thick button--text-upper button--size-s m-0">피셜 등록</button>
+            </div>
         </div>
     </form>
 </div>
