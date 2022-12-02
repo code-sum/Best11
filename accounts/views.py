@@ -24,7 +24,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect("accounts:index")
+            return redirect("korea:index")
     else:
         form = CustomUserCreationForm()
     context = {
