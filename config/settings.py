@@ -191,9 +191,8 @@ AUTH_USER_MODEL = "accounts.User"
 #     }
 # }
 
-# DEBUG = os.getenv("DEBUG") == "True"
-
-DEBUG = False
+DEBUG = os.getenv("DEBUG") == "True"
+# DEBUG = False
 
 if DEBUG: 
     MEDIA_URL = "/media/"
