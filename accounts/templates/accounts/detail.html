@@ -102,29 +102,32 @@
     </div>
   </div>
 
-  <div class="container my-3">
-    {% if user.profile_image %}
-      <div class="d-flex justify-content-center">
+  <div class="container my-3" style="padding-top: 10rem;">
+    <div class="d-flex justify-content-center">
+      {% if user.profile_image %}
         <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
       {% else %}
-        <img src="{% static 'images/ddung.jpg' %}" alt="정적이미지테스트" class="account-detail-img">
+        <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
       {% endif %}
     </div>
-    <br><br>
-    <h1 class="text-center">{{ user }}</h1><br>
+    <h1 style="font-size: 4rem;" class="text-center mt-5">{{ user }}</h1><br>
     <div class="counts d-flex justify-content-center mb-3 flex-row-reverse">
-      <div class="">
-        <p class="fs-6 text-center" data-bs-target="#followerModal" data-bs-toggle="modal">
-          팔로워
-          <span class="ms-2 fw-bold" id="followers-count">
-            {{ user.followers.count }}
-          </span>
-        </p>
-        <p class="fs-6 text-center" data-bs-target="#followingModal" data-bs-toggle="modal">팔로잉
-          <span class="ms-2 fw-bold" id="followings-count">
-            {{ user.followings.count }}
-          </span>
-        </p>
+      <div class="d-flex flex-row">
+        <div class="me-5">
+          <p style="cursor: pointer; font-size: 2rem;" class="text-center" data-bs-target="#followerModal" data-bs-toggle="modal">
+            팔로워
+            <span class="ms-2 fw-bold" id="followers-count">
+              {{ user.followers.count }}
+            </span>
+          </p>
+        </div>
+        <div>
+          <p style="cursor: pointer; font-size: 2rem;" class="text-center" data-bs-target="#followingModal" data-bs-toggle="modal">팔로잉
+            <span class="ms-2 fw-bold" id="followings-count">
+              {{ user.followings.count }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
     {% if request.user != user %}
@@ -197,14 +200,16 @@
           {% for like in user.like_player.all %}
             <!-- 응원하는 선수 Card -->
             <div class="card my-4 mx-3 col-1 col-sm-2 col-md-6 col-lg-12" style="width:20%; border-radius:3rem; border-color: rgb(155, 149, 149); box-shadow:1rem 3rem 3rem 1.5rem rgba(141, 88, 88, 0.687)">
-              <img src="{{ like.player_image }}" class="card-img-top" style='border-radius:3rem 3rem 0 0; object-fit: contain;' alt="player image">
-              <div class="card-body">
-                <p class="card-text text-center fw-bolder">{{ like.name }}
-                  {{ like.english_name }}
-                </p>
-                <p class="card-text text-center fw-bolder">{{ like.team }}</p>
-                <p class="card-text text-center fw-bolder">{{ like.position }}</p>
-              </div>
+              <a href="{% url "korea:detail" like.pk %}" class="a-black-red">
+                <img src="{{ like.player_image }}" class="card-img-top" style='border-radius:3rem 3rem 0 0; object-fit: contain;' alt="player image">
+                <div class="card-body">
+                  <p class="card-text text-center fw-bolder">{{ like.name }}
+                    {{ like.english_name }}
+                  </p>
+                  <p class="card-text text-center fw-bolder">{{ like.team }}</p>
+                  <p class="card-text text-center fw-bolder">{{ like.position }}</p>
+                </div>
+              </a>
             </div>
           {% endfor %}
         {% else %}

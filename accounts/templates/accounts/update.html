@@ -2,15 +2,19 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">개인 정보 수정</h2>
-<div class='d-flex justify-content-center col-6 m-auto'>
-    <div style="border-top:0.1rem solid black;" class="mt-2">
-        <form action="" method="POST" enctype="multipart/form-data" class="mt-5" >
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            {% bootstrap_button button_type="submit" content="수정" class='' style='background-color:#111b54; border-color:#111b54;' %}
-            <a href="{% url 'accounts:delete' %}" type="button" class="btn float-end text-muted" style="border-color:#111b54;">탈퇴</a>
+  <div style="padding-top:15rem;">
+    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">개인 정보 수정</h2>
+    <div class='d-flex justify-content-center col-6 m-auto'>
+      <div style="border-top:0.1rem solid black;" class="mt-2">
+        <form action="" method="POST" enctype="multipart/form-data" class="mt-5">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">수정완료</button>
+          </div>
+          <a href="{% url 'accounts:delete' %}" type="button" class="btn float-end text-muted" style="border-color:#111b54;">탈퇴</a>
         </form>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock content %}

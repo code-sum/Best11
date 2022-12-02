@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-<h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">로그인</h2>
-<div class='d-flex justify-content-center col-6 m-auto'>
-  <div style="border-top:0.1rem solid black;" class="mt-2">
-    <form action="" method="POST" class="mt-5">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">로그인</button>
-    </form>
+  <div style="padding-top: 20rem;">
+    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">로그인</h2>
+    <div class='d-flex justify-content-center col-6 m-auto'>
+      <div style="border-top:0.1rem solid black;" class="mt-2">
+        <form action="" method="POST" class="mt-5">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">로그인</button>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
 {% endblock content %}
