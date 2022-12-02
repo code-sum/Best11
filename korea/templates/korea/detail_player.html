@@ -57,13 +57,14 @@
             {% endif %}
           </form>
         {% endif %}
-        <small><span id="like-count">{{player.fans.all|length}}</span>명이 응원해요</small>
+        <small>
+          <span id="like-count">{{player.fans.all|length}}</span>명이 응원해요</small>
       </div>
     </div>
 
     <!-- 하단 채팅 레이아웃 -->
     <div class="d-flex justify-content-center my-5">
-      <div class="col-8">
+      <div class="col-8" style="width: 50rem;">
         <div class="wrap row justify-content-center">
           <!-- 입력창 모양 -->
           <div class="col-11">
@@ -95,25 +96,8 @@
                       {% endif %}
                     </small>
 
-                    <!-- {% if comment.is_updated == False %}
-                      <small class="text-muted">
-                        {% if comment.created_string == False %}
-                          {{ comment.created_at|date:'Y.m.d' }}
-                        {% else %}
-                          {{ comment.created_string }}
-                        {% endif %}
-                      </small>
-                    {% else %}
-                      <small class="text-muted">
-                        {% if comment.created_string == False %}
-                          {{ comment.updated_at|date:'Y.m.d' }}
-                        {% else %}
-                          {{ comment.created_string }}
-                        {% endif %}
-                        (수정됨)
-                      </small>
-                    {% endif %} -->
-                    
+                    <!-- {% if comment.is_updated == False %} <small class="text-muted"> {% if comment.created_string == False %} {{ comment.created_at|date:'Y.m.d' }} {% else %} {{ comment.created_string }} {% endif %} </small> {% else %} <small class="text-muted"> {% if comment.created_string == False %} {{ comment.updated_at|date:'Y.m.d' }} {% else %} {{ comment.created_string }} {% endif %} (수정됨) </small> {% endif %} -->
+
                     <small class="text-muted">|</small>
                     <!-- 작성자만 수정 삭제 -->
                     {% if user.is_authenticated and comment.user == request.user %}
@@ -126,9 +110,9 @@
                       <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                           <div class="modal-content" style="width: 40rem; height: rem;">
-                              <div class="d-flex justify-content-end my-4">
-                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
+                            <div class="d-flex justify-content-end my-4">
+                              <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
                             <div class="modal-body text-center">
                               해당 피셜을 신고하시겠어요?
                             </div>
@@ -176,7 +160,8 @@
       <!-- col-8 -->
     </div>
     <!-- 하단 채팅 레이아웃 -->
-  </div> <!-- container -->
+  </div>
+  <!-- container -->
 
   <!-- script -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
