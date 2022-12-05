@@ -196,6 +196,11 @@ button {
   background-color: #090e2b;
   border: 1px solid #090e2b;
 }
+.btn-navy:focus {
+  color: white;
+  background-color: #111b54;
+  border: 1px solid #111b54;
+}
 
 .btn-outline-navy {
   color: #111b54;
@@ -205,6 +210,11 @@ button {
 .btn-outline-navy:hover {
   color: #111b54;
   font-weight: 550;
+  background-color: white;
+  border: 1px solid #111b54;
+}
+.btn-outline-navy:focus {
+  color: #111b54;
   background-color: white;
   border: 1px solid #111b54;
 }
