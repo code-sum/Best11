@@ -53,9 +53,9 @@
           <form class="like-forms d-flex justify-content-center" data-player-id="{{ player.pk }}">
             {% csrf_token %}
             {% if request.user in player.fans.all %}
-              <input type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}" value="응원취소">
+              <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">응원취소</button>
             {% else %}
-              <input type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}" value="응원하기">
+              <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">응원하기</button>
             {% endif %}
           </form>
         {% endif %}
@@ -233,13 +233,24 @@
               }
             })
             .then((response) => {
-              console.log(response.data)
               const isLikeds = response.data.is_likeds
-              const likeBtn = document.querySelector(`#like-${playerId}`)
+              const likeBtnp = document.querySelector(`#like-${playerId}`)
               if (isLikeds === true) {
-                likeBtn.value = "응원취소"
+                likeBtnp
+                  .classList
+                  .remove('btn-navy')
+                likeBtnp
+                  .classList
+                  .add('btn-outline-navy')
+                likeBtnp.innerText = "응원취소"
               } else {
-                likeBtn.value = "응원하기"
+                likeBtnp
+                  .classList
+                  .remove('btn-outline-navy')
+                likeBtnp
+                  .classList
+                  .add('btn-navy')
+                likeBtnp.innerText = "응원하기"
               }
               const likeCountTag = document.querySelector('#like-count')
               const likeCount = response.data.like_count
