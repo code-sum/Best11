@@ -38,8 +38,20 @@ hr {
   margin: auto;
 }
 
+input {
+  width: auto;
+  height: 5rem;
+  font-size: 2rem;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 1rem;
+  background-color: rgb(172, 172, 172);
+}
+
 input::placeholder {
-  font-size: 1.6rem;
+  padding-left: 1rem;
+  font-size: 2rem;
   vertical-align: middle;
 }
 

@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <div style="padding-top: 20rem;">
-    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">로그인</h2>
+  <div style="padding-top: 15rem;">
+    <h1 style="font-size: 3rem; padding-bottom: 2rem;" class="fw-bold text-center">로그인</h1>
     <div class='d-flex justify-content-center col-6 m-auto'>
       <div style="border-top:0.1rem solid black;" class="mt-2">
-        <form action="" method="POST" class="mt-5">
+        <form action="" method="POST" style="margin-top: 5rem;">
           {% csrf_token %}
           {% bootstrap_form form %}
-          <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">로그인</button>
+          <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s" style="margin-top: 2rem; margin-bottom: 5rem;">로그인</button>
         </form>
+        <hr class="my-5">
+        <div class="text-center">
+          <p class="text-muted">아직 회원이 아니신가요?</p>
+          <a href="{% url 'accounts:signup' %}" class="button button--wayra button--border-thick button--text-upper button--size-s" style="margin-top: 2rem;">회원가입</a>
+        </div>
       </div>
     </div>
   </div>
