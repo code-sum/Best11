@@ -108,8 +108,8 @@ button {
   min-width: 150px;
   max-width: 250px;
   display: block;
-  margin: 1em;
-  padding: 1em 2em;
+  margin: 0.5rem;
+  padding: 1rem 2rem;
   border: none;
   background: none;
   color: inherit;
@@ -179,6 +179,52 @@ button {
   transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
 .button--wayra.button--inverted:hover::before {
+  background-color: #fff;
+}
+
+/* 기본 버튼(레드 컬러) CSS */
+.red-button--wayra {
+  overflow: hidden;
+  width: 245px;
+  -webkit-transition: border-color 0.3s, color 0.3s;
+  transition: border-color 0.3s, color 0.3s;
+  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.red-button--wayra::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  background: #37474f;
+  z-index: -1;
+  -webkit-transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+  transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+  -webkit-transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s,
+    background-color 0.3s;
+  transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+}
+.red-button--wayra:hover {
+  color: #fff;
+  border-color: #c82d36;
+}
+.red-button--wayra.button--inverted:hover {
+  color: #c82d36;
+  border-color: #fff;
+}
+.red-button--wayra:hover::before {
+  opacity: 1;
+  background-color: #c82d36;
+  -webkit-transform: rotate3d(0, 0, 1, 0deg);
+  transform: rotate3d(0, 0, 1, 0deg);
+  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.red-button--wayra.button--inverted:hover::before {
   background-color: #fff;
 }
 
@@ -492,19 +538,61 @@ button {
   bottom: 9rem;
 }
 
-
 /* base.html - footer 하단 고정 */
 #wrapper {
   height: auto;
   min-height: 100%;
-  padding-bottom: 31.4rem;
 }
 
 footer {
-  height: 31.4rem;
   position: relative;
-  transform: translateY(-100%);
   background-color: #f6f6f6;
+}
+
+/* Responsive Footer */
+.footer-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.footer-content h4 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3rem;
+  margin-bottom: 2rem;
+  color: #111b54;
+}
+
+.footer-content a {
+  max-width: 50rem;
+  margin: 0.5rem 1rem;
+}
+.footer-content a:hover {
+  color: #c82d36;
+}
+
+.footer-bottom {
+  background: #f6f6f6;
+  width: 100vw;
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer-bottom small {
+  word-spacing: 0.2rem;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .footer-content {
+    display: flex;
+    margin-top: 0.1rem;
+    margin-bottom: 0.2rem;
+  }
 }
 
 /* base.html - Top 버튼 */
