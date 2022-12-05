@@ -58,8 +58,8 @@ class Comment(models.Model):  # 선수 한 명에 대한 뇌피셜
             return str(int(time.seconds / 60)) + '분 전'
         elif time < timedelta(days=1):
             return str(int(time.seconds / 3600)) + '시간 전'
-        # elif time < timedelta(days=2):
-        #     time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
-        #     return str(time.days) + '일 전'
+        elif time < timedelta(days=2):
+            time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
+            return str(time.days) + '일 전'
         else:
             return False
