@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1", 
+    "127.0.0.1",
     "localhost",
     "best11kdt-env.eba-m22kfyhv.ap-northeast-2.elasticbeanstalk.com",
 ]
@@ -38,10 +39,11 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    "storages", # 12/02 등록(이수경)
+    "storages",  # 12/02 등록(이수경)
     "imagekit",  # 11/27 등록(이수경)
     "korea",  # 11/27 등록(이수경)
     "accounts",  # 11/27 등록(이수경)
+    "sns",  # 12월5일(주세환)
     "django_bootstrap5",  # 11/27 등록(이수경)
     "django_cleanup.apps.CleanupConfig",  # 11/27 등록(이수경) - 글이 삭제되었을 때 로컬에 남은 이미지들도 삭제될 수 있게 처리
     "django_summernote",  # 11/28 등록(차화영)
@@ -69,9 +71,9 @@ CORS_ORIGIN_WHITELIST = ["http://127.0.0.1:8000", "http://localhost:8000"]
 CORS_ALLOW_CREDENTIALS = True
 
 SUMMERNOTE_CONFIG = {
-    'summernote': {
-        'width': '100%',
-        'height': '480',
+    "summernote": {
+        "width": "100%",
+        "height": "480",
     }
 }
 
@@ -194,17 +196,17 @@ AUTH_USER_MODEL = "accounts.User"
 DEBUG = os.getenv("DEBUG") == "True"
 # DEBUG = False
 
-if DEBUG: 
+if DEBUG:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "images"
     DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
-else:   
+else:
     # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     DEFAULT_FILE_STORAGE = "config.storages.MediaStorage"
 
@@ -220,10 +222,10 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DATABASE_NAME"), # .env 파일에 value 작성
+            "NAME": os.getenv("DATABASE_NAME"),  # .env 파일에 value 작성
             "USER": "postgres",
-            "PASSWORD": os.getenv("DATABASE_PASSWORD"), # .env 파일에 value 작성
-            "HOST": os.getenv("DATABASE_HOST"), # .env 파일에 value 작성
+            "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # .env 파일에 value 작성
+            "HOST": os.getenv("DATABASE_HOST"),  # .env 파일에 value 작성
             "PORT": "5432",
         }
     }

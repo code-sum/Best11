@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .forms import PlayersForm, CommentForm
 from .models import Players
+from sns.models import Sns
 
 
 def index(request):
@@ -12,14 +13,14 @@ def index(request):
     mf_players = Players.objects.filter(position="MF")
     df_players = Players.objects.filter(position="DF")
     gk_players = Players.objects.filter(position="GK")
-    
+
     context = {
         "players": players,
         "fw_players": fw_players,
         "mf_players": mf_players,
         "df_players": df_players,
-        "gk_players": gk_players
-        }
+        "gk_players": gk_players,
+    }
 
     return render(request, "korea/index.html", context)
 
@@ -44,14 +45,16 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    comments = player.comment_set.all().order_by('-pk')  
-    
+    comments = player.comment_set.all().order_by("-pk")
+    sns = Sns.objects.get(pk=player_pk)
+
     print(comments)
     master = str(request.user)
     context = {
         "player": player,
         "master": master,
         "comments": comments,
+        "sns": sns,
     }
     return render(request, "korea/detail_player.html", context)
 
