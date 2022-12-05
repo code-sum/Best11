@@ -3,8 +3,9 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .forms import PlayersForm, CommentForm
-from .models import Players
+from .models import Players, Comment
 from sns.models import Sns
+from django.db.models import Count
 
 
 def index(request):
@@ -45,10 +46,11 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    comments = player.comment_set.all().order_by("-pk")
+    # comments = player.comment_set.all()
+    comments = Comment.objects.annotate(count=Count('like_users')).order_by('-count')
+
     sns = Sns.objects.get(pk=player_pk)
 
-    print(comments)
     master = str(request.user)
     context = {
         "player": player,
