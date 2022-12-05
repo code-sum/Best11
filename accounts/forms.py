@@ -1,8 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 
 # from .models import User
-
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -32,3 +31,17 @@ class CustomUserChangeForm(UserChangeForm):
             "first_name": "이름",
             "profile_image": "프로필 이미지 변경",
         }
+
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomAuthenticationForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs.update({
+                        'placeholder':'아이디'})
+        for fieldname in ['username']:
+            self.fields[fieldname].label = ''
+
+        self.fields['password'].widget.attrs.update({
+                        'placeholder':'비밀번호'})
+        for fieldname in ['password']:
+            self.fields[fieldname].label = ''

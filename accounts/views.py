@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm
 from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
 from django.db.models import Count
@@ -36,13 +36,12 @@ def signup(request):
 # 로그인
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            # 주소 수정 필요
             return redirect("korea:index")
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     context = {
         "form": form,
     }
