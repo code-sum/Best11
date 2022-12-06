@@ -8,11 +8,13 @@
         <form action="" method="POST" style="margin-top: 3rem;">
           {% csrf_token %}
           {% bootstrap_form form %}
-          <button type="submit" class="button red-button--wayra red-button--border-thick button--text-upper red-button--size-s" style="margin-top: 2rem;">로그인</button>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="button red-button--wayra red-button--border-thick button--text-upper red-button--size-s" style="margin-top: 2rem;">로그인</button>
+          </div>
         </form>
         <hr class="my-5">
-        <div class="text-center">
-          <p class="text-muted">아직 회원이 아니신가요?</p>
+        <p class="text-center text-muted">아직 회원이 아니신가요?</p>
+        <div class="d-flex justify-content-center text-center">
           <a href="{% url 'accounts:signup' %}" class="button button--wayra button--border-thick button--text-upper button--size-s" style="margin-top: 1rem;">회원가입</a>
         </div>
       </div>
