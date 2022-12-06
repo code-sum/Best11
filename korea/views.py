@@ -14,13 +14,20 @@ def index(request):
     mf_players = Players.objects.filter(position="MF")
     df_players = Players.objects.filter(position="DF")
     gk_players = Players.objects.filter(position="GK")
-
+    like_players = Players.objects.annotate(like_count=Count("fans")).order_by(
+        "-like_count"
+    )[:5]
+    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[:5]
     context = {
         "players": players,
         "fw_players": fw_players,
         "mf_players": mf_players,
         "df_players": df_players,
         "gk_players": gk_players,
+        "like_players": like_players,
+        "like_comments": like_comments,
     }
 
     return render(request, "korea/index.html", context)
@@ -46,8 +53,6 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    # comments = player.comment_set.all()
-    
     comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')
 
     sns = Sns.objects.get(pk=player_pk)
