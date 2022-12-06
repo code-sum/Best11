@@ -105,7 +105,7 @@
   <div class="container my-3" style="padding-top: 10rem;">
     <div class="d-flex justify-content-center">
       {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" class="account-detail-img"><br><br>
+        <img src="{{ user.profile_image.url }}" class="account-detail-img" style="border: 0.6px solid #6c757d7f;"><br><br>
       {% else %}
         <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
       {% endif %}
