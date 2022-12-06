@@ -59,6 +59,15 @@ button {
   font-size: 1.6rem;
 }
 
+main {
+  margin: 0;
+  padding-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Class */
 
 /* text */
@@ -350,18 +359,6 @@ button {
   background: #c82d36;
 }
 
-@media only screen and (min-width: 250px) {
-  .main {
-    padding-top: 150px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .main {
-    padding-top: 150px;
-  }
-}
-
 /* base.html - header box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1); */
 .header {
   background-color: rgba(255, 255, 255, 0.725);
@@ -504,7 +501,7 @@ button {
 .ball-and-shadow {
   float: right;
   margin-top: 20rem;
-  margin-right: 10rem;
+  margin-right: 0;
   cursor: pointer;
 }
 
@@ -614,20 +611,35 @@ footer {
 }
 
 /* korea/index.html - 인트로 동영상 */
-.jb-container {
-  padding: 0px;
-  margin: 0px;
+
+/* 동영상 큰 화면 */
+@media only screen and (min-width: 800px) {
+  .video-box {
+    width: 100%;
+    height: 50rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+  }
+  
+  .video {
+    width: auto;
+    height: 40rem;
+  }
 }
 
-.jb-box {
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  position: relative;
-}
-
-video {
-  width: 100%;
+/* 동영상 작은 화면 */
+@media only screen and (max-width: 800px) {
+  .video-box {
+    width: 100%;
+    height: auto;
+  }
+  .video {
+    width: 100%;
+    height: auto;
+  }
 }
 
 /* korea/index.html main 태그 내부 div */
