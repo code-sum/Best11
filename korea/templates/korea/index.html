@@ -47,29 +47,47 @@
       </div>
       <!-- 대한민국 소개 영역 끝 -->
 
-      <!-- 응원하기 많은 선수 -->
-      <div class="text-center">
-        <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">베스트 일레븐</h1>
-      </div>
-      <div class="row justify-content-center text-center">
-        {% for player in like_players %}
-          <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
-            <a href="{% url "korea:detail" player.pk %}" class="a-black-red">
-              <div class="overlay"></div>
-              <!-- 포지션, 사진/이름, 정보 -->
-              <p>Fans :
-                {{ player.fans.count }}</p>
-              <div class="d-flex flex-row justify-content-center align-items-center">
-                <div class="position-box">{{ player.position }}</div>
-                <div class="d-flex flex-column">
-                  <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image }}" alt="선수 사진">
-                  <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
-                </div>
-              </div>
-            </a>
+      <!-- 베스트 일레븐 영역 시작 (응원하기 많이 받은 선수) -->
+      <div class="under-main">
+        <!-- 세로선 -->
+        <div class="updown"></div>
+        <div class="text-center" style="width: 40rem;">
+          <h1 style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">베스트 일레븐</h1>
+          <p style="margin-top: 2rem;">가장 많은 응원을 받은 선수들입니다</p>
+        </div>
+        <section id="slideshow">
+          <div class="entire-content">
+            <div class="content-carrousel">
+              {% for player in like_players %}
+                <figure class="shadow"><img src="{{ player.player_image }}"/>
+                  <p>{{ player.name }}</p>
+                </figure>
+              {% endfor %}
+            </div>
           </div>
-        {% endfor %}
+        </section>
+
+        {% comment %} <div class="row justify-content-center text-center">
+          {% for player in like_players %}
+            <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+              <a href="{% url "korea:detail" player.pk %}" class="a-black-red">
+                <div class="overlay"></div>
+                <!-- 포지션, 사진/이름, 정보 -->
+                <p>Fans :
+                  {{ player.fans.count }}</p>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                  <div class="position-box">{{ player.position }}</div>
+                  <div class="d-flex flex-column">
+                    <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image }}" alt="선수 사진">
+                    <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div> {% endcomment %}
       </div>
+      <!-- 베스트 일레븐 영역 끝 (응원하기 많이 받은 선수) -->
 
       <!-- 좋아요 많은 피셜 -->
       <div class="text-center">
@@ -279,4 +297,4 @@
     </div>
   </main>
 
-{% endblock %}
+{% endblock content %}
