@@ -53,8 +53,7 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    # comments = player.comment_set.all()
-    comments = Comment.objects.annotate(count=Count("like_users")).order_by("-count")
+    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')
 
     sns = Sns.objects.get(pk=player_pk)
 
