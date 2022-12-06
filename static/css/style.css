@@ -669,7 +669,7 @@ footer {
 
 .position-tab {
   height: auto;
-  width: auto;
+  width: 100%;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
@@ -679,6 +679,7 @@ footer {
 }
 
 .tabs {
+  width: 100%;
   height: 100%;
   font-size: 1.5rem;
 }
@@ -821,6 +822,7 @@ label[for="toggle-pears"] {
 /* korea/index.html player-card */
 
 .player-card {
+  width: 40rem;
   background-color: #fff;
   margin: 1.5rem;
   padding: 4rem;

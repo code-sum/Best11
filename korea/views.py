@@ -9,7 +9,7 @@ from django.db.models import Count
 
 
 def index(request):
-    players = Players.objects.order_by("english_name")
+    players = Players.objects.order_by("position")
     fw_players = Players.objects.filter(position="FW")
     mf_players = Players.objects.filter(position="MF")
     df_players = Players.objects.filter(position="DF")
