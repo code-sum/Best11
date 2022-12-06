@@ -200,3 +200,6 @@ def likes(request, player_pk, comment_pk):
             "likeCount": comment.like_users.count(),
         }
         return JsonResponse(context)
+
+def rule(request):
+    return render(request, "korea/rule.html")

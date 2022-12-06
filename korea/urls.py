@@ -16,4 +16,5 @@ urlpatterns = [
     path('detail/<int:player_pk>/<int:comment_pk>/update/', views.comment_update, name='comment_update'), # 뇌피셜 수정
     path('detail/<int:player_pk>/<int:comment_pk>/delete/', views.comment_delete, name='comment_delete'), # 뇌피셜 삭제
     path('detail/<int:player_pk>/<int:comment_pk>/likes/', views.likes, name='likes'), # 뇌피셜 좋아요
+    path("rule/", views.rule, name="rule"), # 축구 규칙
 ]
