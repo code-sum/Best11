@@ -671,6 +671,7 @@ footer {
 }
 
 /* korea/index.html  베스트 일레븐 영역 */
+
 .carousel-container {
   margin: 0;
   padding: 0;
@@ -713,32 +714,31 @@ footer {
 	width: 10rem;
 	height: 12rem;
 	border: 1px solid #3b444b;
-	overflow: hidden;
 	position: absolute;
 }
 
 .content-carrousel figure:nth-child(1) {
 	transform: rotateY(0deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(2) {
-	transform: rotateY(40deg) translateZ(30rem); 
+	transform: rotateY(32deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(3) {
-	transform: rotateY(80deg) translateZ(30rem); 
+	transform: rotateY(64deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(4) {
-	transform: rotateY(120deg) translateZ(30rem); 
+	transform: rotateY(96deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(5) {
-	transform: rotateY(160deg) translateZ(30rem); 
+	transform: rotateY(128deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(6) {
-	transform: rotateY(200deg) translateZ(30rem); 
+	transform: rotateY(160deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(7) {
-	transform: rotateY(240deg) translateZ(30rem); 
+	transform: rotateY(192deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(8) {
-	transform: rotateY(280deg) translateZ(30rem); 
+	transform: rotateY(224deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(9) {
-	transform: rotateY(320deg) translateZ(30rem); 
+	transform: rotateY(256deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(10) {
-	transform: rotateY(360deg) translateZ(30rem); 
+	transform: rotateY(288deg) translateZ(30rem); 
 } .content-carrousel figure:nth-child(11) {
-	transform: rotateY(360deg) translateZ(30rem); 
+	transform: rotateY(320deg) translateZ(30rem); 
 }
 
 .shadow {
@@ -756,7 +756,7 @@ footer {
 }
 
 .content-carrousel img:hover {
-	transform: scale(1.2);
+	transform: scale(1.3);
 	transition: all 300ms;
 }
 
