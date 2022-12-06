@@ -366,8 +366,7 @@ main {
   width: 100%;
   z-index: 3;
   margin-top: 0;
-  margin-right: 10%;
-  padding: 3rem 9rem;
+  padding: 3rem 5rem;
 }
 
 .header ul {
