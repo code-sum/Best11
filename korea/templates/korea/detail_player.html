@@ -85,7 +85,7 @@
                     </small>
                     <small class="text-muted">|</small>
                     <small class="text-muted">
-                      {% if article.is_updated == False %}
+                      {% if comment.is_updated == False %}
                           {% if comment.created_string == False %}
                             <span>{{ comment.created|date:'Y.m.d' }}</span>
                           {% else %}
