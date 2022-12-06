@@ -988,3 +988,12 @@ label[for="toggle-pears"] {
   color: #c82d36;
   font-size: 2rem;
 }
+
+.instagram {
+  font-size: 1.6rem;
+  color: black;
+  letter-spacing: 0.5px;
+}
+.instagram:hover {
+  color: #c82d36;
+}
