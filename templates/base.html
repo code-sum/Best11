@@ -44,7 +44,7 @@
       <div class="ball-container">
         {% if request.user.is_authenticated %}
           {% if request.user.profile_image %}
-            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%;" alt="profile">
+            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" alt="profile">
           {% else %}
             <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
           {% endif %}
@@ -64,31 +64,41 @@
             </div>
             <!-- 회원에게 보여지는 모달창 -->
             {% if request.user.is_authenticated %}
-              <div class="d-flex flex-column align-items-center my-5">
+              <div class="d-flex flex-column align-items-center mt-5 mb-3">
                 {% if request.user.profile_image %}
-                  <img src="{{ request.user.profile_image.url }}" alt="profile" style="width: 15rem; border-radius: 50%;" class="my-3">
+                  <img src="{{ request.user.profile_image.url }}" alt="profile" style="width: 15rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" class="mb-5">
                 {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
                 {% endif %}
-                <h1>{{ request.user.username }}님</h1>
+                <p class="fs-3">
+                  <span class="fw-bold">
+                    {{ request.user.username }}
+                  </span>
+                  님</p>
               </div>
-              <div class="d-flex justify-content-center mb-5">
-                <h4>
-                  <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                  <a href="{% url 'accounts:logout' %}" class="a-black-red">로그아웃</a>
-                </h4>
+              <div class="d-flex justify-content-center align-items-center mb-5">
+                <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>
+                <p class="mx-3 mb-0">
+                  |
+                </p>
+                <a href="{% url 'accounts:logout' %}" class="a-black-red">로그아웃</a>
               </div>
               <!-- 비회원에게 보여지는 모달창 -->
             {% else %}
-              <div class="d-flex flex-column align-items-center my-5">
-                <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="my-3">
-                <h1>비회원님</h1>
+              <div class="d-flex flex-column align-items-center mt-5 mb-3">
+                <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
+                <p class="fs-3">
+                  <span class="fw-bold">
+                    비회원
+                  </span>
+                  님</p>
               </div>
-              <div class="d-flex justify-content-center mb-5">
-                <h4>
-                  <a href="{% url 'accounts:login' %}" class="a-black-red">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                  <a href="{% url 'accounts:signup' %}" class="a-black-red">회원가입</a>
-                </h4>
+              <div class="d-flex justify-content-center align-items-center mb-5">
+                <a href="{% url 'accounts:login' %}" class="a-black-red">로그인</a>
+                <p class="mx-3 mb-0">
+                  |
+                </p>
+                <a href="{% url 'accounts:signup' %}" class="a-black-red">회원가입</a>
               </div>
             {% endif %}
           </div>
@@ -125,19 +135,19 @@
         <div class="d-flex mt-3 mb-4">
           <a href="https://github.com/JeongJinGan" target="_blank" class="">
             <button class="btn border-0 p-0">
-              <img src="{% static 'images/간정진.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <img src="{% static 'images/간정진.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">간정진</p>
             </button>
           </a>
           <a href="https://github.com/code-sum" target="_blank" class="">
             <button class="btn border-0 p-0">
-              <img src="{% static 'images/이수경.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <img src="{% static 'images/이수경.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">이수경</p>
             </button>
           </a>
           <a href="https://github.com/snnzzoo" target="_blank" class="">
             <button class="btn border-0 p-0">
-              <img src="{% static 'images/임선주.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <img src="{% static 'images/임선주.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">임선주</p>
             </button>
           </a>
@@ -147,13 +157,13 @@
             class=""
           >
             <button class="btn border-0 p-0">
-              <img src="{% static 'images/주세환.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <img src="{% static 'images/주세환.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">주세환</p>
             </button>
           </a>
           <a href="https://github.com/forwardyoung" target="_blank">
             <button class="btn border-0 p-0">
-              <img src="{% static 'images/차화영.jpg' %}" style="width: 5rem; border-radius: 5rem" alt=""/>
+              <img src="{% static 'images/차화영.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">차화영</p>
             </button>
           </a>

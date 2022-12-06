@@ -597,7 +597,7 @@ footer {
   text-align: center;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .footer-content {
     display: flex;
     margin-top: 0.1rem;
