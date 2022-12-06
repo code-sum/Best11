@@ -53,8 +53,8 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')
-
+    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')    
+    
     sns = Sns.objects.get(pk=player_pk)
 
     master = str(request.user)
@@ -130,7 +130,6 @@ def comment_create(request, player_pk):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.players = player
-            # print(comment.players)
             comment.user = request.user
             user = comment.user
             user.exp += 1
@@ -171,10 +170,14 @@ def comment_update(request, player_pk, comment_pk):
 @login_required
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
+    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')
     if request.user.is_authenticated and request.user == comment.user:
+        comment.user.exp -= 1
+        comment.user.exp -= 2*comment.like_users.count()
         comment.delete()
+        comment.user.save()
+    
     return redirect("korea:detail", player_pk)
-
 
 # 뇌피셜 좋아요
 def likes(request, player_pk, comment_pk):
@@ -197,20 +200,3 @@ def likes(request, player_pk, comment_pk):
             "likeCount": comment.like_users.count(),
         }
         return JsonResponse(context)
-        # return redirect("korea:detail", player_pk)
-
-    # player = Players.objects.get(pk=player_pk)
-    # if request.user.is_authenticated:
-    #     comment = Comment.objects.get(pk=comment_pk)
-    #     if comment.like_users.filter(pk=request.user.pk).exists():
-    #         comment.like_users.remove(request.user)
-    #         is_liked= False
-    #     else:
-    #         comment.like_users.add(request.user)
-    #         is_liked= True
-    #     context= {
-    #         'is_liked': is_liked,
-    #         'player': player,
-    #         }
-    #     return JsonResponse(context)
-    # return redirect('accounts:login')

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block content %}
 
   <!-- 선수별 뇌피셜 페이지 -->
@@ -12,7 +12,6 @@
     }
   </style>
 
-  <!-- <header> <script> function getCookie(name) { var cookieValue = null; if (document.cookie && document.cookie !== '') { var cookies = document.cookie.split(';'); for (var i = 0; i < cookies.length; i++) { var cookie = cookies[i].trim(); // Does this cookie string begin with the name we want? if (cookie.substring(0, name.length + 1) === (name + '=')) { cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); break; } } } return cookieValue; } var csrftoken = getCookie('csrftoken'); function csrfSafeMethod(method) { // these HTTP methods do not require CSRF protection return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method)); } $.ajaxSetup({ beforeSend: function (xhr, settings) { if (!csrfSafeMethod(settings.type) && !this.crossDomain) { xhr.setRequestHeader("X-CSRFToken", csrftoken); } } }); </script> </header> -->
   <div class="container-css">
     <!-- 선수 정보 -->
     <div class="d-flex flex-column justify-content-center align-items-center m-0">
@@ -98,14 +97,30 @@
                       {% endif %}
                     </small>
 
-                    <!-- {% if comment.is_updated == False %} <small class="text-muted"> {% if comment.created_string == False %} {{ comment.created_at|date:'Y.m.d' }} {% else %} {{ comment.created_string }} {% endif %} </small> {% else %} <small class="text-muted"> {% if comment.created_string == False %} {{ comment.updated_at|date:'Y.m.d' }} {% else %} {{ comment.created_string }} {% endif %} (수정됨) </small> {% endif %} -->
-
                     <small class="text-muted">|</small>
                     <!-- 작성자만 수정 삭제 -->
                     {% if user.is_authenticated and comment.user == request.user %}
                       <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
                       <small class="text-muted">|</small>
-                      <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="small text-muted">삭제</a>
+                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                      <!-- 댓글 삭제 Modal -->                      
+                      <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                          <div class="modal-content" style="width: 40rem; height: rem;">
+                            <div class="d-flex justify-content-end my-4">
+                              <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                              피셜을 삭제하시면 {{user.exp}}점에서 {{ comment.like_users.count|mul:2 |add:1 }}점이 차감이 됩니다. 삭제하시겠습니까?
+                            </div>
+                            <div class="d-flex justify-content-center my-4">
+                              <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                              <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 댓글 삭제 Modal -->
                     {% else %}
                       <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal">신고</a>
                       <!-- 신고 Modal -->

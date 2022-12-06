@@ -145,16 +145,13 @@
       <table class="table mt-3 text-center">
         <thead>
           <tr class="thead-dark">
-            <!-- <th>아이디</th> <th>이름</th> -->
             <th style="background-color: #e9ecef;">활동지수</th>
             <th style="background-color: #e9ecef;">직업</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <!-- <td>{{ user.username }}</td> <td>{{ user.first_name }}</td> -->
             <td class="follow-forms" id="exp-count" style="color:#111B54">{{ user.exp }}</td>
-            <!-- {% if user.exp >= 80 and comment_count > 12 %} <td>감독</td> {% elif user.exp < 30 %} <td>벤치</td> {% elif user.exp < 80 %} <td>선수</td> {% else %} <td>선수</td> {% endif %} -->
             <td class="follow-forms" id="job" style="color:#111B54">{{ job }}</td>
           </tr>
         </tbody>
@@ -192,7 +189,6 @@
       </p>
       <hr>
     </div>
-    <!-- <table class="table"> <thead> <tr class="thead-dark"> <th>찜한 수</th> <th>찜한 선수</th> </tr> </thead> <tbody> {% for like in user.like_player.all %} <tr> <td>{{ forloop.counter}}</td> <td> <a href="{% url 'korea:detail' like.pk %}">{{like.name}}</a> </td> </tr> {% endfor%} </tbody> </table> -->
     <!-- 찜한 선수 -->
     <div class="container text-center">
       <div class="container row">
