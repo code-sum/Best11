@@ -366,8 +366,7 @@ main {
   width: 100%;
   z-index: 3;
   margin-top: 0;
-  margin-right: 10%;
-  padding: 3rem 9rem;
+  padding: 3rem 5rem;
 }
 
 .header ul {
@@ -499,19 +498,18 @@ main {
 
 /* base.html - Ball CSS */
 .ball-and-shadow {
-  float: right;
   margin-top: 20rem;
   margin-right: 0;
   cursor: pointer;
+  position: fixed;
+  right: 7%;
 }
 
 .ball-container {
   animation: floating 3s ease-in-out infinite;
   height: 10rem;
   width: 10rem;
-  right: 7%;
   border-radius: 50%;
-  position: absolute;
   z-index: 3;
 }
 
