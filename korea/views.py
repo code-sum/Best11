@@ -7,6 +7,32 @@ from .models import Players, Comment
 from sns.models import Sns
 from django.db.models import Count
 
+def comment_table(p):
+    table = [0] * len(p)
+    i = 0
+    for j in range(1, len(p)):
+        while i > 0 and p[i] != p[j]:
+            i = table[i - 1]
+        if p[i] == p[j]:
+            i += 1
+            table[j] = i
+    return table
+
+
+def KMP(p, t):
+    ans = []
+    table = comment_table(p)
+    i = 0
+    for j in range(len(t)):
+        while i > 0 and p[i] != t[j]:
+            i = table[i - 1]
+        if p[i] == t[j]:
+            if i == len(p) - 1:
+                ans.append(j - len(p) + 2)
+                i = table[i]
+            else:
+                i += 1
+    return ans
 
 def index(request):
     players = Players.objects.order_by("english_name")
@@ -55,6 +81,24 @@ def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
     comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')    
     
+    for t in comments:
+        with open("filter.txt", "r", encoding="utf-8") as txtfile:
+            for word in txtfile.readlines():
+                word = word.strip()
+                ans = KMP(word, t.content)
+                if ans:
+                    for k in ans:
+                        k = int(k)
+                        if k < len(t.content) // 2:
+                            t.content = (
+                                len(t.content[k - 1 : len(word)]) * "*"
+                                + t.content[len(word) :]
+                            )
+                        else:
+                            t.content = (
+                                t.content[0 : k - 1] + len(t.content[k - 1 :]) * "*"
+                            )
+
     sns = Sns.objects.get(pk=player_pk)
 
     master = str(request.user)
