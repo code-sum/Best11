@@ -366,7 +366,7 @@ main {
   width: 100%;
   z-index: 3;
   margin-top: 0;
-  padding: 3rem 5rem;
+  padding: 3rem 2rem;
 }
 
 .header ul {
@@ -610,6 +610,12 @@ footer {
 }
 
 /* base.html - Top 버튼 */
+.topBtn {
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
+}
+
 #hexagon {
   background-color: #111b54;
   height: 6rem;
@@ -630,7 +636,7 @@ footer {
     align-items: center;
     background-color: #000;
   }
-  
+
   .video {
     width: auto;
     height: 40rem;
