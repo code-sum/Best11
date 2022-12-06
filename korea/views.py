@@ -35,14 +35,14 @@ def KMP(p, t):
     return ans
 
 def index(request):
-    players = Players.objects.order_by("english_name")
+    players = Players.objects.order_by("position")
     fw_players = Players.objects.filter(position="FW")
     mf_players = Players.objects.filter(position="MF")
     df_players = Players.objects.filter(position="DF")
     gk_players = Players.objects.filter(position="GK")
     like_players = Players.objects.annotate(like_count=Count("fans")).order_by(
         "-like_count"
-    )[:5]
+    )[:11]
     like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
         "-count"
     )[:5]

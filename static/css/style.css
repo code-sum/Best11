@@ -671,11 +671,110 @@ footer {
   transition: all 0.3s ease-out;
 }
 
+/* korea/index.html  베스트 일레븐 영역 */
+.carousel-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+#slideshow {
+	margin: 0 auto;
+	height: 40rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.entire-content {
+	margin: auto;
+	width: 10rem;
+  height: 12rem;
+	perspective: 80rem;
+	position: relative;
+	padding-top: 5rem;
+}
+
+.content-carrousel {
+	width: 100%;
+	position: absolute;
+	float: right;
+	animation: rotar 30s infinite linear;
+	transform-style: preserve-3d;
+}
+
+.content-carrousel:hover {
+	animation-play-state: paused;
+	cursor: pointer;
+}
+
+.content-carrousel figure {
+	width: 10rem;
+	height: 12rem;
+	border: 1px solid #3b444b;
+	overflow: hidden;
+	position: absolute;
+}
+
+.content-carrousel figure:nth-child(1) {
+	transform: rotateY(0deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(2) {
+	transform: rotateY(40deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(3) {
+	transform: rotateY(80deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(4) {
+	transform: rotateY(120deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(5) {
+	transform: rotateY(160deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(6) {
+	transform: rotateY(200deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(7) {
+	transform: rotateY(240deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(8) {
+	transform: rotateY(280deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(9) {
+	transform: rotateY(320deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(10) {
+	transform: rotateY(360deg) translateZ(30rem); 
+} .content-carrousel figure:nth-child(11) {
+	transform: rotateY(360deg) translateZ(30rem); 
+}
+
+.shadow {
+    position: absolute;
+    box-shadow: 0px 0px 20px 0px #000;
+    border-radius: 1px;
+}
+
+.content-carrousel img {
+	image-rendering: auto;
+	transition: all 300ms;
+	width: 100%;
+	height: 100%;
+  background-color: #202e7c;
+}
+
+.content-carrousel img:hover {
+	transform: scale(1.2);
+	transition: all 300ms;
+}
+
+@keyframes rotar {
+	from {
+		transform: rotateY(0deg);
+	} to {
+		transform: rotateY(360deg);
+	}
+}
+
+
 /* korea/index.html 선수 포지션 탭 */
 
 .position-tab {
   height: auto;
-  width: auto;
+  width: 100%;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
@@ -685,6 +784,7 @@ footer {
 }
 
 .tabs {
+  width: 100%;
   height: 100%;
   font-size: 1.5rem;
 }
@@ -827,6 +927,7 @@ label[for="toggle-pears"] {
 /* korea/index.html player-card */
 
 .player-card {
+  width: 40rem;
   background-color: #fff;
   margin: 1.5rem;
   padding: 4rem;

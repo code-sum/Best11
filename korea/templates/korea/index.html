@@ -22,52 +22,72 @@
         <div class="d-flex row justify-content-center" style="margin-top: 3rem; margin-bottom: 5rem;">
           <div class="col-lg-5 col-sm-12 korea-card">
             <h2 style="font-weight: bold; margin-bottom: 3rem;">역대 월드컵 성적</h2>
-            <p>2018&nbsp;&nbsp;러시아 · 19위 (1승 0무 2패)</p>
-            <p>2014&nbsp;&nbsp;브라질 · 27위 (0승 1무 2패)</p>
-            <p>2010&nbsp;&nbsp;남아공 · 15위 (1승 1무 2패)</p>
-            <p>2006&nbsp;&nbsp;독일 · 17위 (1승 1무 1패)</p>
-            <p>2002&nbsp;&nbsp;대한민국/일본 · 4위 (3승 2무 2패)</p>
+            <p>2022 · 개최 카타르 · 16강 (1승 1무 2패)</p>
+            <p>2018 · 개최 러시아 · 조별리그 (1승 0무 2패)</p>
+            <p>2014 · 개최 브라질 · 조별리그 (0승 1무 2패)</p>
+            <p>2010 · 개최 남아공 · 16강 (1승 1무 2패)</p>
+            <p>2006 · 개최 독일 · 조별리그 (1승 1무 1패)</p>
+            <p>2002 · 개최 대한민국/일본 · 4강 (3승 2무 2패)</p>
           </div>
           <div class="col-lg-5 col-sm-12 korea-card">
             <h2 style="font-weight: bold;">카타르 월드컵 기록</h2>
-            <p class="text-muted mb-5">H조 포르투갈·우루과이·가나 (1승 1무 1패)</p>
-            <p>2022-11-24&nbsp;&nbsp;대한민국 0 : 0 우루과이</p>
-            <p>2022-11-28&nbsp;&nbsp;대한민국 2 : 3 가나</p>
+            <p class="text-muted mb-5">H조 포르투갈·우루과이·가나&nbsp;&nbsp;|&nbsp;&nbsp;16강전 브라질</p>
+            <p>2022-12-06&nbsp;&nbsp;대한민국 1 : 4 브라질</p>
             <p>2022-12-03&nbsp;&nbsp;대한민국 2 : 1 포르투갈</p>
+            <p>2022-11-28&nbsp;&nbsp;대한민국 2 : 3 가나</p>
+            <p>2022-11-24&nbsp;&nbsp;대한민국 0 : 0 우루과이</p>
             <div class="mt-5">
-              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/태극기.png' %}" alt="대한민국">
-              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/우루과이.png' %}" alt="우루과이">
+              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/브라질.png' %}" alt="대한민국">
+              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/포르투갈.png' %}" alt="우루과이">
               <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/가나.png' %}" alt="가나">
-              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/포르투갈.png' %}" alt="포르투갈">
+              <img style="width: 9rem; margin-right: 0.5rem;" src="{% static 'images/우루과이.png' %}" alt="포르투갈">
             </div>
           </div>
         </div>
       </div>
       <!-- 대한민국 소개 영역 끝 -->
 
-      <!-- 응원하기 많은 선수 -->
-      <div class="text-center">
-        <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">베스트 일레븐</h1>
-      </div>
-      <div class="row justify-content-center text-center">
-        {% for player in like_players %}
-          <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
-            <a href="{% url "korea:detail" player.pk %}" class="a-black-red">
-              <div class="overlay"></div>
-              <!-- 포지션, 사진/이름, 정보 -->
-              <p>Fans :
-                {{ player.fans.count }}</p>
-              <div class="d-flex flex-row justify-content-center align-items-center">
-                <div class="position-box">{{ player.position }}</div>
-                <div class="d-flex flex-column">
-                  <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image }}" alt="선수 사진">
-                  <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
-                </div>
-              </div>
-            </a>
+      <!-- 베스트 일레븐 영역 시작 (응원하기 많이 받은 선수) -->
+      <div class="under-main">
+        <!-- 세로선 -->
+        <div class="updown"></div>
+        <div class="text-center" style="width: 40rem;">
+          <h1 style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">베스트 일레븐</h1>
+          <p style="margin-top: 2rem;">가장 많은 응원을 받은 선수들입니다</p>
+        </div>
+        <section id="slideshow">
+          <div class="entire-content">
+            <div class="content-carrousel">
+              {% for player in like_players %}
+                <figure class="shadow"><img src="{{ player.player_image }}"/>
+                  <p>{{ player.name }}</p>
+                </figure>
+              {% endfor %}
+            </div>
           </div>
-        {% endfor %}
+        </section>
+
+        {% comment %} <div class="row justify-content-center text-center">
+          {% for player in like_players %}
+            <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color">
+              <a href="{% url "korea:detail" player.pk %}" class="a-black-red">
+                <div class="overlay"></div>
+                <!-- 포지션, 사진/이름, 정보 -->
+                <p>Fans :
+                  {{ player.fans.count }}</p>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                  <div class="position-box">{{ player.position }}</div>
+                  <div class="d-flex flex-column">
+                    <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image }}" alt="선수 사진">
+                    <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div> {% endcomment %}
       </div>
+      <!-- 베스트 일레븐 영역 끝 (응원하기 많이 받은 선수) -->
 
       <!-- 좋아요 많은 피셜 -->
       <div class="text-center">
@@ -125,9 +145,17 @@
                       <div class="overlay"></div>
                       <!-- 포지션, 사진/이름, 정보 -->
                       <div class="d-flex flex-row justify-content-center align-items-center">
-                        <div class="position-box">{{ player.position }}</div>
+                        {% if player.position == "FW" %}
+                          <div class="fw-position-box">{{ player.position }}</div>
+                        {% elif player.position == "MF" %}
+                          <div class="mf-position-box">{{ player.position }}</div>
+                        {% elif player.position == "DF" %}
+                          <div class="df-position-box">{{ player.position }}</div>
+                        {% elif player.position == "GK" %}
+                          <div class="gk-position-box">{{ player.position }}</div>
+                        {% endif %}
                         <div class="d-flex flex-column">
-                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ player.player_image }}" alt="선수 사진">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ player.player_image }}" alt="선수 사진">
                           <h2 class="text-center mt-2 fw-bold">{{ player.name }}</h2>
                         </div>
                         <div class="d-flex flex-column text-start">
@@ -156,7 +184,7 @@
                       <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="fw-position-box">{{ fw_player.position }}</div>
                         <div class="d-flex flex-column">
-                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ fw_player.player_image }}" alt="선수 사진">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ fw_player.player_image }}" alt="선수 사진">
                           <h2 class="text-center mt-2 fw-bold">{{ fw_player.name }}</h2>
                         </div>
                         <div class="d-flex flex-column text-start">
@@ -185,7 +213,7 @@
                       <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="mf-position-box">{{ mf_player.position }}</div>
                         <div class="d-flex flex-column">
-                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ mf_player.player_image }}" alt="선수 사진">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ mf_player.player_image }}" alt="선수 사진">
                           <h2 class="text-center mt-2 fw-bold">{{ mf_player.name }}</h2>
                         </div>
                         <div class="d-flex flex-column text-start">
@@ -214,7 +242,7 @@
                       <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="df-position-box">{{ df_player.position }}</div>
                         <div class="d-flex flex-column">
-                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ df_player.player_image }}" alt="선수 사진">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ df_player.player_image }}" alt="선수 사진">
                           <h2 class="text-center mt-2 fw-bold">{{ df_player.name }}</h2>
                         </div>
                         <div class="d-flex flex-column text-start">
@@ -243,7 +271,7 @@
                       <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="gk-position-box">{{ gk_player.position }}</div>
                         <div class="d-flex flex-column">
-                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 10rem;" src="{{ gk_player.player_image }}" alt="선수 사진">
+                          <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ gk_player.player_image }}" alt="선수 사진">
                           <h2 class="text-center mt-2 fw-bold">{{ gk_player.name }}</h2>
                         </div>
                         <div class="d-flex flex-column text-start">
@@ -269,4 +297,4 @@
     </div>
   </main>
 
-{% endblock %}
+{% endblock content %}
