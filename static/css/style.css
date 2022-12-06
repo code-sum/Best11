@@ -529,8 +529,7 @@ main {
 
 /* base.html - container-css */
 .container-css {
-  padding-top: 10rem;
-  margin-bottom: 7rem;
+  padding: 10rem 0;
 }
 
 /* base.html  .scrollToTop  */
@@ -1093,7 +1092,7 @@ label[for="toggle-pears"] {
 .instagram {
   font-size: 1.6rem;
   color: black;
-  letter-spacing: 0.5px;
+  letter-spacing: -1px;
 }
 .instagram:hover {
   color: #c82d36;
