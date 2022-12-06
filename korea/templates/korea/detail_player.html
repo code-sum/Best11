@@ -85,10 +85,19 @@
                     </small>
                     <small class="text-muted">|</small>
                     <small class="text-muted">
-                      {% if comment.created_string == False %}
-                        <span>{{ comment.created|date:'m월 d일' }}</span>
+                      {% if article.is_updated == False %}
+                          {% if comment.created_string == False %}
+                            <span>{{ comment.created|date:'Y.m.d' }}</span>
+                          {% else %}
+                            <span>{{ comment.created_string }}</span>
+                          {% endif %}
                       {% else %}
-                        <span>{{ comment.created_string }}</span>
+                          {% if comment.created_string == False %}
+                            {{ comment.updated_at|date:'Y.m.d' }}
+                          {% else %}
+                            {{ comment.created_string }}
+                          {% endif %}
+                          (수정됨)
                       {% endif %}
                     </small>
 
