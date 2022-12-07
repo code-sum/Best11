@@ -1,0 +1,817 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<style>
+* {
+ box-sizing: border-box;
+}
+::selection {
+ display: none;
+}
+.msg {
+  color: orange;
+  text-shadow: 0 0.12rem black, 0.12rem 0 black, 0 -0.12rem black, -0.12rem 0 black;
+  font-size: xx-large;
+  z-index: 9999;
+  position: absolute;
+  left: 0;
+  top: 49%;
+  display: inline-block;
+  animation: leftToCenter 1s, centerToRight 1s 1s;
+  text-align: center;
+  min-height: 100px;
+  min-width: 200px;
+  overflow-x: visible;
+}
+#score1, #score2 {
+ background-color: rgba(0,0,0,0.2);
+ color: white;
+ padding: 10px;
+ vertical-align: middle;
+}
+body {
+ margin: 0;
+ color: black;
+ font-family: Arial;
+ text-align: center;
+ background-image: linear-gradient(to bottom, transparent, transparent 61%, rgba(0,0,255,0.7) 61%, rgba(0,0,255,0.7) 62%, transparent 62%), linear-gradient(to bottom, transparent, transparent 38%, rgba(0,0,255,0.7) 38%, rgba(0,0,255,0.7) 39%, transparent 39%), linear-gradient(to bottom, transparent, transparent 40%, rgba(0,0,255,0.6) 40%, rgba(0,0,255,0.8) 60%, transparent 60%), repeating-linear-gradient(315deg, rgba(232,232,232), rgba(232,232,232) 1%, transparent 1%, transparent 2%);
+ perspective: 700px;
+ overflow: hidden;
+}
+#field {
+ width: 75vh;
+ height: 100vh;
+ background-color: green;
+ background-image: repeating-linear-gradient(to right, rgba(0,192,0,0.9), rgba(0,192,0,0.9) calc(100% / 19), rgba(0,255,0,0.9) calc(100% / 19), rgba(0,255,0,0.9) calc(200% / 19)), repeating-linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,1) calc(100% / 25), rgba(0,192,0,1) calc(100% / 25), rgba(0,192,0,1) calc(200% / 25)); 
+ margin: auto;
+ 
+ position: relative;
+ border: 2px solid black;
+ display: inline-block;
+ vertical-align: top;
+ transform: scale(1.3,1.3) translatey(-10%) rotatex(45deg);
+ transform-style: preserve-3d;
+}
+#fieldborder {
+ border: 2px solid white;
+ position: absolute;
+ top: calc(100% / 25);
+ height: calc(100% / 25 * 23);
+ left: calc(100% / 19);
+ width: calc(100% / 19 * 17);
+}
+#fieldborder hr {
+ position: absolute;
+ margin: 0;
+ top: calc(100% / 26 * 13);
+ width: 100%;
+ background-color: white;
+ border: none;
+ height: 2px; 
+}
+#middlecircle {
+ margin: auto;
+ width: 20%;
+ height: 13.5%;
+ border: 2px solid white;
+ border-radius: 50%;
+ position: absolute;
+ top: calc(50% - 6.5%);
+ left: calc(50% - 10%);
+}
+#startcircle {
+ margin: auto;
+ border: 3px solid white;
+ border-radius: 50%;
+ position: absolute;
+ top: calc(50% - 2px);
+ left: calc(50% - 2px);
+ background-color: white;
+}
+#toplargearea {
+ position: absolute;
+ border: 2px solid white;
+ border-top: none;
+ left: calc(100% / 17 * 2);
+ width: calc(100% / 17 * 13);
+ height: calc(100% / 23 * 4);
+}
+#topsmallarea {
+ position: absolute;
+ border: 2px solid white;
+ border-top: none;
+ left: calc(100% / 15 * 2);
+ width: calc(100% / 15 * 11);
+ height: 50%;
+}
+#topgoal {
+ position: absolute;
+ border: 2px solid white;
+ left: calc(100% / 19 * 7);
+ width: calc(100% / 19 * 5);
+ height: calc(100% / 25);
+ border-bottom: none;
+}
+#toppenaltymark {
+ position: absolute;
+ border-radius: 50%;
+ border: 2px solid white;
+ background: white;
+ bottom: calc(100% / 4 * 0.5);
+ left: calc(100% / 13 * 6.5 - 2px);
+}
+#bottomlargearea {
+ position: absolute;
+ border: 2px solid white;
+ border-bottom: none;
+ left: calc(100% / 17 * 2);
+ width: calc(100% / 17 * 13);
+ height: calc(100% / 23 * 4);
+ bottom: 0;
+}
+#bottomsmallarea {
+ position: absolute;
+ border: 2px solid white;
+ border-bottom: none;
+ left: calc(100% / 15 * 2);
+ width: calc(100% / 15 * 11);
+ height: 50%;
+ bottom: 0;
+}
+#bottomgoal {
+ position: absolute;
+ border: 2px solid white;
+ left: calc(100% / 19 * 7);
+ width: calc(100% / 19 * 5);
+ height: calc(100% / 25);
+ border-top: none;
+ bottom: 0;
+}
+#bottompenaltymark {
+ position: absolute;
+ border-radius: 50%;
+ border: 2px solid white;
+ background: white;
+ top: calc(100% / 4 * 0.5);
+ left: calc(100% / 13 * 6.5 - 2px);
+}
+.square {
+ height: calc(100% / 23);
+ width: calc(100% / 17);
+ display: inline-block;
+ float: left;
+ z-index: 9;
+ position: relative;
+  border-radius: 50%;
+}
+.square:hover {
+ border: 1px dashed yellow;
+}
+.goal {
+ height: calc(100%);
+ width: calc(100% / 5);
+ display: inline-block;
+ float: left;
+ outline: 0px solid rgba(0,0,0,0.2);
+ z-index: 9;
+ position: relative;
+}
+.goal:hover {
+ border: 1px dashed yellow;
+}
+.player {
+ width: calc(100% / 19);
+ z-index: 10;
+ position: absolute;
+ transition: left 0.1s ease-out, top 0.1s ease-out;
+ transform-origin:bottom;
+ transform: translatey(calc(-100% / 25)) rotatex(-90deg);
+ image-rendering: optimizeSpeed;
+ image-rendering: pixelated;
+}
+#ball {
+ width: calc(100% / 19 * 0.9);
+ z-index: 11;
+ position: absolute;
+ transition: left 0.08s ease-out, top 0.08s ease-out, transform 0.08s ease-out;
+ transform: rotatex(-90deg);
+}
+.cpu {
+ filter: hue-rotate(90deg);
+}
+.selected {
+ filter: drop-shadow(0 0 4px white) drop-shadow(0 0 4px white) drop-shadow(0 0 4px white);
+}
+#scoreboard1, #scoreboard2 {
+ font-weight: bold;
+ width: 130px;
+ text-align: left;
+ position: absolute;
+ top: 45%;
+ color: white;
+ font-size: xx-large;
+ text-shadow: 2px 0px black, -2px 0px black, 0px 2px black, 0px -2px black;
+ line-height: 10vh;
+}
+#scoreboard2 {
+ right: 0;
+ text-align: right;
+}
+#highlight {
+ border-radius: 50%;
+ border: 2px solid rgba(64, 64, 255, 0.4);
+ background-color: rgba(64, 64, 255, 0.3);
+ width: calc(100% / 19);
+ height: calc(100% / 25);
+ position: absolute;
+ display: none;
+}
+.you.goalkeeper {
+ filter: hue-rotate(60deg); 
+}
+.you.goalkeeper.selected {
+ filter: hue-rotate(60deg) drop-shadow(0 0 4px white) drop-shadow(0 0 4px white) drop-shadow(0 0 4px white);
+}
+.cpu.goalkeeper {
+ filter: hue-rotate(210deg); 
+}
+@keyframes leftToCenter {
+  from {left: 0vw; opacity: 0}
+  to {left: 49vw; opacity: 1}
+}
+@keyframes centerToRight {
+  from {left: 49vw; opacity: 1}
+  to {left: 100vw; opacity: 0}  
+}
+</style>
+
+<div id="scoreboard1">YOU <span id="score1">0</span></div>
+<div id="field">
+<div id="highlight" data-radius="1"></div>
+<div id="topgoal"></div>
+<div id="fieldborder">
+  <div id="toplargearea"><div id="toppenaltymark"></div><div id="topsmallarea"></div></div>
+  <hr> <div id="middlecircle"><div id="startcircle"></div></div>
+  <div id="bottomlargearea"><div id="bottompenaltymark"></div><div id="bottomsmallarea"></div></div>
+</div>
+<div id="bottomgoal"></div>
+<img draggable="false" ondragstart="return false;" id="player-1" class="player you" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="13" data-y="13" data-orig-x="13" data-orig-y="12" data-tactic-x="13" data-tactic-y="5">
+<img draggable="false" ondragstart="return false;" id="player-2" class="player you selected" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="3" data-y="13" data-orig-x="3" data-orig-y="12" data-tactic-x="3" data-tactic-y="5">
+
+<img draggable="false" ondragstart="return false;" id="player-3" class="player you" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="10" data-y="17" data-orig-x="10" data-orig-y="17" data-tactic-x="10" data-tactic-y="17">
+<img draggable="false" ondragstart="return false;" id="player-4" class="player you selected" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="6" data-y="17" data-orig-x="6" data-orig-y="17" data-tactic-x="6" data-tactic-y="17">
+
+<img draggable="false" ondragstart="return false;" id="player-5" class="player you selected goalkeeper" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="8" data-y="21" data-orig-x="8" data-orig-y="21" data-tactic-x="8" data-tactic-y="21">
+
+<img draggable="false" ondragstart="return false;" id="cpu-1" class="player cpu" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="3" data-y="8" data-orig-x="3" data-orig-y="9" data-tactic-x="3" data-tactic-y="18">
+<img draggable="false" ondragstart="return false;" id="cpu-2" class="player cpu" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="13" data-y="9" data-orig-x="13" data-orig-y="9" data-tactic-x="13" data-tactic-y="18">
+
+<img draggable="false" ondragstart="return false;" id="cpu-3" class="player cpu" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="6" data-y="5" data-orig-x="6" data-orig-y="5" data-tactic-x="6" data-tactic-y="5">
+<img draggable="false" ondragstart="return false;" id="cpu-4" class="player cpu" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="10" data-y="5" data-orig-x="10" data-orig-y="5" data-tactic-x="10" data-tactic-y="5">
+
+<img draggable="false" ondragstart="return false;" id="cpu-5" class="player cpu goalkeeper" src="https://piskel-imgstore-b.appspot.com/img/60a5bbe3-45ed-11e8-b2a1-2fa8e755cf6d.gif" data-x="8" data-y="1" data-orig-x="8" data-orig-y="1" data-tactic-x="8" data-tactic-y="1">
+
+<img draggable="false" ondragstart="return false;" id="ball" src="https://piskel-imgstore-b.appspot.com/img/abc8811e-45f1-11e8-b5fe-2fa8e755cf6d.gif" data-x="8" data-y="11" data-angle="0">
+</div>
+<div id="scoreboard2"><span id="score2">0</span> CPU</div>
+
+
+<script>
+var enableAI = false;
+var enableControls = true;
+var bgm = new Audio('http://www.freesfx.co.uk/rx2/mp3s/5/17269_1461786504.mp3');
+bgm.loop = true;
+bgm.play();
+var cheer = new Audio('http://www.freesfx.co.uk/rx2/mp3s/2/14208_1459953020.mp3');
+var whistle = new Audio('http://www.freesfx.co.uk/rx2/mp3s/4/16224_1460569335.mp3');
+document.addEventListener('DOMContentLoaded', function(e) {
+  createSquares();
+  updatePlayers();
+  updateBall();
+  startGame(0);
+  var players = document.getElementsByClassName('player');
+  for (var i = 0; i < players.length; i++) {
+    var player = players[i];
+    player.addEventListener('click', function(e) {
+      var p = e.target;
+      var sq = document.getElementById('square-' + p.dataset.y + '-' + p.dataset.x);
+      if (sq) {
+        var event = new MouseEvent('click');
+        sq.dispatchEvent(event);
+      }
+    });
+    player.addEventListener('mousemove', function(e) {
+      var p = e.target;
+      var sq = document.getElementById('square-' + p.dataset.y + '-' + p.dataset.x);
+      if (sq) {
+        var event = new MouseEvent('mousemove');
+        sq.dispatchEvent(event);
+      }
+    });  
+  }  
+  document.addEventListener('keydown', function(e) {
+     if (!enableControls) return;
+     var sel = document.getElementsByClassName('selected')[0];
+     var moved = false;
+     switch (e.code) {
+        case 'ArrowUp':
+        case 'KeyW': movePlayer(sel, 0, -1); moved = true; break;
+        case 'ArrowLeft':
+        case 'KeyA': movePlayer(sel, -1, 0); moved = true; break;
+        case 'ArrowDown':
+        case 'KeyS': movePlayer(sel, 0, 1); moved = true; break;
+        case 'ArrowRight':
+        case 'KeyD': movePlayer(sel, 1, 0); moved = true; break;
+     }
+     if (moved) {
+        playerAIs();
+     }
+  });
+});
+function message(txt) {
+  var div = document.createElement('div');
+  div.innerHTML = txt;
+  div.classList.add('msg');
+  document.body.appendChild(div);
+  setTimeout(function(){ div.remove() }, 2000);
+}
+function createSquares() {
+  for (var i = 0; i < 23; i++) {
+    for (var j = 0; j < 17; j++) {
+      var div = document.createElement('div');
+      div.setAttribute('id', 'square-'+i+'-'+j);
+      //div.setAttribute('title', i+','+j);
+      div.dataset.x = j;
+      div.dataset.y = i;
+      div.classList.add('square');
+      document.getElementById('fieldborder').appendChild(div);
+    }  
+  }
+  for (var i = 0; i < 5; i++) {
+      var div = document.createElement('div');
+      div.setAttribute('id', 'square-topgoal'+i);
+      //div.setAttribute('title', 'topgoal-'+i);
+      div.dataset.x = i + 6;
+      div.dataset.y = -1;
+      div.classList.add('goal');
+      document.getElementById('topgoal').appendChild(div);
+  }
+  for (var i = 0; i < 5; i++) {
+      var div = document.createElement('div');
+      div.setAttribute('id', 'square-bottomgoal'+i);
+      div.setAttribute('title', 'bottomgoal-'+i);
+      div.dataset.x = i + 6;
+      div.dataset.y = 23;
+      div.classList.add('goal');
+      document.getElementById('bottomgoal').appendChild(div);
+  }
+  var fieldborder = document.getElementById('fieldborder');
+  fieldborder.addEventListener('mouseleave', function(e) {
+        var highlight = document.getElementById('highlight');
+        highlight.style.display = 'none';
+        highlight.dataset.radius = 1;     
+  });
+  var squares = document.getElementsByClassName('square');
+  for (var i = 0; i < squares.length; i++) {
+     var square = squares[i];
+     square.addEventListener('mousemove', function(e) {
+        var sq = e.target;
+        var sel = document.getElementsByClassName('selected')[0];
+        var ball = document.getElementById('ball');
+        var highlight = document.getElementById('highlight');
+        highlight.style.display = 'none';
+        highlight.dataset.radius = 0;
+        if (ball.dataset.x == sel.dataset.x && ball.dataset.y == sel.dataset.y) { //can kick
+            var dist = Math.abs(ball.dataset.x - sq.dataset.x) + Math.abs(ball.dataset.y - sq.dataset.y);
+            highlight.dataset.radius = 1 + Math.floor(dist / 8);
+            highlight.style.display = 'block';
+            highlight.style.left = 'calc(100% / 19 + (100% / 19) * ' + sq.dataset.x + ' - (100% / 19) * ' + highlight.dataset.radius + ')';
+            highlight.style.top = 'calc(100% / 25 + (100% / 25) * ' + sq.dataset.y + ' - (100% / 25) * ' + highlight.dataset.radius + ')';
+            highlight.style.width = 'calc((100% / 19) * ' + (highlight.dataset.radius * 2 + 1) + ')';
+            highlight.style.height = 'calc((100% / 25) * ' + (highlight.dataset.radius * 2 + 1) + ')';
+        }
+     });
+     square.addEventListener('click', function(e) {
+        if (!enableControls) return;
+        var sq = e.target;
+        var sel = document.getElementsByClassName('selected')[0];
+        var ball = document.getElementById('ball');
+        if (ball.dataset.x == sel.dataset.x && ball.dataset.y == sel.dataset.y) { //kick
+            var canKick = true;
+            var other  = nearestCPU();
+            if (other.dataset.x == sel.dataset.x && other.dataset.y == sel.dataset.y) {
+              if (Math.random() < 0.5 || other.classList.contains('goalkeeper')) {
+                canKick = false; //Miss
+              }
+              else {
+                canKick = true;
+              }
+            }
+            if (canKick) {
+                var dist = Math.abs(ball.dataset.x - sq.dataset.x) + Math.abs(ball.dataset.y - sq.dataset.y);
+                var nx = Math.round(Math.random() * 2 - 1) * Math.floor(dist / 8);
+                var ny = Math.round(Math.random() * 2 - 1) * Math.floor(dist / 8);
+                moveBallTo(parseInt(sq.dataset.x) + nx, parseInt(sq.dataset.y) + ny, sel);
+            }
+            else {
+                moveBallTo(parseInt(ball.dataset.x) + Math.round(Math.random() * 2 - 1), parseInt(ball.dataset.y) + Math.round(Math.random() * 2 - 1), sel);               
+            }
+            playerAIs();
+        }
+     });
+  }
+
+  var squares = document.getElementsByClassName('goal');
+  for (var i = 0; i < squares.length; i++) {
+     var square = squares[i];
+     square.addEventListener('mousemove', function(e) {
+        var sq = e.target;
+        var sel = document.getElementsByClassName('selected')[0];
+        var ball = document.getElementById('ball');
+        var highlight = document.getElementById('highlight');
+        highlight.style.display = 'none';
+        highlight.dataset.radius = 0;
+        if (ball.dataset.x == sel.dataset.x && ball.dataset.y == sel.dataset.y) { //can kick
+            var dist = Math.abs(ball.dataset.x - sq.dataset.x) + Math.abs(ball.dataset.y - sq.dataset.y);
+            highlight.dataset.radius = 1 + Math.floor(dist / 8);
+            highlight.style.display = 'block';
+            highlight.style.left = 'calc(100% / 19 + (100% / 19) * ' + sq.dataset.x + ' - (100% / 19) * ' + highlight.dataset.radius + ')';
+            highlight.style.top = 'calc(100% / 25 + (100% / 25) * ' + sq.dataset.y + ' - (100% / 25) * ' + highlight.dataset.radius + ')';
+            highlight.style.width = 'calc((100% / 19) * ' + (highlight.dataset.radius * 2 + 1) + ')';
+            highlight.style.height = 'calc((100% / 25) * ' + (highlight.dataset.radius * 2 + 1) + ')';
+        }
+     });
+     square.addEventListener('click', function(e) {
+        if (!enableControls) return;
+        var sq = e.target;
+        var sel = document.getElementsByClassName('selected')[0];
+        var ball = document.getElementById('ball');
+        if (ball.dataset.x == sel.dataset.x && ball.dataset.y == sel.dataset.y) { //kick
+            playerAIs();
+            var canKick = true;
+            var other  = nearestCPU();
+            if (other.dataset.x == sel.dataset.x && other.dataset.y == sel.dataset.y) {
+              if (Math.random() < 0.5 || other.classList.contains('goalkeeper')) {
+                canKick = false; //Miss
+              }
+              else {
+                canKick = true;
+              }
+            }
+            if (canKick) {
+                var dist = Math.abs(ball.dataset.x - sq.dataset.x) + Math.abs(ball.dataset.y - sq.dataset.y);
+                moveBallTo(parseInt(sq.dataset.x) + Math.round(Math.random() * 2 - 1) * Math.floor(dist / 8), parseInt(sq.dataset.y) + Math.round(Math.random() * 2 - 1) * Math.floor(dist / 8), sel);                    
+            }    
+            else {
+                moveBallTo(parseInt(ball.dataset.x) + Math.round(Math.random() * 2 - 1), parseInt(ball.dataset.y) + Math.round(Math.random() * 2 - 1), sel);               
+            }          
+        }
+     });
+  }
+
+}
+function updateBall() {
+  var ball = document.getElementById('ball');
+  ball.dataset.x = Math.min(17,Math.max(-1, ball.dataset.x));
+  ball.dataset.y = Math.min(23,Math.max(-1, ball.dataset.y));
+  ball.style.left = 'calc(' + ball.dataset.x + ' * 100% / 19 + 100% / 19 / 0.9)'; 
+  ball.style.top = 'calc(' + ball.dataset.y + ' * 100% / 25 + 100% / 25 / 0.9)';
+  ball.style.zIndex = 10 + ball.dataset.y;
+  ball.dataset.angle = Math.round(ball.dataset.angle) % 360;
+  ball.style.transform = 'translate3d(0, 10px, 10px) rotatex(-90deg) rotatez(' + ball.dataset.angle + 'deg)';
+  var players = document.getElementsByClassName('you');
+  var dist = Infinity;
+  var nearest = 0;
+  for (var i = 0; i < players.length; i++) {
+     var player = players[i];
+     player.classList.remove('selected');
+     var currDist = Math.abs(player.dataset.x - ball.dataset.x) + Math.abs(player.dataset.y - ball.dataset.y);
+     if (currDist < dist) {
+        dist = currDist;
+        nearest = i;     
+     }
+  }
+  players[nearest].classList.add('selected');
+}
+function nearestYou(except) {
+  var ball = document.getElementById('ball');
+  var players = document.getElementsByClassName('you');
+  var dist = Infinity;
+  var nearest = 0;
+  for (var i = 0; i < players.length; i++) {
+     var player = players[i];
+     if (player == except) continue;
+     var currDist = Math.abs(player.dataset.x - ball.dataset.x) + Math.abs(player.dataset.y - ball.dataset.y);
+     if (currDist < dist) {
+        dist = currDist;
+        nearest = i;     
+     }
+  }
+  return players[nearest];
+}
+function nearestCPU(except) {
+  var ball = document.getElementById('ball');
+  var players = document.getElementsByClassName('cpu');
+  var dist = Infinity;
+  var nearest = 0;
+  for (var i = 0; i < players.length; i++) {
+     var player = players[i];
+     if (player == except) continue;
+     var currDist = Math.abs(player.dataset.x - ball.dataset.x) + Math.abs(player.dataset.y - ball.dataset.y);
+     if (currDist < dist) {
+        dist = currDist;
+        nearest = i;     
+     }
+  }
+  return players[nearest];
+}
+function nearestPlayer(except) {
+  var ball = document.getElementById('ball');
+  var players = document.getElementsByClassName('player');
+  var dist = Infinity;
+  var nearest = 0;
+  for (var i = 0; i < players.length; i++) {
+     var player = players[i];
+     if (player == except) continue;
+     var currDist = Math.abs(player.dataset.x - ball.dataset.x) + Math.abs(player.dataset.y - ball.dataset.y);
+     if (currDist < dist) {
+        dist = currDist;
+        nearest = i;     
+     }
+  }
+  return players[nearest];
+}
+function getPlayerAt(x, y) {
+  var players = shuffle(document.getElementsByClassName('player'));
+  for (let i = 0; i < players.length; i++) {
+    let player = players[i];
+    if (player.dataset.x == x && player.dataset.y == y) {
+      return player;
+    }
+  }
+}
+function shuffle(arr) {
+  var len = arr.length;
+  for (let i = 0; i < len - 1; i++) {
+    let r = i + Math.floor(Math.random() * (len - i));
+    let temp = arr[i];
+    arr[i] = arr[r];
+    arr[r] = temp;
+  }
+  return arr;
+}
+function movePlayer(player, dx, dy) {
+   var ball = document.getElementById('ball');
+   ball.dataset.moved = 0;
+   var movingBall = false;
+   var dest = getPlayerAt(parseInt(player.dataset.x) + dx, parseInt(player.dataset.y) + dy);
+   if (dest && dest != player) {  //Someone is blocking
+     if (ball.dataset.x == dest.dataset.x && ball.dataset.y == dest.dataset.y && (player.classList.contains('cpu') && dest.classList.contains('you')) || (player.classList.contains('you') && dest.classList.contains('cpu'))) { //Blocker is an opponent and has the ball
+        if (!dest.classList.contains('goalkeeper') && (dx != 0 || dy != 0) && Math.random() < 0.5) {  //If not a goal keeper, 50% change to steal the ball
+          moveBallTo(parseInt(ball.dataset.x) + dx, parseInt(ball.dataset.y) + dy);
+          message('Stolen!');
+        }  
+        
+    }
+      dx = dy = 0;
+     return;
+   }
+   if (ball.dataset.x == player.dataset.x && ball.dataset.y == player.dataset.y) {
+      var other;
+      if (player.classList.contains('you')) {
+        other = nearestCPU();
+      }
+      else {
+        other = nearestYou();
+      }
+      if ((other.classList.contains('goalkeeper') || Math.random() < 0.5) && other.dataset.x == player.dataset.x && other.dataset.y == player.dataset.y) {
+        movingBall = false;
+      }
+      else {
+        movingBall = true;
+      }
+   }
+   player.dataset.x = parseInt(player.dataset.x) + dx;
+   player.dataset.y = parseInt(player.dataset.y) + dy;
+   updatePlayer(player);
+   if (movingBall) {
+      moveBallTo(player.dataset.x, player.dataset.y, player);
+   }
+}
+function movePlayerTo(player, x, y) {
+   player.dataset.x = parseInt(x);
+   player.dataset.y = parseInt(y);
+   updatePlayer(player);
+}
+function moveBallTo(x, y, from, collision = true) {
+   enableAI = true;
+   var ball = document.getElementById('ball');
+   if (ball.dataset.moved == 1) return;
+  ball.dataset.moved = 1;
+   var dx = parseInt(x) - parseInt(ball.dataset.x); 
+   var dy = parseInt(y) - parseInt(ball.dataset.y);
+   //console.log(x,y);
+   var len = Math.sqrt(dx*dx + dy*dy);
+   if (len == 0 || !from || !collision) {
+     ball.dataset.x = parseInt(x);
+     ball.dataset.y = parseInt(y);
+   }
+   else {
+     dx /= len;
+     dy /= len;
+     //console.log(dx, dy);
+     for (var i = 0; i < 100; i++) {
+        ball.dataset.x = parseFloat(ball.dataset.x) + dx;
+        ball.dataset.y = parseFloat(ball.dataset.y) + dy;
+        //console.log(ball.dataset);
+        var player = nearestPlayer();
+        //console.log(player.dataset);
+        if (Math.abs(ball.dataset.x - x) < 1 && Math.abs(ball.dataset.y - y) < 1) {
+            ball.dataset.x = parseInt(x);
+            ball.dataset.y = parseInt(y);
+            updateBall();
+            break;
+        }
+        if (ball.dataset.x < -1 || ball.dataset.x > 17 || ball.dataset.y < -1 || ball.dataset.y > 23) {
+            updateBall();
+            break;
+        }
+        if (Math.abs(player.dataset.x - ball.dataset.x) < 1 && Math.abs(player.dataset.y - ball.dataset.y) < 1 && player != from) { 
+           //console.log(ball.dataset);
+           ball.dataset.x = player.dataset.x;
+           ball.dataset.y = player.dataset.y;
+           updateBall();
+           break;
+        }
+     }
+   }
+   ball.dataset.x = parseInt(ball.dataset.x);
+   ball.dataset.y = parseInt(ball.dataset.y);
+   ball.dataset.angle += 10;
+   updateBall();
+   if (ball.dataset.y < 0 && ball.dataset.x >= 6 && ball.dataset.x <= 10) { //Top goal
+      var scoretext = document.getElementById("score1");
+      scoretext.innerHTML = parseInt(scoretext.innerHTML) + 1;
+      enableControls = false;
+      whistle.play();
+      cheer.play();
+      message("GOAL!!!!");
+      setTimeout(function () { startGame(1) }, 2000);
+   }
+   else if (ball.dataset.y > 22 && ball.dataset.x >= 6 && ball.dataset.x <= 10) { //Bottom goal
+      var scoretext = document.getElementById("score2");
+      scoretext.innerHTML = parseInt(scoretext.innerHTML) + 1;
+      enableControls = false;
+      whistle.play();
+      cheer.play();
+      message("GOAL!!!!");
+      setTimeout(function () { startGame(0) }, 2000);
+   }
+   else if (ball.dataset.y < 0 || ball.dataset.y > 22 || ball.dataset.x < 0 || ball.dataset.x > 16) { //Outside
+       var player, enemy;
+       enableControls = false;
+       whistle.play();
+       if (from) {
+         if ((ball.dataset.x < 0 || ball.dataset.x > 16) && !(ball.dataset.y < 0 || ball.dataset.y > 22)) {
+          message("Throw-In");
+         }
+         else if ((ball.dataset.y < 0 && from.classList.contains('you')) || (ball.dataset.y > 22 && from.classList.contains('cpu'))) {
+            message("Goal Kick");
+         }    
+         else if ((ball.dataset.y < 0 && from.classList.contains('cpu')) || (ball.dataset.y > 22 && from.classList.contains('you'))) {
+            message("Corner Kick");
+            ball.dataset.moved = 0;
+            if (ball.dataset.x < 8) moveBallTo(0, ball.dataset.y);
+            else moveBallTo(17, ball.dataset.y);
+            ball.dataset.moved = 0; 
+         }        
+       }
+       if (from && from.classList.contains('you')) { //Change player
+          player = nearestCPU();
+          enemy = nearestYou();
+       }
+       else {
+          player = nearestYou();
+          enemy = nearestCPU();
+       }
+       setTimeout(function(){ enableControls = true; movePlayerTo(player, ball.dataset.x, ball.dataset.y); movePlayerTo(enemy, enemy.dataset.tacticX, enemy.dataset.tacticY);  }, 2000);
+   }
+}
+function updatePlayers() {
+  var players = document.getElementsByClassName('player');
+  for (var i = 0; i < players.length; i++) {
+      var player = players[i];
+      updatePlayer(player);
+  }
+}
+function updatePlayer(player) {
+    player.dataset.x = Math.min(17,Math.max(-1, player.dataset.x));
+    player.dataset.y = Math.min(23,Math.max(-1, player.dataset.y));
+    player.style.left = 'calc(' + player.dataset.x + ' * 100% / 19 + 100% / 19)'; 
+    player.style.top = 'calc(' + player.dataset.y + ' * 100% / 25 - 4px)'
+    player.style.zIndex = 10 + player.dataset.y;
+    /*if (player.classList.contains('you') && nearestYou() == player) {
+      player.classList.add('selected');      
+    }
+    else {
+      player.classList.remove('selected');            
+    }*/
+}
+function startGame(pnum) {
+   message('KICK-OFF');
+   enableAI = false;
+   enableControls = true;
+   whistle.play();
+   var players = document.getElementsByClassName('player');
+   for (var i = 0; i < players.length; i++) {
+      var player = players[i];
+      movePlayerTo(player, player.dataset.origX, player.dataset.origY); 
+   }
+   if (pnum == 0) {
+      var player = document.getElementsByClassName('you')[0];
+      movePlayerTo(player, 8, 13);
+   }
+   else {
+      var player = document.getElementsByClassName('cpu')[0];
+      movePlayerTo(player, 8, 9);
+   }
+  document.getElementById('ball').dataset.moved = false;
+  moveBallTo(8, 11);
+  document.getElementById('ball').dataset.moved = false;
+}
+function playerAIs() {
+ if (!enableAI) return;
+ var players = document.querySelectorAll('.player:not(.selected)');
+ for (var i = 0; i < players.length; i++) {
+    playerAI(players[i]);
+ }
+}
+function playerAI(player) {
+ if (!enableAI) return;
+ var ball = document.getElementById('ball');
+ var dx = ball.dataset.x - player.dataset.x;
+ var dy = ball.dataset.y - player.dataset.y;
+ var dist = Math.abs(dx) + Math.abs(dy);
+ var tdx = player.dataset.tacticX - player.dataset.x;
+ var tdy = player.dataset.tacticY - player.dataset.y;
+ var tacticdist = Math.abs(tdx) + Math.abs(tdy);
+ if (dist == 0) { //Has the ball
+    if (player.classList.contains('cpu')) { //is CPU
+      var goaldist = Math.abs(player.dataset.x - 8) + Math.abs(player.dataset.y - 23);
+      if (goaldist < 10) {
+         moveBallTo(8 + (Math.random() * 2 - 1) * Math.floor(goaldist / 8), 23 + (Math.random() * 2 - 1) * Math.floor(goaldist / 8), player);
+      }
+      else if (tacticdist < 8) {
+         if (Math.abs(22 - player.dataset.y) > Math.abs(11 - player.dataset.x)) {
+           movePlayer(player, 0, Math.sign(22 - player.dataset.y));
+         }
+         else {
+           movePlayer(player, Math.sign(11 - player.dataset.x), 0);
+         }
+      } 
+      else { //Out of tactical area, pass
+         var next = nearestCPU(player);
+         var nextdist = Math.abs(player.dataset.x - next.dataset.x) + Math.abs(player.dataset.y - next.dataset.y);
+         //console.log(nextdist, next.dataset);
+         //console.log(next, nextdist);
+         moveBallTo(parseInt(next.dataset.x) + Math.floor((Math.random() * 2 - 1) * nextdist / 8), parseInt(next.dataset.y) + Math.floor((Math.random() * 2 - 1) * nextdist / 8), player);
+      }
+    }
+ }
+ else { //No ball
+    var other = nearestPlayer();
+    if (player.classList.contains('goalkeeper')) { 
+       //console.log(player.id, player.dataset);
+       if (player.classList.contains('you')) {
+          if (ball.dataset.y < 19 || ball.dataset.x != other.dataset.x || ball.dataset.y != other.dataset.y) {
+            movePlayer(player, Math.sign(Math.min(10, Math.max(6, ball.dataset.x)) - player.dataset.x), Math.sign(Math.min(22, Math.max(19, ball.dataset.y)) - player.dataset.y));
+          }
+         else {
+            movePlayer(player, Math.sign(Math.min(10, Math.max(6, ball.dataset.x)) - player.dataset.x), Math.sign(22 - player.dataset.y));           
+         }
+       }
+       else {
+         if (ball.dataset.y > 3 || ball.dataset.x != other.dataset.x || ball.dataset.y != other.dataset.y) {
+          movePlayer(player, Math.sign(Math.min(10, Math.max(6, ball.dataset.x)) - player.dataset.x), Math.sign(Math.min(3, Math.max(0, ball.dataset.y)) - player.dataset.y));
+         }
+         else {
+          movePlayer(player, Math.sign(Math.min(10, Math.max(6, ball.dataset.x)) - player.dataset.x), Math.sign(0 - player.dataset.y));           
+         }
+       }
+    }
+    else if (nearestCPU() == player || nearestYou() == player) {
+       if (Math.abs(ball.dataset.x - player.dataset.x) > Math.abs(ball.dataset.y - player.dataset.y)) {
+          movePlayer(player, Math.sign(Math.min(17, Math.max(-1, ball.dataset.x)) - player.dataset.x), 0);
+       }  
+       else {
+          movePlayer(player, 0, Math.sign(Math.min(23, Math.max(-1, ball.dataset.y)) - player.dataset.y));
+       }     
+    }
+    else {
+       movePlayer(player, Math.sign(tdx), Math.sign(tdy));
+    }
+ } 
+}
+</script>
+{% endblock content %}
