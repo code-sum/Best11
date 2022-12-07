@@ -8,14 +8,18 @@ from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
 from django.db.models import Count
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-
-# 회원 목록(변경필요)
+# 회원 목록
+@login_required
 def index(request):
-    accounts = get_user_model().objects.order_by("-pk")
-    context = {"accounts": accounts}
-    return render(request, "accounts/index.html", context)
-
+    if request.user.is_superuser:
+        accounts = get_user_model().objects.order_by("-pk")
+        context = {"accounts": accounts}
+        return render(request, "accounts/index.html", context)
+    else:
+        return redirect("korea:index")
 
 # 회원가입 
 def signup(request):

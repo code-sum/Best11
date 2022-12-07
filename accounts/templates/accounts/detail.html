@@ -223,6 +223,11 @@
         <a href="{% url 'accounts:update' %}" type="button" class="btn me-3" style="background-color: #111B54; color:white">개인정보 수정</a>
       </div>
     {% endif %}
+
+    <!-- 관리자가 관리자 프로필 접속했을때만 보이는 전체 회원관리 버튼 -->
+    {% if request.user == user and request.user.is_superuser %}
+      <a href="{% url 'accounts:index' %}">전체 회원관리</a>
+    {% endif %}
   </div>
 
   <!-- 팔로우 비동기 -->
