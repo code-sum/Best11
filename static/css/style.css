@@ -635,6 +635,7 @@ footer {
     justify-content: center;
     align-items: center;
     background-color: #000;
+    transition: all 0.3s ease-out;
   }
 
   .video {
@@ -648,6 +649,7 @@ footer {
   .video-box {
     width: 100%;
     height: auto;
+    transition: all 0.3s ease-out;
   }
   .video {
     width: 100%;
