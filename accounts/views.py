@@ -8,6 +8,7 @@ from django.contrib.auth import update_session_auth_hash
 from korea.models import Comment
 from django.db.models import Count
 from django.http import JsonResponse
+from django.db.models import Prefetch
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -151,3 +152,27 @@ def delete(request):
     request.user.delete()
     auth_logout(request)
     return redirect("accounts:index")
+
+# 피셜 피드
+def special_feed(request, pk):
+    user = get_user_model().objects.prefetch_related(
+        Prefetch(
+            "followings",
+            queryset=get_user_model().objects.prefetch_related("comment_set").all(),
+            to_attr="followings_users",
+        )
+    )
+    comments = list()
+    for followings_user in user.get(pk=request.user.pk).followings_users:
+        for comment in followings_user.comment_set.all():
+            comments.append(comment)
+
+    comments.sort(key=lambda x: x.created_at, reverse=True)
+
+    context = {
+        "comments": comments,
+    }
+    return render(request, "accounts/special_feed.html", context)
+    
+
+    
