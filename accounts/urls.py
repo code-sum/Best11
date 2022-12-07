@@ -13,4 +13,5 @@ urlpatterns = [
     path("update/", views.update, name="update"),  # 정보수정
     path("password/", views.change_password, name="change_password"),  # 비밀번호 변경
     path("delete/", views.delete, name="delete"),  # 탈퇴
+    path("special_feed/<int:pk>/", views.special_feed, name="special_feed"), # 피셜 피드
 ]
