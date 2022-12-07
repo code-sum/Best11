@@ -154,6 +154,7 @@ def delete(request):
     return redirect("accounts:index")
 
 # 피셜 피드
+@login_required
 def special_feed(request, pk):
     user = get_user_model().objects.prefetch_related(
         Prefetch(
