@@ -20,4 +20,6 @@ urlpatterns = [
     path("game/", views.game, name="game"), # 게임 메인
     path("game_1p/", views.game_1p, name="game_1p"), # 게임 with CPU
     path("game_2p/", views.game_2p, name="game_2p"), # 2인 게임
+    # 댓글 신고하기
+    path("detail/<int:player_pk>/<int:comment_pk>/block/", views.block, name="block"),
 ]

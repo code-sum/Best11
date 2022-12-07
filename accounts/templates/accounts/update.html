@@ -3,16 +3,21 @@
 
 {% block content %}
   <div style="padding-top:15rem;">
-    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">개인 정보 수정</h2>
+    <h1 style="padding-bottom: 2rem;" class="fw-bolder text-center">개인정보 수정</h1>
     <div class='d-flex justify-content-center col-6 m-auto'>
       <div style="border-top:0.1rem solid black;" class="mt-2">
         <form action="" method="POST" enctype="multipart/form-data" class="mt-5">
           {% csrf_token %}
-          {% bootstrap_form form %}
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">수정완료</button>
+          {% bootstrap_form form form_group_class="form-group" size="lg" %}
+          <p style="font-size:15px;" class='text-end mt-3'>비밀번호 변경을 원하시나요?
+            <span>
+              <a href="{% url 'accounts:change_password' %}" class="a-navy-red fw-bold" style="margin-left:4rem;">비밀번호 변경</a></span></p>
+          <div class="d-flex flex-column text-center mt-5">
+            <div class="d-flex justify-content-center mt-3">
+              <button type="submit" class="button button--wayra button--border-thick button--text-upper button--size-s">수정완료</button>
+            </div>
+            <a href="{% url 'accounts:delete' %}" class="text-muted mt-5">회원탈퇴</a>
           </div>
-          <a href="{% url 'accounts:delete' %}" type="button" class="btn float-end text-muted" style="border-color:#111b54;">탈퇴</a>
         </form>
       </div>
     </div>

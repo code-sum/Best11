@@ -66,6 +66,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 /* Class */
@@ -366,7 +367,7 @@ main {
   width: 100%;
   z-index: 3;
   margin-top: 0;
-  padding: 3rem 5rem;
+  padding: 3rem 2rem;
 }
 
 .header ul {
@@ -498,11 +499,12 @@ main {
 
 /* base.html - Ball CSS */
 .ball-and-shadow {
-  margin-top: 20rem;
-  margin-right: 0;
   cursor: pointer;
   position: fixed;
+  margin-top: 20rem;
+  margin-right: 0;
   right: 7%;
+  z-index: 4;
 }
 
 .ball-container {
@@ -510,7 +512,6 @@ main {
   height: 10rem;
   width: 10rem;
   border-radius: 50%;
-  z-index: 3;
 }
 
 @keyframes floating {
@@ -529,13 +530,12 @@ main {
 
 /* base.html - container-css */
 .container-css {
-  padding-top: 10rem;
-  margin-bottom: 7rem;
+  padding: 10rem 0;
 }
 
 /* base.html  .scrollToTop  */
 .scrollToTop {
-  z-index: 2;
+  z-index: 3;
   all: unset;
   cursor: pointer;
   position: fixed;
@@ -610,6 +610,12 @@ footer {
 }
 
 /* base.html - Top 버튼 */
+.topBtn {
+  position: fixed;
+  bottom: 8rem;
+  right: 8%;
+}
+
 #hexagon {
   background-color: #111b54;
   height: 6rem;
@@ -629,8 +635,9 @@ footer {
     justify-content: center;
     align-items: center;
     background-color: #000;
+    transition: all 0.3s ease-out;
   }
-  
+
   .video {
     width: auto;
     height: 40rem;
@@ -642,6 +649,7 @@ footer {
   .video-box {
     width: 100%;
     height: auto;
+    transition: all 0.3s ease-out;
   }
   .video {
     width: 100%;
@@ -665,11 +673,120 @@ footer {
   transition: all 0.3s ease-out;
 }
 
+/* korea/index.html  베스트 일레븐 영역 */
+
+.carousel-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#slideshow {
+  margin: 0 auto;
+  height: 40rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.entire-content {
+  margin: auto;
+  width: 10rem;
+  height: 12rem;
+  perspective: 80rem;
+  position: relative;
+  padding-top: 5rem;
+}
+
+.content-carrousel {
+  width: 100%;
+  position: absolute;
+  float: right;
+  animation: rotar 30s infinite linear;
+  transform-style: preserve-3d;
+}
+
+.content-carrousel:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+
+.content-carrousel figure {
+  width: 10rem;
+  height: 12rem;
+  border: 1px solid #3b444b;
+  position: absolute;
+}
+
+.content-carrousel figure:nth-child(1) {
+  transform: rotateY(0deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(2) {
+  transform: rotateY(32deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(3) {
+  transform: rotateY(64deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(4) {
+  transform: rotateY(96deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(5) {
+  transform: rotateY(128deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(6) {
+  transform: rotateY(160deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(7) {
+  transform: rotateY(192deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(8) {
+  transform: rotateY(224deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(9) {
+  transform: rotateY(256deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(10) {
+  transform: rotateY(288deg) translateZ(30rem);
+}
+.content-carrousel figure:nth-child(11) {
+  transform: rotateY(320deg) translateZ(30rem);
+}
+
+.shadow {
+  position: absolute;
+  box-shadow: 0px 0px 20px 0px #000;
+  border-radius: 1px;
+}
+
+.content-carrousel img {
+  image-rendering: auto;
+  transition: all 300ms;
+  width: 100%;
+  height: 100%;
+  background-color: #202e7c;
+}
+
+.content-carrousel img:hover {
+  transform: scale(1.3);
+  transition: all 300ms;
+}
+
+@keyframes rotar {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
 /* korea/index.html 선수 포지션 탭 */
 
 .position-tab {
   height: auto;
-  width: auto;
+  width: 100%;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
@@ -679,6 +796,7 @@ footer {
 }
 
 .tabs {
+  width: 100%;
   height: 100%;
   font-size: 1.5rem;
 }
@@ -821,6 +939,7 @@ label[for="toggle-pears"] {
 /* korea/index.html player-card */
 
 .player-card {
+  width: 40rem;
   background-color: #fff;
   margin: 1.5rem;
   padding: 4rem;
@@ -929,6 +1048,12 @@ label[for="toggle-pears"] {
   object-fit: cover;
 }
 
+/* 인스타그램 */
+.instagram {
+  width: 2rem;
+  padding-bottom: 8.5px;
+}
+
 /* 채팅창 디자인 */
 .wrap {
   padding: 4rem 0;
@@ -981,5 +1106,10 @@ label[for="toggle-pears"] {
 .like-fficial {
   color: #c82d36;
   font-size: 2rem;
+}
+
+/* 신고하기 form hidden */
+.form-hidden {
+  display: none;
 }
 

@@ -26,13 +26,17 @@
         <span class="navicon"></span></label>
       <ul class="menu">
         <li>
-          <a href="#two" class="header-a link link-theme link-arrow">경기일정</a>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'accounts:special_feed' user.pk %}" class="header-a link link-theme link-arrow">피셜피드</a>
+          {% else %}
+          <a href="{% url 'accounts:login' %}" class="header-a link link-theme link-arrow">피셜피드</a>
+          {% endif %}
         </li>
         <li>
-          <a href="#three" class="header-a link link-theme link-arrow">아카이브</a>
+          <a href="#three" class="header-a link link-theme link-arrow">경기일정</a>
         </li>
         <li>
-          <a href="#four" class="header-a link link-theme link-arrow">축구상식</a>
+          <a href="{% url 'korea:rule' %}" class="header-a link link-theme link-arrow">축구상식</a>
         </li>
         <li>
           <a href="{% url 'korea:game' %}" class="header-a link link-theme link-arrow">미니게임</a>
@@ -112,7 +116,7 @@
     </div>
 
     <!-- Top Button -->
-    <div class="d-flex justify-content-end mb-5 me-5 fixed-bottom" style="z-index: 2;">
+    <div class="topBtn" style="z-index: 2;">
       <button id="hexagon" class="text-white fs-4" onclick="topFunction()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-compact-up" viewbox="0 0 16 16">
           <path fill-rule="evenodd" d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894l6-3z"/>

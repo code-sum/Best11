@@ -53,13 +53,30 @@ class Comment(models.Model):  # 선수 한 명에 대한 뇌피셜
         time = datetime.now(tz=timezone.utc) - self.created_at
 
         if time < timedelta(minutes=1):
-            return '방금 전'
+            return "방금 전"
         elif time < timedelta(hours=1):
-            return str(int(time.seconds / 60)) + '분 전'
+            return str(int(time.seconds / 60)) + "분 전"
         elif time < timedelta(days=1):
             return str(int(time.seconds / 3600)) + '시간 전'
-        elif time < timedelta(days=2):
+        elif time < timedelta(days=7):
             time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
-            return str(time.days) + '일 전'
+            return str(time.days) + "일 전"
         else:
             return False
+    @property
+    def is_updated(self):
+        time = self.updated_at - self.created_at
+        if time < timedelta(seconds=10):
+            return False
+        else:
+            return True
+
+# 댓글 신고하기 기능
+class Block(models.Model):
+    players = models.ForeignKey(
+        Players, on_delete=models.CASCADE
+    )  # 선수를 ForeignKey로 불러온다.
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    block_comment = models.ManyToManyField("comment", related_name="blok")
+
