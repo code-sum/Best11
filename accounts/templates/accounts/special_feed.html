@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container" style="padding-top: 10rem;">
+    <div class="flex-wrap my-3 pb-5">
+    <main class="container d-flex justify-content-center rounded bg-white border my-5">
+        <section class="container" style="width: 85%; height: auto;">
+          <table class="table my-5 mt-3">
+            <thead>
+              <tr>
+                <th scope="col">피셜 No.</th>
+                <th scope="col">피셜 작성자</th>
+                <th scope="col">선수</th>
+                <th scope="col">피셜</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for comment in comments %}
+                <tr>
+                  <td scope="row" class="align-middle">{{ forloop.counter }}</td>
+                  <td scope="row" class="align-middle">{{ comment.user.username }}</td>
+                  <td class="align-middle">
+                  <a href="" class="text-decoration-none text-dark">
+                    <span class="nav1-text">{{ comment.players.name }}</span>
+                  </a>
+                  </td>
+                  <td>
+                  <a href="" class="text-decoration-none text-dark">
+                    <span class="nav1-text"><a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a></span>
+                  </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+    </main>
+    </div>     
+</div>
+
+{% endblock content %}
