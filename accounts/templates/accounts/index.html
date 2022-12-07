@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div style="padding-top: 15rem;" class="container my-3">
-    <table class="table">
+  <div class="d-flex flex-column align-items-center">
+    <div style="padding-top: 15rem; border-bottom: 0.1rem solid black; width: 50rem;">
+      <h1 style="font-size: 3rem; padding-bottom: 2rem;" class="fw-bold text-center">전체 회원관리</h1>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <table class="table table-hover">
       <thead>
         <tr class="thead-dark">
+          <th>No.</th>
           <th>pk</th>
           <th>아이디</th>
           <th>이름</th>
@@ -12,13 +18,13 @@
       <tbody>
         {% for account in accounts %}
           <tr onclick='location.href="detail/{{account.pk}}/"' style='cursor: pointer;'>
+            <td>{{ forloop.revcounter }}</td>
             <td>{{ account.pk }}</td>
-            <td>{{ account.username }}</a>
-          </td>
-          <td>{{ account.first_name }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+            <td>{{ account.username }}</td>
+            <td>{{ account.last_name }}&nbsp;{{ account.first_name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
