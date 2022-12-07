@@ -35,7 +35,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ["content"]
         labels = {
-            "content": "뇌피셜 한 줄",
+            'content' : '선수에 대한 피셜을 작성해주세요💬',
         }
         widgets = {
             "content": SummernoteWidget(),

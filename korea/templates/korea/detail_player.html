@@ -6,13 +6,6 @@
 
   <!-- 선수별 뇌피셜 페이지 -->
 
-  <style>
-    .player-comment img {
-      object-fit: cover;
-      transform: scale(0.7);
-    }
-  </style>
-
   <div class="container-css">
     <!-- 선수 정보 -->
     <div class="d-flex flex-column justify-content-center align-items-center m-0">
@@ -24,8 +17,11 @@
       </h2>
       <p class="fw-bold mb-0" style="font-size: 2.5rem;">
         {{ player.english_name }}
+        <a href="{{ sns.sns_url }}" class="" target="_blank">
+          <img src="{% static 'images/IG_logo.png' %}" alt="instagram" class="instagram">
+        </a>
       </p>
-      <p class="fw-bold mb-4" style="font-size: 2.5rem;">
+      <p class="fw-bold" style="font-size: 2.5rem;">
         <span>
           {{ player.back_number }}
         </span>
@@ -42,20 +38,24 @@
       <p style="font-size: 1.8rem;">
         {{ player.team }}
       </p>
-      <a href="{{ sns.sns_url }}">인스타그램
-      </a>
-      <p class="text-muted mt-4">
+      <small class="text-muted">
         소속은 대표팀으로 선발되었을 당시 소속 입니다.
-      </p>
+      </small>
       <!-- 응원하기 버튼 -->
       <div>
         {% if request.user.is_authenticated %}
           <form class="like-forms d-flex justify-content-center" data-player-id="{{ player.pk }}">
             {% csrf_token %}
             {% if request.user in player.fans.all %}
-              <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">응원취소</button>
+              <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">
+                <i class="bi bi-x-lg" id="support-{{ player.pk }}"></i>
+                응원취소
+              </button>
             {% else %}
-              <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">응원하기</button>
+              <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">
+                <i class="bi bi-hand-thumbs-up" id="support-{{ player.pk }}"></i>
+                응원하기
+              </button>
             {% endif %}
           </form>
         {% endif %}
@@ -93,11 +93,20 @@
                         </small>
                         <small class="text-muted">|</small>
                         <small class="text-muted">
-                          {% if comment.created_string == False %}
-                            <span>{{ comment.created|date:'m월 d일' }}</span>
-                          {% else %}
-                            <span>{{ comment.created_string }}</span>
-                          {% endif %}
+                         {% if comment.is_updated == False %}
+                           {% if comment.created_string == False %}
+                             <span>{{ comment.created|date:'Y.m.d' }}</span>
+                           {% else %}
+                             <span>{{ comment.created_string }}</span>
+                           {% endif %}
+                         {% else %}
+                           {% if comment.created_string == False %}
+                             {{ comment.updated_at|date:'Y.m.d' }}
+                           {% else %}
+                             {{ comment.created_string }}
+                           {% endif %}
+                           (수정됨)
+                         {% endif %}
                         </small>
 
                         <small class="text-muted">|</small>
@@ -357,21 +366,35 @@
             .then((response) => {
               const isLikeds = response.data.is_likeds
               const likeBtnp = document.querySelector(`#like-${playerId}`)
+              const likeIcon = document.querySelector(`#support-${ playerId }`)
+              console.log(likeIcon)
               if (isLikeds === true) {
                 likeBtnp
                   .classList
                   .remove('btn-navy')
+                likeIcon
+                  .classList
+                  .remove('bi-hand-thumbs-up')
                 likeBtnp
                   .classList
-                  .add('btn-outline-navy')
+                  .add('btn-outline-navy ')
+                likeIcon
+                  .classList
+                  .add('bi-x-lg')
                 likeBtnp.innerText = "응원취소"
               } else {
                 likeBtnp
                   .classList
                   .remove('btn-outline-navy')
+                likeIcon
+                  .classList
+                  .remove('bi-x-lg')
                 likeBtnp
                   .classList
                   .add('btn-navy')
+                likeIcon
+                  .classList
+                  .add('bi-hand-thumbs-up')
                 likeBtnp.innerText = "응원하기"
               }
               const likeCountTag = document.querySelector('#like-count')
