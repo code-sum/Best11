@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .forms import PlayersForm, CommentForm
+from .forms import PlayersForm, CommentForm, BlockForm
 from .models import Players, Comment
 from sns.models import Sns
 from django.db.models import Count
+
 
 def comment_table(p):
     table = [0] * len(p)
@@ -33,6 +34,7 @@ def KMP(p, t):
             else:
                 i += 1
     return ans
+
 
 def index(request):
     players = Players.objects.order_by("english_name")
@@ -79,8 +81,12 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
-    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')    
-    
+    comments = (
+        Comment.objects.annotate(count=Count("like_users"))
+        .filter(players=player_pk)
+        .order_by("-count")
+    )
+
     for t in comments:
         with open("filter.txt", "r", encoding="utf-8") as txtfile:
             for word in txtfile.readlines():
@@ -100,13 +106,23 @@ def detail(request, player_pk):
                             )
 
     sns = Sns.objects.get(pk=player_pk)
-
     master = str(request.user)
+    blocks = Block.objects.filter(players=player)  # 신고한 댓글 목록
+    block_list = []
+    block_comment = []
+    for b in blocks:
+        if request.user.pk == b.user.pk:
+            block_list.append(b.user.pk)
+            block_comment.append(b.comment.pk)
+
+    print(block)
     context = {
         "player": player,
         "master": master,
         "comments": comments,
-        "sns": sns,
+        "blocks": blocks,
+        "block_list": block_list,
+        "block_comment": block_comment,
     }
     return render(request, "korea/detail_player.html", context)
 
@@ -214,14 +230,19 @@ def comment_update(request, player_pk, comment_pk):
 @login_required
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    comments = Comment.objects.annotate(count=Count('like_users')).filter(players=player_pk).order_by('-count')
+    comments = (
+        Comment.objects.annotate(count=Count("like_users"))
+        .filter(players=player_pk)
+        .order_by("-count")
+    )
     if request.user.is_authenticated and request.user == comment.user:
         comment.user.exp -= 1
-        comment.user.exp -= 2*comment.like_users.count()
+        comment.user.exp -= 2 * comment.like_users.count()
         comment.delete()
         comment.user.save()
-    
+
     return redirect("korea:detail", player_pk)
+
 
 # 뇌피셜 좋아요
 def likes(request, player_pk, comment_pk):
@@ -245,5 +266,27 @@ def likes(request, player_pk, comment_pk):
         }
         return JsonResponse(context)
 
+
 def rule(request):
     return render(request, "korea/rule.html")
+
+
+# 댓글 신고하기
+def block(request, player_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    player = Players.objects.get(pk=player_pk)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = BlockForm(request.POST)
+            block = Block()
+            block.players = player
+            block.comment = comment
+            block.user = request.user
+            block.save()
+            is_report = True
+
+        context = {
+            "is_report": is_report,
+        }
+
+        return JsonResponse(context)

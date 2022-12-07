@@ -982,3 +982,8 @@ label[for="toggle-pears"] {
   color: #c82d36;
   font-size: 2rem;
 }
+
+/* 신고하기 form hidden */
+.form-hidden {
+  display: none;
+}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Players, Comment
+from .models import Players, Comment, Block
 from django_summernote.widgets import SummernoteWidget
 
 
@@ -29,14 +29,20 @@ class PlayersForm(forms.ModelForm):
             "player_image": "선수 사진",
         }
 
+
 class CommentForm(forms.ModelForm):
-            
     class Meta:
         model = Comment
-        fields = ['content']
+        fields = ["content"]
         labels = {
-            'content' : '뇌피셜 한 줄',
+            "content": "뇌피셜 한 줄",
         }
         widgets = {
-            'content': SummernoteWidget(),
+            "content": SummernoteWidget(),
         }
+
+
+class BlockForm(forms.ModelForm):
+    class Meta:
+        model = Block
+        fields = ["players", "user", "comment"]
