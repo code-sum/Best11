@@ -134,9 +134,9 @@
       <form method="POST" class="follow-forms d-flex justify-content-center" data-user-id="{{ user.pk }}">
         {% csrf_token %}
         {% if request.user in user.followers.all %}
-          <button type="submit" class="btn fw-bold" style="border-radius:10rem; border-color: #C82D36;" id="follow-{{ user.pk }}">팔로우 취소</button>
+          <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="follow-{{ user.pk }}">팔로우 취소</button>
         {% else %}
-          <button type="submit" class="btn fw-bold" style="border-radius:10rem; background-color: #C82D36; color:white" id="follow-{{ user.pk }}">팔로우</button>
+          <button type="submit" class="btn btn-navy mt-3 mb-1" id="follow-{{ user.pk }}">팔로우</button>
         {% endif %}
       </form>
     {% endif %}
@@ -264,18 +264,18 @@
                 followBtn.innerText = "팔로우 취소"
                 followBtn
                   .classList
-                  .remove('btn-primary')
+                  .remove('btn-navy')
                 followBtn
                   .classList
-                  .add('btn-danger')
+                  .add('btn-outline-navy')
               } else {
                 followBtn.innerText = "팔로우"
                 followBtn
                   .classList
-                  .remove('btn-danger')
+                  .remove('btn-outline-navy')
                 followBtn
                   .classList
-                  .add('btn-primary')
+                  .add('btn-navy')
               }
               const followersCount = response.data.followers_count
               const followingsCount = response.data.followings_count
