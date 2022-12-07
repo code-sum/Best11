@@ -614,6 +614,10 @@ footer {
   position: fixed;
   bottom: 8rem;
   right: 8%;
+  opacity: 0.7;
+}
+.topBtn:hover {
+  opacity: 0.9;
 }
 
 #hexagon {
