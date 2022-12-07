@@ -16,6 +16,9 @@
       </h2>
       <p class="fw-bold mb-0" style="font-size: 2.5rem;">
         {{ player.english_name }}
+        <a href="{{ sns.sns_url }}" class="" target="_blank">
+          <img src="{% static 'images/IG_logo.png' %}" alt="instagram" class="instagram">
+        </a>
       </p>
       <p class="fw-bold" style="font-size: 2.5rem;">
         <span>
@@ -37,19 +40,21 @@
       <small class="text-muted">
         소속은 대표팀으로 선발되었을 당시 소속 입니다.
       </small>
-      <a href="{{ sns.sns_url }}" class="instagram mt-5 mb-2" target="_blank">
-        <i class="bi bi-instagram"></i> 
-          선수 인스타그램
-      </a>
       <!-- 응원하기 버튼 -->
       <div>
         {% if request.user.is_authenticated %}
           <form class="like-forms d-flex justify-content-center" data-player-id="{{ player.pk }}">
             {% csrf_token %}
             {% if request.user in player.fans.all %}
-              <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">응원취소</button>
+              <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">
+                <i class="bi bi-x-lg" id="support-{{ player.pk }}"></i>
+                응원취소
+              </button>
             {% else %}
-              <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">응원하기</button>
+              <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">
+                <i class="bi bi-hand-thumbs-up" id="support-{{ player.pk }}"></i>
+                응원하기
+              </button>
             {% endif %}
           </form>
         {% endif %}
@@ -254,21 +259,35 @@
             .then((response) => {
               const isLikeds = response.data.is_likeds
               const likeBtnp = document.querySelector(`#like-${playerId}`)
+              const likeIcon = document.querySelector(`#support-${ playerId }`)
+              console.log(likeIcon)
               if (isLikeds === true) {
                 likeBtnp
                   .classList
                   .remove('btn-navy')
+                likeIcon
+                  .classList
+                  .remove('bi-hand-thumbs-up')
                 likeBtnp
                   .classList
-                  .add('btn-outline-navy')
+                  .add('btn-outline-navy ')
+                likeIcon
+                  .classList
+                  .add('bi-x-lg')
                 likeBtnp.innerText = "응원취소"
               } else {
                 likeBtnp
                   .classList
                   .remove('btn-outline-navy')
+                likeIcon
+                  .classList
+                  .remove('bi-x-lg')
                 likeBtnp
                   .classList
                   .add('btn-navy')
+                likeIcon
+                  .classList
+                  .add('bi-hand-thumbs-up')
                 likeBtnp.innerText = "응원하기"
               }
               const likeCountTag = document.querySelector('#like-count')
