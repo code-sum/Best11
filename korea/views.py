@@ -120,6 +120,7 @@ def detail(request, player_pk):
         "player": player,
         "master": master,
         "comments": comments,
+        "sns": sns,
         "blocks": blocks,
         "block_list": block_list,
         "block_comment": block_comment,
