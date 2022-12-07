@@ -7,7 +7,7 @@
       <div style="border-top:0.1rem solid black;">
         <form action="" method="POST" style="margin-top: 3rem;">
           {% csrf_token %}
-          {% bootstrap_form form %}
+          {% bootstrap_form form form_group_class="form-group" size="lg" %}
           <div class="d-flex justify-content-center">
             <button type="submit" class="button red-button--wayra red-button--border-thick button--text-upper red-button--size-s" style="margin-top: 2rem;">로그인</button>
           </div>

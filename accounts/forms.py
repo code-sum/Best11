@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 # from .models import User
 
@@ -23,6 +24,10 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    password = ReadOnlyPasswordHashField(
+        label=(""),
+        help_text=''
+        )
     class Meta:
         model = get_user_model()
         fields = ("last_name", "first_name", "profile_image")

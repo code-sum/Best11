@@ -9,15 +9,18 @@ from korea.models import Comment
 from django.db.models import Count
 from django.http import JsonResponse
 from django.db.models import Prefetch
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-
-
-# 회원 목록(변경필요)
+# 회원 목록
+@login_required
 def index(request):
-    accounts = get_user_model().objects.order_by("-pk")
-    context = {"accounts": accounts}
-    return render(request, "accounts/index.html", context)
-
+    if request.user.is_superuser:
+        accounts = get_user_model().objects.order_by("-pk")
+        context = {"accounts": accounts}
+        return render(request, "accounts/index.html", context)
+    else:
+        return redirect("korea:index")
 
 # 회원가입 
 def signup(request):
@@ -135,7 +138,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect("accounts:index")
+            return redirect("accounts:detail", request.user.pk)
     else:
         form = PasswordChangeForm(request.user)
     context = {
