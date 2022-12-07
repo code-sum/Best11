@@ -163,7 +163,7 @@ def like_player(request, player_pk):
         return redirect("korea:detail", player_pk)
 
 
-# 뇌피셜 생성
+# 피셜 생성
 @login_required
 def comment_create(request, player_pk):
     player = Players.objects.get(pk=player_pk)
@@ -189,7 +189,7 @@ def comment_create(request, player_pk):
     return render(request, "korea/comment_create.html", context)
 
 
-# 뇌피셜 수정
+# 피셜 수정
 @login_required
 def comment_update(request, player_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
@@ -210,7 +210,7 @@ def comment_update(request, player_pk, comment_pk):
     return redirect("korea:detail", player_pk)
 
 
-# 뇌피셜 삭제
+# 피셜 삭제
 @login_required
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
@@ -223,7 +223,8 @@ def comment_delete(request, comment_pk, player_pk):
     
     return redirect("korea:detail", player_pk)
 
-# 뇌피셜 좋아요
+# 피셜 좋아요
+@login_required
 def likes(request, player_pk, comment_pk):
     player = Players.objects.get(pk=player_pk)
     if request.user.is_authenticated:
@@ -247,3 +248,15 @@ def likes(request, player_pk, comment_pk):
 
 def rule(request):
     return render(request, "korea/rule.html")
+
+# 게임 메인
+def game(request):
+    return render(request, "korea/game.html")
+
+# 1인 게임
+def game_1p(request):
+    return render(request, "korea/game_1p.html")
+
+# 2인 게임
+def game_2p(request):
+    return render(request, "korea/game_2p.html")
