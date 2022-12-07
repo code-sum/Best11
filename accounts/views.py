@@ -133,7 +133,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect("accounts:index")
+            return redirect("accounts:detail", request.user.pk)
     else:
         form = PasswordChangeForm(request.user)
     context = {
