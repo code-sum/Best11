@@ -66,6 +66,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 /* Class */
@@ -503,6 +504,7 @@ main {
   margin-top: 20rem;
   margin-right: 0;
   right: 7%;
+  z-index: 4;
 }
 
 .ball-container {
@@ -510,7 +512,6 @@ main {
   height: 10rem;
   width: 10rem;
   border-radius: 50%;
-  z-index: 3;
 }
 
 @keyframes floating {
@@ -534,7 +535,7 @@ main {
 
 /* base.html  .scrollToTop  */
 .scrollToTop {
-  z-index: 2;
+  z-index: 3;
   all: unset;
   cursor: pointer;
   position: fixed;
@@ -634,6 +635,7 @@ footer {
     justify-content: center;
     align-items: center;
     background-color: #000;
+    transition: all 0.3s ease-out;
   }
 
   .video {
@@ -647,6 +649,7 @@ footer {
   .video-box {
     width: 100%;
     height: auto;
+    transition: all 0.3s ease-out;
   }
   .video {
     width: 100%;
