@@ -59,6 +59,7 @@
               </button>
             {% endif %}
           </form>
+
         <!-- 로그인 안된 경우 -->
         {% else %}
           <div>
@@ -439,7 +440,7 @@
             .then((response) => {
               const isLikeds = response.data.is_likeds
               const likeBtnp = document.querySelector(`#like-${playerId}`)
-              const likeIcon = document.querySelector(`#support-${ playerId }`)
+              const likeIcon = document.querySelector(`#support-${playerId}`)
               console.log(likeIcon)
               if (isLikeds === true) {
                 likeBtnp
