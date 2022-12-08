@@ -5,7 +5,7 @@
 <style>
  .rolling_box {
   width: 700px;
-  height: 30px;
+  height: 45px;
   text-align: left;
 }
 
@@ -24,7 +24,7 @@
   transition: top .75s;
   top: 100%;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: rgb(234, 231, 231);
 }
 
 .layout-ct {
@@ -54,160 +54,196 @@
     display: inline-block;
     padding: 0.4087vw 1.0218vw 0.1362vw;
     margin: 0.5450vw 0.8856vw;
-    background-color: #ffffff;
+    background-color: #111b54;
     border-radius: 1.3624vw;
     font-size: 1.0218vw;
   }
 
-.feed-content {
+.feed {
   display: flex;
+  flex-direction: column;
+  width: auto;
+  margin-left: 32px;
+}
+
+.feed-content-space {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.feed-content {
+    display: flex;
     flex-direction: column;
     padding: 16px;
-    background-color: rgb(179, 179, 179);
+    background-color: rgb(255, 255, 255);
     border: 1px solid #111b54;
+    border-radius: 24px;
     transition: all 0.2s ease-in-out 0s;
     cursor: pointer;
     pointer-events: auto;
     box-sizing: border-box;
 }
-
-.feed-content-hasgtag {
-  display: flex;
-  flex-direction: column;
-  -webkit-box-align: center;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.feed-content-hwrapper {
-  display: flex;
-  flex-direction: row;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  width: 100%;
-  align-items: flex-start;
-}
-
 .feed-content-tag {
-  display: flex;
-  margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
-.feed-comment {
-  display: flex;
-  flex-direction: column;
-  -webkit-box-align: center;
-  align-items: center;
-  margin-bottom: 8px;
-  width: 100%;
-  position: relative;
+.feed-content-tag .card-header-wrapper {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
 }
 
-.feed-comment-space {
-  display: flex;
-  align-items: flex-start;
-  -webkit-box-pack: end;
-  justify-content: flex-end;
-  width: 100%;
-  margin-bottom: 8px;
-}
-.feed-comment-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 0px;
-  margin-bottom: 8px;
-  max-height: 288px;
-  word-break: break-word;
-  white-space: pre-line;
-  overflow: hidden;
-  color: rgb(51, 51, 51);
-  font-size: 15px;
-  line-height: 1.6em;
-  transition: all 0.2s ease-in-out 0s;
-  position: relative;
+.content-tag {
+    display: flex;
+    margin-top: 0px;
 }
 
+.tag-detail.tag {
+    color: white;
+    background-color: #111b54;
+    border: 1px solid #111b54;
+}
+
+.tag-detail {
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-right: 6px;
+    padding: 5px 7px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1em;
+    white-space: nowrap;
+    color: rgb(109, 85, 255);
+    background-color: rgb(241, 238, 252);
+    border: 1px solid rgb(241, 238, 252);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.comment-space {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+    position: relative;
+}
+
+.comment-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin-bottom: 8px;
+    max-height: 288px;
+    word-break: break-word;
+    white-space: pre-line;
+    overflow: hidden;
+    color: rgb(51, 51, 51);
+    font-size: 15px;
+    line-height: 1.6em;
+    transition: all 0.2s ease-in-out 0s;
+    position: relative;
+}
 </style>
-<div class="container" style="padding-top: 10rem;">
-  <div class="layout-center">
-    <div class="col-12 col-md-12 col-xl-12 col-xxl-12 px-4 mt-4">
-      <div class="row pt-4" style="background-color:rgb(255, 255, 255); border-radius:10px; overflow:hidden; height:100%;">
-        <div class="col-12 col-md-12 mb-3" style="text-align:center; display:flex; flex-direction:row; align-items:center;">
-          <h1 class="fw-bold" style="margin-bottom:0;">월드컵 뉴스 기사</h1>
-          <p class="ms-3" style="color:gray; font-size:1rem; margin-bottom:0;">최신 월드컵 뉴스를 확인해보세요⚽</p>
-        </div>
-        <div class="rolling_box" style="padding-left:0;">
+
+<div style="padding-top: 10rem;">
+  <div class="col-12 col-md-12 col-xl-12 col-xxl-12 px-4 mt-4">
+    <div class="row pt-4" style="background-color:rgb(234, 231, 231); border-radius:10px; overflow:hidden; height:100%;">
+      <div class="col-12 col-md-12 mb-3" style="text-align:center; display:flex; flex-direction:row; align-items:center;">
+        <h2 class="fw-bold" style="margin-bottom:0;">월드컵 뉴스 기사</h2>
+        <p class="ms-3" style="color:gray; font-size:1rem; margin-bottom:0;">최신 월드컵 뉴스를 확인해보세요⚽</p>
+      </div>
+      <div class="rolling_box mb-3" style="padding-left:0;">
+        <ul id ="rolling_box" style="padding-left:0;">
           <ul id="scroll">
             {% for key,value in dic.items %}
             <li style="list-style:none;"><a href="{{value}}" style="color:#111b54;">{{key}}</a></li>
             <br>
             {% endfor %}
           </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="layout-center">
+  <div class="layout-ct ho"></div>
+</div>
+
+<!-- 따라서 -->
+{% for comment in comments %}
+<div class="feed">
+  <div class="detail-user-profile">
+    <a href="{% url 'accounts:detail' comment.user.pk %}">
+      <!-- 프로필 사진이 있으면 -->
+      {% if comment.user.profile_image %}
+      <img src="{{ comment.user.profile_image.url }}" alt="유저프로필" class="account-detail-img">
+      {% else %}
+      <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
+      {% endif %}
+    </a>
+    <div class="d-flex flex-column">
+      <div class="detail-user-comment">
+        <!-- 피셜 작성자 -->
+        <p>{{ comment.user.username }}<small class="text-muted"> 님이 피셜을 작성했습니다.</small></p>
+        <!-- 날짜 -->
+        <div>
+          <small class="text-muted">
+          {% if comment.is_updated == False %}
+            {% if comment.created_string == False %}
+              {{ comment.created|date:'Y.m.d' }}
+            {% else %}
+              {{ comment.created_string }}
+            {% endif %}
+          {% else %}
+            {% if comment.created_string == False %}
+              {{ comment.updated_at|date:'Y.m.d' }}
+            {% else %}
+              {{ comment.created_string }}
+            {% endif %}
+            (수정됨)
+          {% endif %}
+          </small>
         </div>
       </div>
     </div>
   </div>
-  <div class="layout-center">
-    <div class="layout-ct ho"></div>
-  </div>
-    <div class="account-detail">
-      <div class="d-flex justify-content-center align-items-center account-detail-container title-font">
-        <!-- 프로필 이미지가 있으면 -->
-        {% for comment in comments %}
-        <div class="account-detail-profile">
-          {% if comment.user.profile_image %}
-            <img src="{{ comment.user.profile_image.url }}" class="account-detail-img" style="border: 0.6px solid #6c757d7f;"><br><br>
-          {% else %}
-            <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
-          {% endif %}
-          <table>
-            <tbody>
-              <tr>
-                <th>{{ comment.user.username }}<small class="text-muted"> 님이 피셜을 작성했습니다.</small>
-              </tr>
-              <tr>
-                <th><small class="text-muted">
-                  {% if comment.is_updated == False %}
-                    {% if comment.created_string == False %}
-                      {{ comment.created|date:'Y.m.d' }}
-                    {% else %}
-                      {{ comment.created_string }}
-                    {% endif %}
-                  {% else %}
-                    {% if comment.created_string == False %}
-                      {{ comment.updated_at|date:'Y.m.d' }}
-                    {% else %}
-                      {{ comment.created_string }}
-                    {% endif %}
-                    (수정됨)
-                  {% endif %}
-                </small></th>
-              </tr>
-            </tbody>
-          </table>
-          <div class="feed-content">
-            <div class="feed-content-hashtag">
-              <div class="feed-content-hwrapper">
-                <div class="feed-content-tag">
-                  <label class="tags" style="color: #ffffff;"><a href="{% url 'korea:detail' comment.players.pk %}" class="a-black-red">#{{comment.players.name}}</a></label>
-                </div>
+  <div class="feed-content-space">
+    <div class="feed-content">
+      <div class="feed-content-tag">
+        <div class="card-header-wrapper">
+          <div class="content-tag">
+              <div class="tag-detail tag">
+                <a href="{% url 'korea:detail' comment.players.pk %}" style="color: white;"># {{comment.players.name}}</a>
               </div>
-            </div>
-            <div class="feed-comment">
-              <div class="feed-comment-space">
-                <div class="feed-comment-content">
-                  {{comment.content|safe}}
-                </div>
-              </div>
-            </div>  
           </div>
-          {% endfor %}
+        </div>
+      </div>
+      <div class="comment-space">
+        <div class="comment-content">
+          {{comment.content|safe}}
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endfor %}
+<!-- 따라서 -->
+
+
   <div class="flex-wrap my-3 pb-5">
     <main class="container d-flex justify-content-center rounded bg-white border my-5">
         <section class="container" style="width: 85%; height: auto;">
@@ -242,7 +278,7 @@
         </section>
     </main>
   </div>     
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
@@ -256,7 +292,7 @@ function textScroll(scroll_el_id) {
     this.height = this.objElement.offsetHeight; // li 엘리먼트가 움직이는 높이(외부에서 변경가능)
     this.num = this.objLi.length; // li 엘리먼트의 총 갯수
     this.totalHeight = this.height*this.num; // 총 높이
-    this.scrollspeed = 2; // 스크롤되는 px
+    this.scrollspeed = 1; // 스크롤되는 px
     this.objTop = new Array(); // 각 li의 top 위치를 저장
     this.timer = null;
     
