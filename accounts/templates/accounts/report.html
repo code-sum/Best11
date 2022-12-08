@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <style>
+    .account-detail-img {
+      width: 10.2180vw;
+      height: 10.2180vw;
+      object-fit: cover;
+      border-radius: 50%;
+      transform: scale(1.1);
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .account-detail-follow-btn {
+      margin-left: 1.0899vw;
+      padding: 0.0681vw 0.6812vw;
+      border-radius: 0.8856vw;
+      background-color: #111B54;
+      font-size: 1.1580vw;
+    }
+
+    .modal-followers img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .account-detail-picture img {
+      width: 270px;
+      height: 270px;
+      margin: 0 10px;
+      object-fit: cover;
+    }
+  </style>
+
+  <!-- 신고한 피셜 모아보기 content-->
+
+  <div class="container text-center" style="padding-top: 13rem;">
+    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">내가 신고한 피셜</h2>
+    <p class="fw-bolder" style="color:#111B54">총
+      {{ blocks.count }}개</p>
+    <table class="table text-center">
+      <thead>
+        <tr class="thead-dark">
+          <th>작성 선수</th>
+          <th>뇌피셜 내용</th>
+          <th>신고 취소</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for block in blocks %}
+          <tr>
+            <td>{{ block.players.name }}</td>
+            <td>
+              <a href="{% url 'korea:detail' block.players.pk %}">{{ block.comment.content|safe}}</a>
+            </td>
+            <td>
+              <button class="btn btn-danger" style="width: 10rem;">
+                <a href="{% url "accounts:report_delete" user.pk block.comment.pk %}">신고 취소</a>
+              </button>
+            </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+    </div>
+
+  {% endblock content %}
