@@ -45,9 +45,6 @@ def index(request):
     like_players = Players.objects.annotate(like_count=Count("fans")).order_by(
         "-like_count"
     )[:11]
-    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
-        "-count"
-    )[:5]
     context = {
         "players": players,
         "fw_players": fw_players,
@@ -55,7 +52,6 @@ def index(request):
         "df_players": df_players,
         "gk_players": gk_players,
         "like_players": like_players,
-        "like_comments": like_comments,
     }
 
     return render(request, "korea/index.html", context)

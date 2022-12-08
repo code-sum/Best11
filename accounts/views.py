@@ -221,10 +221,15 @@ def special_feed(request, pk):
 
     dic = { head:value for head, value in zip(list_, tag_)}
 
+    # 좋아요 많이 받은 피셜 가져오기
+    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[:5]
 
     context = {
         "comments": comments,
         "dic": dic,
+        "like_comments": like_comments,
     }
     return render(request, "accounts/special_feed.html", context)
 
