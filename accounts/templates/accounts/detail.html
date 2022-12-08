@@ -97,10 +97,12 @@
       <h1 style="font-size: 4rem; font-weight: bold;" class="text-center mt-5">{{ user }}</h1>
       <div class="d-flex flex-column my-3">
         <div class="d-flex flex-row justify-content-center mt-4">
-          <div class="d-flex flex-column text-center pe-5">
-            <p class="m-0" style="font-size: 2.5rem; font-weight: bold;">{{ user.comment_set.count }}</p>
-            <p style="font-size: 2rem;">My피셜</p>
-          </div>
+          <a href="#myfficiallist" style="color: black;">
+            <div class="d-flex flex-column text-center pe-5">
+              <p class="m-0" style="font-size: 2.5rem; font-weight: bold;">{{ user.comment_set.count }}</p>
+              <p style="font-size: 2rem;">My피셜</p>
+            </div>
+          </a>
           <div class="d-flex flex-column text-center pe-5" style="cursor: pointer;" data-bs-target="#followerModal" data-bs-toggle="modal">
             <p class="m-0" style="font-size: 2.5rem; font-weight: bold;" id="followers-count">{{ user.followers.count }}</p>
             <p style="font-size: 2rem;">팔로워</p>
@@ -252,7 +254,7 @@
       <!-- 프로필 하단 영역(section-three) 끝 -->
 
       <!-- 프로필 하단 영역(section-four) 시작 -->
-      <div class="profile-section-three">
+      <div class="profile-section-three" id="myfficiallist">
         <div style="width: 100%; height: 100%;">
           <div class="d-flex flex-row">
             <div class="container d-flex flex-row align-items-center justify-content-center">
