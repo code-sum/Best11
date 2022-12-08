@@ -67,6 +67,7 @@ main {
   justify-content: center;
   align-items: center;
   z-index: 2;
+  width: 100vw;
 }
 
 /* Class */
@@ -365,7 +366,7 @@ main {
   background-color: rgba(255, 255, 255, 0.725);
   position: fixed;
   width: 100%;
-  z-index: 3;
+  z-index: 4;
   margin-top: 0;
   padding: 3rem 2rem;
 }
@@ -504,7 +505,7 @@ main {
   margin-top: 20rem;
   margin-right: 0;
   right: 7%;
-  z-index: 4;
+  z-index: 5;
 }
 
 .ball-container {
@@ -659,6 +660,58 @@ footer {
     width: 100%;
     height: auto;
   }
+}
+
+/* accounts/detail.html  profile-bg */
+
+.profile-bg {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+}
+
+.profile-bg-img {
+  width: 100vw;
+  height: 25vh;
+}
+
+/* accounts/detail.html  account-detail-img */
+
+.account-detail-img {
+  top: 30vh;
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
+  border-radius: 50%;
+  transform: scale(1.1);
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  border: 1.5rem solid rgb(255, 255, 255);
+  background-color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* accounts/detail.html  profile-section */
+
+.profile-section-one {
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+  margin-top: 8rem;
+}
+
+.profile-section-two {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 8rem;
 }
 
 /* korea/index.html main 태그 내부 div */
