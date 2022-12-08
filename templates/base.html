@@ -74,13 +74,13 @@
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
                 {% endif %}
-                <p class="fs-3">
+                <p style="font-size: 2.5rem;">
                   <span class="fw-bold">
                     {{ request.user.username }}
                   </span>
                   님</p>
               </div>
-              <div class="d-flex justify-content-center align-items-center mb-5">
+              <div class="d-flex justify-content-center align-items-center" style="margin-bottom: 5rem;">
                 <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>
                 <p class="mx-3 mb-0">
                   |
