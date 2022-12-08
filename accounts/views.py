@@ -3,9 +3,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm
+from .forms import (
+    CustomUserCreationForm,
+    CustomUserChangeForm,
+    CustomAuthenticationForm,
+)
 from django.contrib.auth import update_session_auth_hash
-from korea.models import Comment
+from korea.models import Comment, Block, Players
 from django.db.models import Count
 from django.http import JsonResponse
 from django.db.models import Prefetch
@@ -22,7 +26,8 @@ def index(request):
     else:
         return redirect("korea:index")
 
-# 회원가입 
+
+# 회원가입
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
@@ -153,6 +158,7 @@ def delete(request):
     auth_logout(request)
     return redirect("accounts:index")
 
+
 # 피셜 피드
 @login_required
 def special_feed(request, pk):
@@ -174,6 +180,28 @@ def special_feed(request, pk):
         "comments": comments,
     }
     return render(request, "accounts/special_feed.html", context)
-    
 
-    
+
+# 신고한 피셜 목록
+@login_required
+def report(request, pk):
+    user = get_user_model().objects.get(pk=pk)
+    blocks = Block.objects.filter(user_id=pk)
+
+    context = {
+        "user": user,
+        "blocks": blocks,
+    }
+
+    return render(request, "accounts/report.html", context)
+
+
+# 신고한 피셜 목록
+@login_required
+def report_delete(request, pk, comment_pk):
+    user = get_user_model().objects.get(pk=pk)
+    comment = Comment.objects.get(pk=comment_pk)
+    block = Block.objects.get(comment_id=comment_pk)
+    block.delete()
+
+    return redirect("accounts:report", pk)
