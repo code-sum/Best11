@@ -241,8 +241,9 @@ def comment_delete(request, comment_pk, player_pk):
         comment.user.exp -= 2 * comment.like_users.count()
         comment.delete()
         comment.user.save()
-
-    return redirect("korea:detail", player_pk)
+    # accounts/detail.html 이나 korea/datail_player.html 어디서든
+    # 삭제 성공 시, 작업하고 있던 페이지로 리다이렉트 시킴 
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 # 피셜 좋아요
 @login_required
