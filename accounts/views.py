@@ -12,7 +12,8 @@ from django.db.models import Prefetch
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST, require_safe
-
+import requests
+from bs4 import BeautifulSoup
 
 # 전체 회원관리 페이지(관리자만 접속 가능)
 @login_required
@@ -194,8 +195,32 @@ def special_feed(request, pk):
 
     comments.sort(key=lambda x: x.created_at, reverse=True)
 
+    # 네이버 뉴스 월드컵 검색 결과(뉴스 페이지)
+    url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EC%9B%94%EB%93%9C%EC%BB%B5'
+
+    r = requests.get(url)
+    html = r.content
+    # 기사 헤드라인 가져오기
+    soup = BeautifulSoup(html, 'html.parser')
+    title = soup.select('.news_tit')
+    list_ = []
+    for i in title:
+        list_.append(i.text)
+
+    # 기사 a태그 url 가져오기
+    soup2 = BeautifulSoup(html, 'html.parser')
+    links = soup2.find_all('a', class_='news_tit') # 모든 a 태그 추출
+    tag_ = []
+    for i in links:
+        href = i.attrs['href']
+        tag_.append(href)
+
+    dic = { head:value for head, value in zip(list_, tag_)}
+
+
     context = {
         "comments": comments,
+        "dic": dic,
     }
     return render(request, "accounts/special_feed.html", context)
     
