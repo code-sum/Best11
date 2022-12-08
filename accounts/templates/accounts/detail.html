@@ -11,13 +11,6 @@
       font-size: 1.1580vw;
     }
 
-    .modal-followers img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
     .account-detail-picture img {
       width: 270px;
       height: 270px;
@@ -30,29 +23,27 @@
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followerModalLabel">Followers</h5>
+          <h1 class="modal-title fs-3" id="followerModal">팔로워</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {% if user.followers.all %}
             {% for follower in user.followers.all %}
               <a href="{% url 'accounts:detail' follower.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center my-3">
                   <!-- 프로필 이미지가 있으면 -->
                   {% if follower.profile_image %}
                     <img src="{{ follower.profile_image.url }}">
                   {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
+                    <img src="{% static 'images/Soccer-Ball2.png' %}">
                   {% endif %}
-                  <h1>{{ follower.username }}</h1>
+                  <h1 class="ms-3">{{ follower.username }}</h1>
                 </div>
               </a>
             {% endfor %}
           {% else %}
             <div class="text-center">팔로워가 없습니다.</div>
           {% endif %}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -63,29 +54,27 @@
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followingModalLabel">Followings</h5>
+          <h1 class="modal-title fs-3" id="followingModal">팔로잉</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {% if user.followings.all %}
             {% for following in user.followings.all %}
               <a href="{% url 'accounts:detail' following.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center my-3">
                   <!-- 프로필 이미지가 있으면 -->
                   {% if following.profile_image %}
                     <img src="{{ following.profile_image.url }}">
                   {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
+                    <img src="{% static 'images/Soccer-Ball2.png' %}">
                   {% endif %}
-                  <h1>{{ following.username }}</h1>
+                  <h1 class="ms-3">{{ following.username }}</h1>
                 </div>
               </a>
             {% endfor %}
           {% else %}
             <div class="text-center">팔로우 중인 사람이 없습니다.</div>
           {% endif %}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

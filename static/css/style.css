@@ -671,6 +671,14 @@ footer {
   }
 }
 
+/* accounts/detail.html  .modal-followers img */
+.modal-followers img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 /* accounts/detail.html  profile-bg */
 
 .profile-bg {
