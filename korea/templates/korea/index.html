@@ -53,7 +53,7 @@
         <div class="updown"></div>
         <div class="text-center" style="width: 40rem;">
           <h1 style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">베스트 일레븐</h1>
-          <p style="margin-top: 2rem;">가장 많은 응원을 받은 선수들입니다</p>
+          <p style="margin-top: 2rem;">가장 많은 응원을 받은 11명의 선수들입니다</p>
         </div>
         <section id="slideshow">
           <div class="entire-content">
@@ -75,22 +75,8 @@
       </div>
       <!-- 베스트 일레븐 영역 끝 (응원하기 많이 받은 선수) -->
 
-      <!-- 좋아요 많은 피셜 -->
-      <div class="text-center">
-        <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">피셜 랭킹</h1>
-      </div>
-      {% for comment in like_comments %}
-        <div class="card">
-          <div class="card-body">
-            <span style="font-weight: bold;">
-              {{comment.like_users.count }}
-              건의 좋아요</span>{{ comment.content|safe }}
-          </div>
-        </div>
-      {% endfor %}
-
       <!-- 선수 카드 모음 시작 -->
-      <div class="under-main" style="margin-top: 3rem;">
+      <div class="under-main">
         <!-- 세로선 -->
         <div class="updown"></div>
         <div class="text-center" style="width: 40rem;">
