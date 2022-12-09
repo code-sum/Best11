@@ -3,31 +3,12 @@
 {% load django_bootstrap5 %}
 {% block content %}
   <style>
-    .account-detail-img {
-      width: 10.2180vw;
-      height: 10.2180vw;
-      object-fit: cover;
-      border-radius: 50%;
-      transform: scale(1.1);
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
     .account-detail-follow-btn {
       margin-left: 1.0899vw;
       padding: 0.0681vw 0.6812vw;
       border-radius: 0.8856vw;
       background-color: #111B54;
       font-size: 1.1580vw;
-    }
-
-    .modal-followers img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 50%;
     }
 
     .account-detail-picture img {
@@ -37,25 +18,26 @@
       object-fit: cover;
     }
   </style>
-  <!-- 팔로워 모달 -->
+  <!-- 팔로워 모달 시작 -->
   <div class="modal fade title-font" id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followerModalLabel">Followers</h5>
+          <h1 class="modal-title fs-3" id="followerModal">팔로워</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {% if user.followers.all %}
             {% for follower in user.followers.all %}
               <a href="{% url 'accounts:detail' follower.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center my-3">
                   <!-- 프로필 이미지가 있으면 -->
                   {% if follower.profile_image %}
                     <img src="{{ follower.profile_image.url }}">
                   {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
+                    <img src="{% static 'images/Soccer-Ball2.png' %}">
                   {% endif %}
-                  <h1>{{ follower.username }}</h1>
+                  <h1 class="ms-3">{{ follower.username }}</h1>
                 </div>
               </a>
             {% endfor %}
@@ -63,31 +45,30 @@
             <div class="text-center">팔로워가 없습니다.</div>
           {% endif %}
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
-  <!-- 팔로잉 모달 -->
+  <!-- 팔로워 모달 끝 -->
+  <!-- 팔로잉 모달 시작 -->
   <div class="modal fade title-font" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title w-100 text-center" id="followingModalLabel">Followings</h5>
+          <h1 class="modal-title fs-3" id="followingModal">팔로잉</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {% if user.followings.all %}
             {% for following in user.followings.all %}
               <a href="{% url 'accounts:detail' following.pk %}" class="modal-followers" style="color: #111B54; text-decoration: none;">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center my-3">
                   <!-- 프로필 이미지가 있으면 -->
                   {% if following.profile_image %}
                     <img src="{{ following.profile_image.url }}">
                   {% else %}
-                    <img src="{% static 'images/ddung.jpg' %}">
+                    <img src="{% static 'images/Soccer-Ball2.png' %}">
                   {% endif %}
-                  <h1>{{ following.username }}</h1>
+                  <h1 class="ms-3">{{ following.username }}</h1>
                 </div>
               </a>
             {% endfor %}
@@ -95,208 +76,379 @@
             <div class="text-center">팔로우 중인 사람이 없습니다.</div>
           {% endif %}
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" style="background-color: #C82D36; color:white" data-bs-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
+  <!-- 팔로잉 모달 끝 -->
 
-  <div class="container my-3" style="padding-top: 10rem;">
-    <div class="d-flex justify-content-center">
-      {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" class="account-detail-img" style="border: 0.6px solid #6c757d7f;"><br><br>
-      {% else %}
-        <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
-      {% endif %}
+  <!-- 실제 프로필 영역 시작 -->
+  <main>
+    <div class="profile-bg">
+      <img class="profile-bg-img" src="{% static 'images/프로필배경2.png' %}" alt="프로필배경">
     </div>
-    <h1 style="font-size: 4rem;" class="text-center mt-5">{{ user }}</h1><br>
-    <div class="counts d-flex justify-content-center mb-3 flex-row-reverse">
-      <div class="d-flex flex-row">
-        <div class="me-5">
-          <p style="cursor: pointer; font-size: 2rem;" class="text-center" data-bs-target="#followerModal" data-bs-toggle="modal">
-            팔로워
-            <span class="ms-2 fw-bold" id="followers-count">
-              {{ user.followers.count }}
-            </span>
-          </p>
-        </div>
-        <div>
-          <p style="cursor: pointer; font-size: 2rem;" class="text-center" data-bs-target="#followingModal" data-bs-toggle="modal">팔로잉
-            <span class="ms-2 fw-bold" id="followings-count">
-              {{ user.followings.count }}
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-    {% if request.user != user %}
-      <form method="POST" class="follow-forms d-flex justify-content-center" data-user-id="{{ user.pk }}">
-        {% csrf_token %}
-        {% if request.user in user.followers.all %}
-          <button type="submit" class="btn fw-bold" style="border-radius:10rem; border-color: #C82D36;" id="follow-{{ user.pk }}">팔로우 취소</button>
-        {% else %}
-          <button type="submit" class="btn fw-bold" style="border-radius:10rem; background-color: #C82D36; color:white" id="follow-{{ user.pk }}">팔로우</button>
-        {% endif %}
-      </form>
+    {% if user.profile_image %}
+      <img src="{{ user.profile_image.url }}" class="account-detail-img">
+    {% else %}
+      <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
     {% endif %}
 
-    <div class="container" style="width:70%">
-      <table class="table mt-3 text-center">
-        <thead>
-          <tr class="thead-dark">
-            <th style="background-color: #e9ecef;">활동지수</th>
-            <th style="background-color: #e9ecef;">직업</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="follow-forms" id="exp-count" style="color:#111B54">{{ user.exp }}</td>
-            <td class="follow-forms" id="job" style="color:#111B54">{{ job }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <br><br>
-    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">작성한 피셜</h2>
-    <p class="fw-bolder" style="color:#111B54">총
-      {{ user.comment_set.count }}개</p>
-    <table class="table">
-      <thead>
-        <tr class="thead-dark">
-          <th>작성 선수</th>
-          <th>뇌피셜 내용</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for comment in user.comment_set.all %}
-          <tr>
-            <td>{{ comment.players.name }}</td>
-            <td>
-              <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
-            </td>
-          </tr>
-          {% endfor%}
-        </tbody>
-      </table>
-      <br>
-      <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center mt-5">응원하는 선수</h2>
-      <div class="container">
-        <p class="fw-bolder" style="color:#111B54">
-          {% if user.like_player %}{{ user.like_player.count }}
-          {% else %}0
-          {% endif %}명을 응원하는 중</p>
-      </p>
-      <hr>
-    </div>
-    <!-- 찜한 선수 -->
-    <div class="container text-center">
-      <div class="container row">
-        {% if user.like_player.count != 0 %}
-          {% for like in user.like_player.all %}
-            <!-- 응원하는 선수 Card -->
-            <div class="card my-4 mx-3 col-1 col-sm-2 col-md-6 col-lg-12" style="width:20%; border-radius:3rem; border-color: rgb(155, 149, 149); box-shadow:1rem 3rem 3rem 1.5rem rgba(141, 88, 88, 0.687)">
-              <a href="{% url "korea:detail" like.pk %}" class="a-black-red">
-                <img src="{{ like.player_image }}" class="card-img-top" style='border-radius:3rem 3rem 0 0; object-fit: contain;' alt="player image">
-                <div class="card-body">
-                  <p class="card-text text-center fw-bolder">{{ like.name }}
-                    {{ like.english_name }}
-                  </p>
-                  <p class="card-text text-center fw-bolder">{{ like.team }}</p>
-                  <p class="card-text text-center fw-bolder">{{ like.position }}</p>
+    <!-- 프로필 하단 영역(section-one) 시작 -->
+    <div class="profile-section-one">
+      <h1 style="font-size: 4rem; font-weight: bold;" class="text-center mt-5">{{ user }}</h1>
+      <div class="d-flex flex-column my-3">
+        <div class="d-flex flex-row justify-content-center mt-4">
+          <a href="#myfficiallist" style="color: black;">
+            <div class="d-flex flex-column text-center pe-5">
+              <p class="m-0" style="font-size: 2.5rem; font-weight: bold;">{{ user.comment_set.count }}</p>
+              <p style="font-size: 2rem;">My피셜</p>
+            </div>
+          </a>
+          <div class="d-flex flex-column text-center pe-5" style="cursor: pointer;" data-bs-target="#followerModal" data-bs-toggle="modal">
+            <p class="m-0" style="font-size: 2.5rem; font-weight: bold;" id="followers-count">{{ user.followers.count }}</p>
+            <p style="font-size: 2rem;">팔로워</p>
+          </div>
+          <div class="d-flex flex-column text-center" style="cursor: pointer;" data-bs-target="#followingModal" data-bs-toggle="modal">
+            <p class="m-0" style="font-size: 2.5rem; font-weight: bold;" id="followings-count">{{ user.followings.count }}</p>
+            <p style="font-size: 2rem;">팔로잉</p>
+          </div>
+        </div>
+
+        <!-- 본인 프로필 들어오면 개인정보 수정 / 다른 사람 프로필 들어오면 팔로우&팔로우 취소 버튼 영역 시작 -->
+        <div class="d-flex justify-content-center my-3 text-center">
+          {% if request.user == user %}
+            <a href="{% url 'accounts:update' %}" class="button button--wayra button--border-thick button--text-upper button--size-s">정보수정</a>
+          {% else %}
+            <form method="POST" class="follow-forms" data-user-id="{{ user.pk }}">
+              {% csrf_token %}
+              {% if request.user in user.followers.all %}
+                <button type="submit" class="btn btn-outline-navy" id="follow-{{ user.pk }}">팔로우 취소</button>
+              {% else %}
+                <button type="submit" class="btn btn-navy" id="follow-{{ user.pk }}">팔로우</button>
+              {% endif %}
+            </form>
+          {% endif %}
+        </div>
+        <!-- 개인정보 수정 / 팔로우&팔로우 취소 버튼 영역 끝 -->
+      </div>
+      <!-- 프로필 하단 영역(section-one) 끝 -->
+
+      <!-- 프로필 하단 영역(section-two) 시작 -->
+      <!-- EXP 영역 시작 -->
+      <div class="profile-section-two">
+        <div class="skill-progress">
+          <div class="item">
+            <p>
+              <span>
+                EXP</span>
+              <span>{{ user.exp }}점 ({{ job }})</span>
+            </p>
+            <div class="progress">
+              {% if user.exp < 10 %}
+                <div class="progress-level" style="width:5%"></div>
+              {% elif user.exp < 50 %}
+                <div class="progress-level" style="width:25%"></div>
+              {% elif user.exp < 200 %}
+                <div class="progress-level" style="width:50%"></div>
+              {% elif user.exp < 350 %}
+                <div class="progress-level" style="width:75%"></div>
+              {% elif user.exp < 500 %}
+                <div class="progress-level" style="width:100%"></div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-3 text-center text-muted">
+        <p>EXP는
+          <span style="font-weight: bold;">{{ user }}</span>님의 베스트일레븐 활동지수입니다</p>
+      </div>
+      <!-- EXP 영역 끝 -->
+      <!-- 프로필 하단 영역(section-two) 끝 -->
+
+      <!-- 프로필 하단 영역(section-three) 시작 -->
+      <!-- 응원하는 선수 영역 시작 -->
+      <div class="profile-section-three">
+        <div style="width: 100%; height: 100%;">
+          <div class="d-flex flex-row">
+            <div class="container d-flex flex-row align-items-center justify-content-center">
+              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+                <style>
+                  @keyframes pulsate {
+
+                    0%,
+                    to {
+                      transform: scale(1);
+                    }
+
+                    50% {
+                      transform: scale(.9);
+                    }
+                  }
+                </style>
+                <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                  <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                  <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                </g>
+              </svg>
+              <h1 class="fw-bold" style="background-color: #FFFFCC;">
+                <span style="background-color: #FFFFFF;">&nbsp;</span>응원하는 선수</h1>
+              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+                <style>
+                  @keyframes pulsate {
+
+                    0%,
+                    to {
+                      transform: scale(1);
+                    }
+
+                    50% {
+                      transform: scale(.9);
+                    }
+                  }
+                </style>
+                <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                  <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                  <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="row justify-content-center text-center">
+            {% for like in user.like_player.all %}
+              <div class="col-lg-3 col-md-12 col-sm-12 player-card position-color" style="border: 1px solid #C6C6C6;">
+                <a href="{% url "korea:detail" like.pk %}" class="a-black-red">
+                  <div class="overlay"></div>
+                  <div class="d-flex flex-row justify-content-center align-items-center">
+                    {% if like.position == "FW" %}
+                      <div class="fw-position-box">{{ like.position }}</div>
+                    {% elif like.position == "MF" %}
+                      <div class="mf-position-box">{{ like.position }}</div>
+                    {% elif like.position == "DF" %}
+                      <div class="df-position-box">{{ like.position }}</div>
+                    {% elif like.position == "GK" %}
+                      <div class="gk-position-box">{{ like.position }}</div>
+                    {% endif %}
+                    <div class="d-flex flex-column">
+                      <img class="rounded-circle ms-4 me-2" style="width: 10rem; height: 12rem;" src="{{ like.player_image }}" alt="선수 사진">
+                      <h2 class="text-center mt-2 fw-bold">{{ like.name }}</h2>
+                    </div>
+                    <div class="d-flex flex-column text-start">
+                      <p style="font-size: 1.4rem; margin-bottom:0;">{{ like.birthdate|date:'Y-m-d' }}</p>
+                      <p style="font-size: 1.4rem; margin-top:0; margin-bottom:0;">{{ like.height }}cm /
+                        {{ like.weight }}kg</p>
+                      <p style="font-size: 1.4rem; margin-top:0;">{{ like.team }}</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              {% empty %}
+              <a href="{% url 'korea:index' %}" class="a-black-red">
+                <h4>아직 응원하는 선수가 없습니다</h4>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+      <!-- 응원하는 선수 영역 시작 -->
+      <!-- 프로필 하단 영역(section-three) 끝 -->
+
+      <!-- 프로필 하단 영역(section-four) 시작 -->
+      <div class="profile-section-three" id="myfficiallist">
+        <div style="width: 100%; height: 100%;">
+          <div class="d-flex flex-row">
+            <div class="container d-flex flex-row align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="none" viewbox="0 0 24 24">
+                <style>
+                  .rotate-right {
+                    animation: rotate-right 1s cubic-bezier(1, -0.01, 0.13, 1.15) infinite alternate-reverse both;
+                    transform-origin: top center;
+                  }
+
+                  @keyframes rotate-right {
+                    0% {
+                      transform: rotate(0);
+                    }
+
+                    25% {
+                      transform: rotate(10deg);
+                    }
+
+                    50 {
+                      transform: rotate(0deg);
+                    }
+
+                    100% {
+                      transform: rotate(-10deg);
+                    }
+                  }
+                </style>
+                <g class="rotate-right">
+                  <path stroke="#111b54" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0" d="M9.5 7.307h5"/>
+                  <path stroke="#111b54" stroke-width="1.5" d="M9 5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5v11.3a1.5 1.5 0 01-.54 1.152l-1.5 1.249a1.5 1.5 0 01-1.92 0l-1.5-1.249A1.5 1.5 0 019 16.8V5.5z"/>
+                </g>
+              </svg>
+              <h1 class="fw-bold" style="background-color: #FFFFCC;">작성한 My피셜</h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="none" viewbox="0 0 24 24">
+                <style>
+                  .rotate-right {
+                    animation: rotate-right 1s cubic-bezier(1, -0.01, 0.13, 1.15) infinite alternate-reverse both;
+                    transform-origin: top center;
+                  }
+
+                  @keyframes rotate-right {
+                    0% {
+                      transform: rotate(0);
+                    }
+
+                    25% {
+                      transform: rotate(10deg);
+                    }
+
+                    50 {
+                      transform: rotate(0deg);
+                    }
+
+                    100% {
+                      transform: rotate(-10deg);
+                    }
+                  }
+                </style>
+                <g class="rotate-right">
+                  <path stroke="#111b54" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0" d="M9.5 7.307h5"/>
+                  <path stroke="#111b54" stroke-width="1.5" d="M9 5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5v11.3a1.5 1.5 0 01-.54 1.152l-1.5 1.249a1.5 1.5 0 01-1.92 0l-1.5-1.249A1.5 1.5 0 019 16.8V5.5z"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 피셜 카드 여러장 나오는 영역 시작 -->
+        <div class="d-flex flex-column container align-items-center my-3">
+          {% for comment in user.comment_set.all %}
+            <div class="fficial-card position-color">
+              <div class="overlay"></div>
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <div>
+                  <span class="badge bg-navy me-3" style="font-size: 2rem;">#{{ comment.players.name }}</span>
+                  <span class="badge bg-red" style="font-size: 2rem;">♥&nbsp;{{ comment.like_users.count }}</span>
+                </div>
+                <span>
+                  <a href="{% url 'korea:comment_delete' comment.players.pk comment.pk %}">
+                    <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="none">
+                      <style>
+                        @keyframes rotate-tr {
+                          0% {
+                            transform: rotate(0);
+                          }
+
+                          to {
+                            transform: rotate(20deg);
+                          }
+                        }
+                      </style>
+                      <path fill="#0A0A30" d="M16.773 10.083a.75.75 0 00-1.49-.166l1.49.166zm-1.535 7.027l.745.083-.745-.083zm-6.198 0l-.745.083.745-.083zm-.045-7.193a.75.75 0 00-1.49.166l1.49-.166zm5.249 7.333h-4.21v1.5h4.21v-1.5zm1.038-7.333l-.79 7.11 1.491.166.79-7.11-1.49-.166zm-5.497 7.11l-.79-7.11-1.49.166.79 7.11 1.49-.165zm.249.223a.25.25 0 01-.249-.222l-1.49.165a1.75 1.75 0 001.739 1.557v-1.5zm4.21 1.5c.892 0 1.64-.67 1.74-1.557l-1.492-.165a.25.25 0 01-.248.222v1.5z"/>
+                      <path fill="#265BFF" fill-rule="evenodd" d="M11 6a1 1 0 00-1 1v.25H7a.75.75 0 000 1.5h10a.75.75 0 000-1.5h-3V7a1 1 0 00-1-1h-2z" clip-rule="evenodd" style="animation:rotate-tr 1s cubic-bezier(1,-.28,.01,1.13) infinite alternate-reverse both;transform-origin:right center"/>
+                    </svg>
+                  </a>
+                </span>
+              </div>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="a-black-red">
+                <div class="d-flex flex-column mt-4">
+                  <p>{{ comment.content|safe }}</p>
+                  <p class="text-end">{{ comment.created_at|date:'Y-m-d' }}</p>
                 </div>
               </a>
             </div>
+            {% empty %}
+            <a href="{% url 'korea:index' %}" class="a-black-red">
+              <h4>아직 작성된 피셜이 없습니다</h4>
+            </a>
           {% endfor %}
-        {% else %}
-          <a href="{% url 'korea:index' %}" style="color:#111B54">
-            <h4 class="mt-5 fw-bolder">우리나라 선수를 응원해주세요!!!</h4>
-          </a>
+        </div>
+        <!-- 피셜 카드 여러장 나오는 영역 끝 -->
+
+      </div>
+
+      <!-- 프로필 하단 영역(section-four 끝) -->
+
+      <!-- 관리자가 관리자 프로필 접속했을때만 보이는 전체 회원관리 버튼 -->
+      <div class="text-end my-5">
+        {% if request.user == user and request.user.is_superuser %}
+          <a href="{% url 'accounts:index' %}" class="a-navy-red">전체 회원관리</a>
         {% endif %}
       </div>
-    </div>
 
-    <br>
+    </main>
+    <!-- 실제 프로필 영역 끝 -->
 
-    {% if request.user == user %}
-      <div class="float-end mx-5 px-5">
-        <a href="{% url 'accounts:update' %}" type="button" class="btn me-3" style="background-color: #111B54; color:white">개인정보 수정</a>
-      </div>
-    {% endif %}
+    <!-- 팔로우 비동기 -->
+    <!-- 비동기 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <!-- 관리자가 관리자 프로필 접속했을때만 보이는 전체 회원관리 버튼 -->
-    {% if request.user == user and request.user.is_superuser %}
-      <a href="{% url 'accounts:index' %}">전체 회원관리</a>
-    {% endif %}
-  </div>
+    <script>
+      const forms = document.querySelectorAll(".follow-forms")
+      const csrftoken = document
+        .querySelector('[name=csrfmiddlewaretoken]')
+        .value
 
-  <!-- 팔로우 비동기 -->
-  <!-- 비동기 CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        forms
+        .forEach((form) => {
+          form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userId = event
+              .target
+              .dataset
+              .userId
 
-  <script>
-    const forms = document.querySelectorAll(".follow-forms")
-    const csrftoken = document
-      .querySelector('[name=csrfmiddlewaretoken]')
-      .value
-
-      forms
-      .forEach((form) => {
-        form.addEventListener('submit', function (event) {
-          event.preventDefault();
-          const userId = event
-            .target
-            .dataset
-            .userId
-
-            axios({
-              method: 'post',
-              url: `/accounts/${userId}/follow/`,
-              headers: {
-                'X-CSRFToken': csrftoken
-              }
-            })
-            .then((response) => {
-              console.log(response.data)
-              const isFollowed = response.data.is_Followed
-              const followBtn = document.querySelector(`#follow-${userId}`)
-              if (isFollowed === true) {
-                followBtn.innerText = "팔로우 취소"
-                followBtn
-                  .classList
-                  .remove('btn-primary')
-                followBtn
-                  .classList
-                  .add('btn-danger')
-              } else {
-                followBtn.innerText = "팔로우"
-                followBtn
-                  .classList
-                  .remove('btn-danger')
-                followBtn
-                  .classList
-                  .add('btn-primary')
-              }
-              const followersCount = response.data.followers_count
-              const followingsCount = response.data.followings_count
-              const expCount = response.data.exp_count
-              const commentCount = response.data.comment_count
-              const jobtd = document.querySelector('#job')
-              const followersCountTag = document.querySelector('#followers-count')
-              const followingsCountTag = document.querySelector('#followings-count')
-              const expCountTag = document.querySelector('#exp-count')
-              followersCountTag.innerText = followersCount
-              followingsCountTag.innerText = followingsCount
-              expCountTag.innerText = expCount
-              if (expCount < 30) {
-                jobtd.innerText = '벤치'
-              } else if (expCount < 80) {
-                jobtd.innerText = '선수'
-              } else if (expCount >= 80 && commentCount > 12) {
-                jobtd.innerText = '감독'
-              }
-            })
+              axios({
+                method: 'post',
+                url: `/accounts/${userId}/follow/`,
+                headers: {
+                  'X-CSRFToken': csrftoken
+                }
+              })
+              .then((response) => {
+                console.log(response.data)
+                const isFollowed = response.data.is_Followed
+                const followBtn = document.querySelector(`#follow-${userId}`)
+                if (isFollowed === true) {
+                  followBtn.innerText = "팔로우 취소"
+                  followBtn
+                    .classList
+                    .remove('btn-navy')
+                  followBtn
+                    .classList
+                    .add('btn-outline-navy')
+                } else {
+                  followBtn.innerText = "팔로우"
+                  followBtn
+                    .classList
+                    .remove('btn-outline-navy')
+                  followBtn
+                    .classList
+                    .add('btn-navy')
+                }
+                const followersCount = response.data.followers_count
+                const followingsCount = response.data.followings_count
+                const expCount = response.data.exp_count
+                const commentCount = response.data.comment_count
+                const jobtd = document.querySelector('#job')
+                const followersCountTag = document.querySelector('#followers-count')
+                const followingsCountTag = document.querySelector('#followings-count')
+                const expCountTag = document.querySelector('#exp-count')
+                followersCountTag.innerText = followersCount
+                followingsCountTag.innerText = followingsCount
+                expCountTag.innerText = expCount
+                if (expCount < 30) {
+                  jobtd.innerText = '벤치'
+                } else if (expCount < 80) {
+                  jobtd.innerText = '선수'
+                } else if (expCount >= 80 && commentCount > 12) {
+                  jobtd.innerText = '감독'
+                }
+              })
+          })
         })
-      })
-  </script>
-{% endblock content %}
+    </script>
+  {% endblock content %}

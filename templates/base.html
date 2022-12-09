@@ -14,7 +14,7 @@
     <title>베스트일레븐 :: BEST 11</title>
     {% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+
   </head>
 
   <body>
@@ -27,9 +27,9 @@
       <ul class="menu">
         <li>
           {% if request.user.is_authenticated %}
-          <a href="{% url 'accounts:special_feed' user.pk %}" class="header-a link link-theme link-arrow">피셜피드</a>
+            <a href="{% url 'accounts:special_feed' user.pk %}" class="header-a link link-theme link-arrow">피셜피드</a>
           {% else %}
-          <a href="{% url 'accounts:login' %}" class="header-a link link-theme link-arrow">피셜피드</a>
+            <a href="{% url 'accounts:login' %}" class="header-a link link-theme link-arrow">피셜피드</a>
           {% endif %}
         </li>
         <li>
@@ -39,7 +39,7 @@
           <a href="{% url 'korea:rule' %}" class="header-a link link-theme link-arrow">축구상식</a>
         </li>
         <li>
-          <a href="#five" class="header-a link link-theme link-arrow">미니게임</a>
+          <a href="{% url 'korea:game' %}" class="header-a link link-theme link-arrow">미니게임</a>
         </li>
       </ul>
     </header>
@@ -48,12 +48,12 @@
       <div class="ball-container">
         {% if request.user.is_authenticated %}
           {% if request.user.profile_image %}
-            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" alt="profile">
+            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; height: 10rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" alt="profile">
           {% else %}
-            <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+            <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 8.5rem; height: 8.5rem;" alt="profile">
           {% endif %}
         {% else %}
-          <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+          <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 8.5rem; height: 8.5rem;" alt="profile">
         {% endif %}
       </div>
       <div class="ball-shadow"></div>
@@ -74,13 +74,13 @@
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
                 {% endif %}
-                <p class="fs-3">
+                <p style="font-size: 2.5rem;">
                   <span class="fw-bold">
                     {{ request.user.username }}
                   </span>
                   님</p>
               </div>
-              <div class="d-flex justify-content-center align-items-center mb-5">
+              <div class="d-flex justify-content-center align-items-center" style="margin-bottom: 5rem;">
                 <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>
                 <p class="mx-3 mb-0">
                   |
@@ -140,7 +140,7 @@
             일레븐
           </span>
         </h4>
-        <a href="https://github.com/code-sum/Best11" class="text-secondary" >BEST11 홈그라운드</a>
+        <a href="https://github.com/code-sum/Best11" class="text-secondary">BEST11 홈그라운드</a>
         <a href="#" class="text-secondary">프로젝트 기획서</a>
         <!-- 깃헙프로필 -->
         <div class="d-flex mt-3 mb-4">
@@ -162,11 +162,7 @@
               <p class="pt-2 mb-0">임선주</p>
             </button>
           </a>
-          <a
-            href="https://github.com/JOO-10000-Zi"
-            target="_blank"
-            class=""
-          >
+          <a href="https://github.com/JOO-10000-Zi" target="_blank" class="">
             <button class="btn border-0 p-0">
               <img src="{% static 'images/주세환.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
               <p class="pt-2 mb-0">주세환</p>
@@ -210,16 +206,17 @@
     document.body.scrollTop = 0; // for Safari
     document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
     }
+
     </script>
-    
+
     <!-- Jquery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    
+
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    
-  {% block script %}{% endblock script %}
+
+    {% block script %}{% endblock script %}
   </body>
 
 </html>

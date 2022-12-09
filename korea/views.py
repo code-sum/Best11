@@ -45,9 +45,6 @@ def index(request):
     like_players = Players.objects.annotate(like_count=Count("fans")).order_by(
         "-like_count"
     )[:11]
-    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
-        "-count"
-    )[:5]
     context = {
         "players": players,
         "fw_players": fw_players,
@@ -55,7 +52,6 @@ def index(request):
         "df_players": df_players,
         "gk_players": gk_players,
         "like_players": like_players,
-        "like_comments": like_comments,
     }
 
     return render(request, "korea/index.html", context)
@@ -180,7 +176,7 @@ def like_player(request, player_pk):
         return redirect("korea:detail", player_pk)
 
 
-# 뇌피셜 생성
+# 피셜 생성
 @login_required
 def comment_create(request, player_pk):
     player = Players.objects.get(pk=player_pk)
@@ -206,7 +202,7 @@ def comment_create(request, player_pk):
     return render(request, "korea/comment_create.html", context)
 
 
-# 뇌피셜 수정
+# 피셜 수정
 @login_required
 def comment_update(request, player_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
@@ -227,7 +223,7 @@ def comment_update(request, player_pk, comment_pk):
     return redirect("korea:detail", player_pk)
 
 
-# 뇌피셜 삭제
+# 피셜 삭제
 @login_required
 def comment_delete(request, comment_pk, player_pk):
     comment = Comment.objects.get(pk=comment_pk)
@@ -241,11 +237,12 @@ def comment_delete(request, comment_pk, player_pk):
         comment.user.exp -= 2 * comment.like_users.count()
         comment.delete()
         comment.user.save()
+    # accounts/detail.html 이나 korea/datail_player.html 어디서든
+    # 삭제 성공 시, 작업하고 있던 페이지로 리다이렉트 시킴 
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
-    return redirect("korea:detail", player_pk)
-
-
-# 뇌피셜 좋아요
+# 피셜 좋아요
+@login_required
 def likes(request, player_pk, comment_pk):
     player = Players.objects.get(pk=player_pk)
     if request.user.is_authenticated:
@@ -267,10 +264,21 @@ def likes(request, player_pk, comment_pk):
         }
         return JsonResponse(context)
 
-
+# 규칙
 def rule(request):
     return render(request, "korea/rule.html")
 
+# 게임 메인
+def game(request):
+    return render(request, "korea/game.html")
+
+# 1인 게임
+def game_1p(request):
+    return render(request, "korea/game_1p.html")
+
+# 2인 게임
+def game_2p(request):
+    return render(request, "korea/game_2p.html")
 
 # 댓글 신고하기
 def block(request, player_pk, comment_pk):
