@@ -22,3 +22,4 @@ urlpatterns = [
     path("game_2p/", views.game_2p, name="game_2p"), # 2인 게임
     path("detail/<int:player_pk>/<int:comment_pk>/block/", views.block, name="block"), # 피셜 신고하기
     path("match/", views.match, name='match'), # 경기 일정
+]
