@@ -94,11 +94,14 @@
 
     <!-- 하단 채팅 레이아웃 -->
     <div class="d-flex justify-content-center my-5">
-      <div class="col-8" style="width: 50rem;">
+      <div class="col-8" style="width: 50rem;" onclick="loadChat">
         <div class="wrap row justify-content-center">
           <!-- 입력창 모양 -->
           <div class="col-11">
-            <p class="text-navy fw-bold mb-4" style="font-size: 1.8rem;">{{ player.comment_set.count }}개의 피셜</p>
+            <div class="d-flex align-items-center mb-4">
+              <p class="text-navy fw-bold mb-0" style="font-size: 1.8rem;">{{ player.comment_set.count }}개의 피셜</p>
+              <button class="reload bi bi-arrow-clockwise rounded-circle ms-3" onClick="window.location.reload()"></button>
+            </div>
             <a href="{% url 'korea:comment_create' player.pk %}">
               <div class="input-group mb-3" style="height: 4.1rem;">
                 <input disabled="disabled" style="background-color: white;" type="text" class="form-control" placeholder="선수에 대해 알고있는 정보를 공유해 주세요!" aria-label="피셜 작성" aria-describedby="basic-addon2">
@@ -375,9 +378,8 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-
   <script>
+
     // summernote 적용, 커스텀
     $('#summernote').summernote({
       height: 300,

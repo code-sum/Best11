@@ -183,29 +183,30 @@
     </footer>
 
     <script>
-      // Top Button
+    // Top Button
+    
+    // get the button
+    let myBtn = document.getElementById("hexagon")
+    
+    // When the user scrolls down 650px from the top of the document, show the button
+    window.onscroll = function () {
+    scrollFunction();
+    };
+    
+    function scrollFunction() {
+    if (document.body.scrollTop > 650 || document.documentElement.scrollTop > 650) {
+      myBtn.style.display = "block";
+    } else {
+      myBtn.style.display = "none";
+    }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+    document.body.scrollTop = 0; // for Safari
+    document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
+    }
 
-      // get the button
-      let myBtn = document.getElementById("hexagon")
-
-      // When the user scrolls down 30px from the top of the document, show the button
-      window.onscroll = function () {
-        scrollFunction();
-      };
-
-      function scrollFunction() {
-        if (document.body.scrollTop > 650 || document.documentElement.scrollTop > 650) {
-          myBtn.style.display = "block";
-        } else {
-          myBtn.style.display = "none";
-        }
-      }
-
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0; // for Safari
-        document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
-      }
     </script>
 
     <!-- Jquery CDN -->
