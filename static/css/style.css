@@ -1439,3 +1439,114 @@ label[for="toggle-pears"] {
   display: none;
 }
 
+/* 축구 규칙 */
+.mainMenu{
+  width: auto;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  list-style: none;
+  text-decoration: none;
+}
+
+.menuitem{
+  border-top: 1px solid #ef584a;
+  overflow: hidden;
+}
+
+.subMenu{
+  background: #fff;
+  color: #111b54;
+  overflow: auto;
+  transition: max-height 0.7s;
+  max-height: 0;
+}
+.subMenu a{
+  display: block;
+  padding: 15px 20px;
+  color: #fff;
+  font-size: 14px;
+  border-bottom: 1px solid #394c7f;
+  position: relative;
+  
+}
+.subMenu a:before{
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s;
+
+}
+.subMenu a:hover:before{
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 6px;
+  left: 0;
+  top:0;
+  opacity: 1;
+  /* background-color: #d8d824; */
+  border-top: 24px solid transparent;
+  border-left: 11px solid #fcdc29;
+  border-bottom: 24px solid transparent;
+}
+.subMenu a:after{
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s;
+
+}
+.subMenu a:hover:after{
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 6px;
+  right: 0px;
+  top:0;
+  opacity: 1;
+  /* background-color: #d8d824; */
+  border-top: 24px solid transparent;
+  border-right: 11px solid #fcdc29;
+  border-bottom: 24px solid transparent;
+}
+.subMenu a:hover{
+  background: #273057;
+  background: -moz-linear-gradient(top, #273057 0%, #273057 50%, #394c7f 51%, #394c7f 100%);
+  background: -webkit-linear-gradient(top, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
+  background: linear-gradient(to bottom, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#273057', endColorstr='#394c7f',GradientType=0 );
+  transition: all 0.3s;
+  border-bottom: 1px solid #394c7f;
+}
+.subMenu a:last-child{
+  border:none;
+}
+
+.menuitem:target .subMenu{
+  max-height: 20em;
+}
+
+.rule-btn{
+  display: block;
+  padding: 15px 20px;
+  background-color: #ff6f61;
+  color: #fff;
+  position: relative;
+
+}
+.rule-btn:before{
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:10px solid #ff6f61;
+  right: 15px;
+  bottom: -10px;
+  z-index: 9;
+  
+}
+.rule-btn i {
+  margin-right: 10px;
+}
+
