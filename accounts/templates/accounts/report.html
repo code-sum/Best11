@@ -58,11 +58,11 @@
           <tr>
             <td>{{ block.players.name }}</td>
             <td>
-              <a href="{% url 'korea:detail' block.players.pk %}">{{ block.comment.content|safe}}</a>
+              <a style="color: inherit" href="{% url 'korea:detail' block.players.pk %}">{{ block.comment.content|safe}}</a>
             </td>
             <td>
               <button class="btn btn-danger" style="width: 10rem;">
-                <a href="{% url "accounts:report_delete" user.pk block.comment.pk %}">신고 취소</a>
+                <a style="color: inherit" href="{% url "accounts:report_delete" user.pk block.comment.pk %}">신고 취소</a>
               </button>
             </td>
           </tr>
