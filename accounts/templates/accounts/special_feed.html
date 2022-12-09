@@ -3,30 +3,6 @@
 {% load django_bootstrap5 %}
 {% block content %}
   <style>
-    .rolling_box {
-      width: 700px;
-      height: 45px;
-      text-align: left;
-    }
-
-    .rolling_box ul {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .rolling_box ul li {
-      width: 100%;
-      height: 100%;
-      transition: 0.5s;
-      position: absolute;
-      transition: top 0.75s;
-      top: 100%;
-      z-index: 1;
-      background-color: rgb(234, 231, 231);
-    }
-
     .layout-ct {
       padding-top: 5rem;
       margin-bottom: 5rem;
@@ -162,33 +138,97 @@
   </style>
 
   <div style="padding-top: 10rem;">
-    <div class="col-12 col-md-12 col-xl-12 col-xxl-12 px-4 mt-4">
-      <div class="row pt-4" style="background-color:rgb(234, 231, 231); border-radius:10px; overflow:hidden; height:100%;">
-        <div class="col-12 col-md-12 mb-3" style="text-align:center; display:flex; flex-direction:row; align-items:center;">
-          <h2 class="fw-bold" style="margin-bottom:0;">월드컵 뉴스 기사</h2>
-          <p class="ms-3" style="color:gray; font-size:1rem; margin-bottom:0;">최신 월드컵 뉴스를 확인해보세요⚽</p>
-        </div>
-        <div class="rolling_box mb-3" style="padding-left:0;">
-          <ul id="rolling_box" style="padding-left:0;">
+    <!-- section 1 : 뉴스 영역 시작 -->
+    <div class="feed-section-one">
+      <div class="row d-flex justify-content-center text-center">
+        <h1 class="fw-bold m-0">실시간 월드컵 뉴스</h1>
+        <div class="rolling_box">
+          <ul id="rolling_box">
             <ul id="scroll">
               {% for key, value in dic.items %}
                 <li style="list-style:none;">
-                  <a href="{{value}}" style="color:#111b54;">{{key}}</a>
+                  <a href="{{ value }}" class="a-black-red" style="font-size: 1.5rem;">🆕
+                    {{ key }}</a>
                 </li>
-                <br>
               {% endfor %}
             </ul>
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
+    <!-- section 1 : 뉴스 영역 끝 -->
+
+    <!-- section 2 : 피셜랭킹 영역 시작 -->
+    <div class="feed-section-two">
+      <div class="wrapper">
+        <div class="outer">
+          <div class="card" style="--delay:-1;">
+            <div class="content">
+              {% for comment in like_comments_first %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Sumit Kapoor</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:0;">
+            <div class="content">
+              {% for comment in like_comments_second %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Andrew Neil</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:1;">
+            <div class="content">
+              {% for comment in like_comments_third %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Jasmine Carter</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:2;">
+            <div class="content">
+              {% for comment in like_comments_four %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Justin Chung</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:2;">
+            <div class="content">
+              {% for comment in like_comments_five %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Adrina Calvo</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- section 2 : 피셜랭킹 영역 끝 -->
   </div>
-</div>
 
-<div class="layout-center">
-  <div class="layout-ct ho"></div>
-</div>
-
-<!-- 좋아요 많은 피셜 -->
+{% comment %} <!-- 좋아요 많은 피셜 -->
 <div class="text-center">
   <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">피셜 랭킹</h1>
 </div>
@@ -200,9 +240,9 @@
         건의 좋아요</span>{{ comment.content|safe }}
     </div>
   </div>
-{% endfor %}
+{% endfor %} {% endcomment %}
 
-<!-- 따라서 -->
+{% comment %} <!-- 따라서 -->
 {% for comment in comments %}
   <div class="feed">
     <div class="detail-user-profile">
@@ -264,7 +304,7 @@
     </div>
   </div>
 {% endfor %}
-<!-- 따라서 -->
+<!-- 따라서 --> {% endcomment %}
 
 <div class="flex-wrap my-3 pb-5">
   <main class="container d-flex justify-content-center rounded bg-white border my-5">
