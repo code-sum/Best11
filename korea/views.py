@@ -302,3 +302,7 @@ def block(request, player_pk, comment_pk):
         }
 
         return JsonResponse(context)
+
+# 경기 일정
+def match(request):
+    return render(request, "korea/match.html")
