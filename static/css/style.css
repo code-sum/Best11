@@ -11,6 +11,14 @@ html {
   }
 }
 
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Tag */
 
 body {
@@ -78,7 +86,7 @@ main {
 }
 
 .bg-red {
-  background-color: #C82D36;
+  background-color: #c82d36;
 }
 
 /* text */
@@ -132,9 +140,9 @@ main {
   border: none;
   background: none;
   color: inherit;
-  vertical-align: middle;
   position: relative;
   z-index: 1;
+  text-align: center;
   -webkit-backface-visibility: hidden;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -293,6 +301,73 @@ main {
   color: #111b54;
   background-color: white;
   border: 1px solid #111b54;
+}
+
+/* main.html */
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.main h1 {
+  font-family: "GmarketSansMedium";
+  font-size: 5rem;
+  font-weight: 950;
+  margin: 0.5rem 0 5rem 0;
+}
+
+.main-ball {
+  width: 15rem;
+  border-radius: 70%;
+  transition: all ease 1s;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.main-ball:hover {
+  transform: rotate(360deg);
+}
+
+.main-tooltip {
+  background-color: #fae4e6;
+  border: #c82d36 solid 1.8px;
+  border-radius: 0.5rem;
+  color: #c82d36;
+  font-size: 1.6rem;
+  font-weight: 600;
+  height: auto;
+  letter-spacing: 0.2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 5rem;
+  padding: 1rem 3rem;
+  position: relative;
+  width: fit-content;
+  z-index: 100;
+}
+.main-tooltip::after {
+  border-color: #fae4e6 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: "";
+  display: block;
+  left: 9.8rem;
+  position: absolute;
+  top: -7px;
+  width: 0;
+  z-index: 1;
+}
+.main-tooltip::before {
+  border-color: #c82d36 transparent;
+  border-style: solid;
+  border-width: 0 6px 8px 6.5px;
+  content: "";
+  display: block;
+  left: 9.8rem;
+  position: absolute;
+  top: -9px;
+  width: 0;
+  z-index: 0;
 }
 
 /* base.html - header CSS */
@@ -573,14 +648,6 @@ footer {
   padding-top: 3.5rem;
 }
 
-@font-face {
-  font-family: "GmarketSansMedium";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
 .footer-content h4 {
   font-size: 2.5rem;
   font-weight: 600;
@@ -738,57 +805,56 @@ footer {
 }
 
 /* accounts/detail.html  EXP 영역 */
-.skill-progress{
+.skill-progress {
   width: 40rem;
   height: 8rem;
   padding: 2rem;
   background: linear-gradient(135deg, rgb(209, 209, 209), rgb(69, 70, 92));
   border-radius: 10rem;
-  color : rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   box-shadow: 0 1rem 1rem rgba(95, 95, 95, 0.533);
-  top : 78rem;
+  top: 78rem;
 }
 
 .item {
   transition: 0.4s;
-
 }
 .item:hover {
   border-radius: 3px;
   transform: scale(1.05);
 }
 
-.item p{
+.item p {
   overflow: hidden;
-  margin-bottom : 0;
+  margin-bottom: 0;
 }
 
-.item p span:nth-child(1){
-  float : left;
+.item p span:nth-child(1) {
+  float: left;
   font-weight: bold;
 }
-.item p span:nth-child(2){
+.item p span:nth-child(2) {
   float: right;
 }
 
-.progress{
-  border : 1px solid #ffffff;
+.progress {
+  border: 1px solid #ffffff;
   background: transparent;
-  padding : 5px;
+  padding: 5px;
   border-radius: 3px;
 }
 
-.progress-level{
+.progress-level {
   height: 10px;
-  background : linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255));
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255));
   animation: ani;
   animation-duration: 3s;
-  animation-fill-mode: both; 
+  animation-fill-mode: both;
 }
 
-@keyframes ani{
-  0%{
-      width: 0;
+@keyframes ani {
+  0% {
+    width: 0;
   }
 }
 
@@ -798,7 +864,7 @@ footer {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  border: 1px solid #C6C6C6;
+  border: 1px solid #c6c6c6;
   position: relative;
   overflow: hidden;
   margin: 2rem;
@@ -815,7 +881,6 @@ footer {
 .fficial-card:hover .overlay {
   transform: scale(4) translateZ(0);
 }
-
 
 /* korea/index.html main 태그 내부 div */
 .under-main {
