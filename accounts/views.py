@@ -30,7 +30,7 @@ def index(request):
         return redirect("korea:index")
 
 
-# 회원가입 
+# 회원가입
 def signup(request):
     # 이미 로그인된 사람은 korea:index 로 보냄
     if request.user.is_authenticated:
@@ -134,9 +134,9 @@ def follow(request, pk):
                 "comment_count": comment_count,
             }
             return JsonResponse(context)
-        return redirect('accounts:detail', accounts.username)
-    return redirect('accounts:login')
-    
+        return redirect("accounts:detail", accounts.username)
+    return redirect("accounts:login")
+
 
 # 회원정보 수정
 @login_required
@@ -200,26 +200,26 @@ def special_feed(request, pk):
     comments.sort(key=lambda x: x.created_at, reverse=True)
 
     # 네이버 뉴스 월드컵 검색 결과(뉴스 페이지)
-    url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EC%9B%94%EB%93%9C%EC%BB%B5'
+    url = "https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EC%9B%94%EB%93%9C%EC%BB%B5"
 
     r = requests.get(url)
     html = r.content
     # 기사 헤드라인 가져오기
-    soup = BeautifulSoup(html, 'html.parser')
-    title = soup.select('.news_tit')
+    soup = BeautifulSoup(html, "html.parser")
+    title = soup.select(".news_tit")
     list_ = []
     for i in title:
         list_.append(i.text)
 
     # 기사 a태그 url 가져오기
-    soup2 = BeautifulSoup(html, 'html.parser')
-    links = soup2.find_all('a', class_='news_tit') # 모든 a 태그 추출
+    soup2 = BeautifulSoup(html, "html.parser")
+    links = soup2.find_all("a", class_="news_tit")  # 모든 a 태그 추출
     tag_ = []
     for i in links:
-        href = i.attrs['href']
+        href = i.attrs["href"]
         tag_.append(href)
 
-    dic = { head:value for head, value in zip(list_, tag_)}
+    dic = {head: value for head, value in zip(list_, tag_)}
 
     # 좋아요 많이 받은 피셜 가져오기
     like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
@@ -253,7 +253,9 @@ def report(request, pk):
 def report_delete(request, pk, comment_pk):
     user = get_user_model().objects.get(pk=pk)
     comment = Comment.objects.get(pk=comment_pk)
-    block = Block.objects.get(comment_id=comment_pk)
-    block.delete()
+    blocks = Block.objects.filter(comment_id=comment_pk)
+    for block in blocks:
+        if block.user == user:
+            block.delete()
 
     return redirect("accounts:report", pk)
