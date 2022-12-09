@@ -817,6 +817,42 @@ footer {
 }
 
 
+/* accounts/special_feed.html  실시간 뉴스 영역 */
+.feed-section-one {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+  background-color:#F6F6F6;
+  padding-top: 4rem;
+  padding-bottom: 1rem;
+}
+
+.rolling_box {
+  width: 700px;
+  height: 45px;
+  margin-top: 2rem;
+}
+
+.rolling_box ul {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.rolling_box ul li {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  position: absolute;
+  transition: top 0.75s;
+  top: 100%;
+  z-index: 1;
+  background-color: #F6F6F6;
+}
+
+
 /* korea/index.html main 태그 내부 div */
 .under-main {
   display: flex;
