@@ -222,14 +222,31 @@ def special_feed(request, pk):
     dic = { head:value for head, value in zip(list_, tag_)}
 
     # 좋아요 많이 받은 피셜 가져오기
-    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
+    like_comments_first = Comment.objects.annotate(count=Count("like_users")).order_by(
         "-count"
-    )[:5]
+    )[0:1]
+    like_comments_second = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[1:2]
+    like_comments_third = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[2:3]
+    like_comments_four = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[3:4]
+    like_comments_five = Comment.objects.annotate(count=Count("like_users")).order_by(
+        "-count"
+    )[4:5]
+    
 
     context = {
         "comments": comments,
         "dic": dic,
-        "like_comments": like_comments,
+        "like_comments_first": like_comments_first,
+        "like_comments_second": like_comments_second,
+        "like_comments_third": like_comments_third,
+        "like_comments_four": like_comments_four,
+        "like_comments_five": like_comments_five,
     }
     return render(request, "accounts/special_feed.html", context)
 

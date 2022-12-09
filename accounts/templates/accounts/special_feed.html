@@ -140,7 +140,7 @@
   <div style="padding-top: 10rem;">
     <!-- section 1 : 뉴스 영역 시작 -->
     <div class="feed-section-one">
-      <div class="row d-flex justify-content-center">
+      <div class="row d-flex justify-content-center text-center">
         <h1 class="fw-bold m-0">실시간 월드컵 뉴스</h1>
         <div class="rolling_box">
           <ul id="rolling_box">
@@ -152,199 +152,268 @@
                 </li>
               {% endfor %}
             </ul>
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
     <!-- section 1 : 뉴스 영역 끝 -->
 
-  </div>
-
-  <!-- 좋아요 많은 피셜 -->
-  <div class="text-center">
-    <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">피셜 랭킹</h1>
-  </div>
-  {% for comment in like_comments %}
-    <div class="card">
-      <div class="card-body">
-        <span style="font-weight: bold;">
-          {{comment.like_users.count }}
-          건의 좋아요</span>{{ comment.content|safe }}
-      </div>
-    </div>
-  {% endfor %}
-
-  <!-- 따라서 -->
-  {% for comment in comments %}
-    <div class="feed">
-      <div class="detail-user-profile">
-        <a href="{% url 'accounts:detail' comment.user.pk %}">
-          <!-- 프로필 사진이 있으면 -->
-          {% if comment.user.profile_image %}
-            <img src="{{ comment.user.profile_image.url }}" alt="유저프로필" class="account-detail-img">
-          {% else %}
-            <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
-          {% endif %}
-        </a>
-        <div class="d-flex flex-column">
-          <div class="detail-user-comment">
-            <!-- 피셜 작성자 -->
-            <p>{{ comment.user.username }}
-              <small class="text-muted">
-                님이 피셜을 작성했습니다.</small>
-            </p>
-            <!-- 날짜 -->
-            <div>
-              <small class="text-muted">
-                {% if comment.is_updated == False %}
-                  {% if comment.created_string == False %}
-                    {{ comment.created|date:'Y.m.d' }}
-                  {% else %}
-                    {{ comment.created_string }}
-                  {% endif %}
-                {% else %}
-                  {% if comment.created_string == False %}
-                    {{ comment.updated_at|date:'Y.m.d' }}
-                  {% else %}
-                    {{ comment.created_string }}
-                  {% endif %}
-                  (수정됨)
-                {% endif %}
-              </small>
+    <!-- section 2 : 피셜랭킹 영역 시작 -->
+    <div class="feed-section-two">
+      <div class="wrapper">
+        <div class="outer">
+          <div class="card" style="--delay:-1;">
+            <div class="content">
+              {% for comment in like_comments_first %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Sumit Kapoor</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
             </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:0;">
+            <div class="content">
+              {% for comment in like_comments_second %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Andrew Neil</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:1;">
+            <div class="content">
+              {% for comment in like_comments_third %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Jasmine Carter</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:2;">
+            <div class="content">
+              {% for comment in like_comments_four %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Justin Chung</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          </div>
+          <div class="card" style="--delay:2;">
+            <div class="content">
+              {% for comment in like_comments_five %}
+              <div class="img"><img src="#" alt=""></div>
+              <div class="details">
+                <span class="name">Adrina Calvo</span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
           </div>
         </div>
       </div>
-      <div class="feed-content-space">
-        <div class="feed-content">
-          <div class="feed-content-tag">
-            <div class="card-header-wrapper">
-              <div class="content-tag">
-                <div class="tag-detail tag">
-                  <a href="{% url 'korea:detail' comment.players.pk %}" style="color: white;">#
-                    {{comment.players.name}}</a>
-                </div>
+    </div>
+    <!-- section 2 : 피셜랭킹 영역 끝 -->
+  </div>
+
+{% comment %} <!-- 좋아요 많은 피셜 -->
+<div class="text-center">
+  <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">피셜 랭킹</h1>
+</div>
+{% for comment in like_comments %}
+  <div class="card">
+    <div class="card-body">
+      <span style="font-weight: bold;">
+        {{comment.like_users.count }}
+        건의 좋아요</span>{{ comment.content|safe }}
+    </div>
+  </div>
+{% endfor %} {% endcomment %}
+
+{% comment %} <!-- 따라서 -->
+{% for comment in comments %}
+  <div class="feed">
+    <div class="detail-user-profile">
+      <a href="{% url 'accounts:detail' comment.user.pk %}">
+        <!-- 프로필 사진이 있으면 -->
+        {% if comment.user.profile_image %}
+          <img src="{{ comment.user.profile_image.url }}" alt="유저프로필" class="account-detail-img">
+        {% else %}
+          <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
+        {% endif %}
+      </a>
+      <div class="d-flex flex-column">
+        <div class="detail-user-comment">
+          <!-- 피셜 작성자 -->
+          <p>{{ comment.user.username }}
+            <small class="text-muted">
+              님이 피셜을 작성했습니다.</small>
+          </p>
+          <!-- 날짜 -->
+          <div>
+            <small class="text-muted">
+              {% if comment.is_updated == False %}
+                {% if comment.created_string == False %}
+                  {{ comment.created|date:'Y.m.d' }}
+                {% else %}
+                  {{ comment.created_string }}
+                {% endif %}
+              {% else %}
+                {% if comment.created_string == False %}
+                  {{ comment.updated_at|date:'Y.m.d' }}
+                {% else %}
+                  {{ comment.created_string }}
+                {% endif %}
+                (수정됨)
+              {% endif %}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="feed-content-space">
+      <div class="feed-content">
+        <div class="feed-content-tag">
+          <div class="card-header-wrapper">
+            <div class="content-tag">
+              <div class="tag-detail tag">
+                <a href="{% url 'korea:detail' comment.players.pk %}" style="color: white;">#
+                  {{comment.players.name}}</a>
               </div>
             </div>
           </div>
-          <div class="comment-space">
-            <div class="comment-content">
-              {{comment.content|safe}}
-            </div>
+        </div>
+        <div class="comment-space">
+          <div class="comment-content">
+            {{comment.content|safe}}
           </div>
         </div>
       </div>
     </div>
-  {% endfor %}
-  <!-- 따라서 -->
-
-  <div class="flex-wrap my-3 pb-5">
-    <main class="container d-flex justify-content-center rounded bg-white border my-5">
-      <section class="container" style="width: 85%; height: auto;">
-        <table class="table my-5 mt-3">
-          <thead>
-            <tr>
-              <th scope="col">피셜 No.</th>
-              <th scope="col">피셜 작성자</th>
-              <th scope="col">선수</th>
-              <th scope="col">피셜</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for comment in comments %}
-              <tr>
-                <td scope="row" class="align-middle">{{ forloop.counter }}</td>
-                <td scope="row" class="align-middle">{{ comment.user.username }}</td>
-                <td class="align-middle">
-                  <a href="" class="text-decoration-none text-dark">
-                    <span class="nav1-text">{{ comment.players.name }}</span>
-                  </a>
-                </td>
-                <td>
-                  <a href="" class="text-decoration-none text-dark">
-                    <span class="nav1-text">
-                      <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
-                    </span>
-                  </a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </section>
-    </main>
   </div>
+{% endfor %}
+<!-- 따라서 --> {% endcomment %}
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
-  <script>
-    function textScroll(scroll_el_id) {
-      this.objElement = document.getElementById(scroll_el_id);
-      this.objElement.style.position = 'relative';
-      this.objElement.style.overflow = 'hidden';
+<div class="flex-wrap my-3 pb-5">
+  <main class="container d-flex justify-content-center rounded bg-white border my-5">
+    <section class="container" style="width: 85%; height: auto;">
+      <table class="table my-5 mt-3">
+        <thead>
+          <tr>
+            <th scope="col">피셜 No.</th>
+            <th scope="col">피셜 작성자</th>
+            <th scope="col">선수</th>
+            <th scope="col">피셜</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for comment in comments %}
+            <tr>
+              <td scope="row" class="align-middle">{{ forloop.counter }}</td>
+              <td scope="row" class="align-middle">{{ comment.user.username }}</td>
+              <td class="align-middle">
+                <a href="" class="text-decoration-none text-dark">
+                  <span class="nav1-text">{{ comment.players.name }}</span>
+                </a>
+              </td>
+              <td>
+                <a href="" class="text-decoration-none text-dark">
+                  <span class="nav1-text">
+                    <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
+                  </span>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
 
-      this.objLi = this
-        .objElement
-        .getElementsByTagName('li');
-      this.height = this.objElement.offsetHeight; // li 엘리먼트가 움직이는 높이(외부에서 변경가능)
-      this.num = this.objLi.length; // li 엘리먼트의 총 갯수
-      this.totalHeight = this.height * this.num; // 총 높이
-      this.scrollspeed = 1; // 스크롤되는 px
-      this.objTop = new Array(); // 각 li의 top 위치를 저장
-      this.timer = null;
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
+<script>
+  function textScroll(scroll_el_id) {
+    this.objElement = document.getElementById(scroll_el_id);
+    this.objElement.style.position = 'relative';
+    this.objElement.style.overflow = 'hidden';
 
-      for (var i = 0; i < this.num; i++) {
-        this
-          .objLi[i]
-          .style
-          .position = 'absolute';
-        this.objTop[i] = this.height * i;
-        this
-          .objLi[i]
-          .style
-          .top = this
-          .objTop[i] + "px";
-      }
+    this.objLi = this
+      .objElement
+      .getElementsByTagName('li');
+    this.height = this.objElement.offsetHeight; // li 엘리먼트가 움직이는 높이(외부에서 변경가능)
+    this.num = this.objLi.length; // li 엘리먼트의 총 갯수
+    this.totalHeight = this.height * this.num; // 총 높이
+    this.scrollspeed = 1; // 스크롤되는 px
+    this.objTop = new Array(); // 각 li의 top 위치를 저장
+    this.timer = null;
+
+    for (var i = 0; i < this.num; i++) {
+      this
+        .objLi[i]
+        .style
+        .position = 'absolute';
+      this.objTop[i] = this.height * i;
+      this
+        .objLi[i]
+        .style
+        .top = this
+        .objTop[i] + "px";
     }
+  }
 
-    textScroll.prototype.move = function () {
-      for (var i = 0; i < this.num; i++) {
-        this.objTop[i] = this.objTop[i] - this.scrollspeed;
-        this
-          .objLi[i]
-          .style
-          .top = this
-          .objTop[i] + "px";
-      }
-      if (this.objTop[0] % this.height == 0) {
-        this.jump();
-      } else {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(this.name + ".move()", 50);
-      }
+  textScroll.prototype.move = function () {
+    for (var i = 0; i < this.num; i++) {
+      this.objTop[i] = this.objTop[i] - this.scrollspeed;
+      this
+        .objLi[i]
+        .style
+        .top = this
+        .objTop[i] + "px";
     }
-
-    textScroll.prototype.jump = function () {
-      for (var i = 0; i < this.num; i++) {
-        if (this.objTop[i] == this.height * (-2)) {
-          this.objTop[i] = this.objTop[i] + this.totalHeight;
-          this
-            .objLi[i]
-            .style
-            .top = this
-            .objTop[i] + "px";
-        }
-      }
+    if (this.objTop[0] % this.height == 0) {
+      this.jump();
+    } else {
       clearTimeout(this.timer);
-      this.timer = setTimeout(this.name + ".move()", 3000);
+      this.timer = setTimeout(this.name + ".move()", 50);
     }
+  }
 
-    textScroll.prototype.start = function () {
-      this.timer = setTimeout(this.name + ".move()", 3000);
+  textScroll.prototype.jump = function () {
+    for (var i = 0; i < this.num; i++) {
+      if (this.objTop[i] == this.height * (-2)) {
+        this.objTop[i] = this.objTop[i] + this.totalHeight;
+        this
+          .objLi[i]
+          .style
+          .top = this
+          .objTop[i] + "px";
+      }
     }
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.name + ".move()", 3000);
+  }
 
-    var real_search_keyword = new textScroll('scroll'); // 스크롤링 하고자하는 ul 엘리먼트의 id값을 인자로 넣습니다
-    real_search_keyword.name = "real_search_keyword"; // 인스턴스 네임을 등록합니다
-    real_search_keyword.start(); // 스크롤링 시작
-  </script>
+  textScroll.prototype.start = function () {
+    this.timer = setTimeout(this.name + ".move()", 3000);
+  }
+
+  var real_search_keyword = new textScroll('scroll'); // 스크롤링 하고자하는 ul 엘리먼트의 id값을 인자로 넣습니다
+  real_search_keyword.name = "real_search_keyword"; // 인스턴스 네임을 등록합니다
+  real_search_keyword.start(); // 스크롤링 시작
+</script>
 
 {% endblock content %}
