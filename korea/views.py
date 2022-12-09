@@ -125,7 +125,7 @@ def detail(request, player_pk):
             block_dict[block] = block_dict[block] + 1
         else:
             block_dict[block] = 1
-    print(block_dict)
+
     context = {
         "player": player,
         "master": master,

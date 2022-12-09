@@ -49,17 +49,91 @@
             {% csrf_token %}
             {% if request.user in player.fans.all %}
               <div class='d-flex align-items-center'>
-                <i class="bi bi-x-lg m-2" id="support-{{ player.pk }}"></i>
+                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="#C82D36">
+                  <style>
+                    @keyframes pulsate {
+
+                      0%,
+                      to {
+                        transform: scale(1);
+                      }
+
+                      50% {
+                        transform: scale(.9);
+                      }
+                    }
+                  </style>
+                  <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                    <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                    <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                  </g>
+                </svg>
                 <button type="submit" class="btn btn-outline-navy mt-3 mb-1" id="like-{{ player.pk }}">
                   응원취소
                 </button>
+                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="#C82D36">
+                  <style>
+                    @keyframes pulsate {
+
+                      0%,
+                      to {
+                        transform: scale(1);
+                      }
+
+                      50% {
+                        transform: scale(.9);
+                      }
+                    }
+                  </style>
+                  <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                    <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                    <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                  </g>
+                </svg>
               </div>
             {% else %}
               <div class='d-flex align-items-center'>
-                <i class="bi bi-hand-thumbs-up m-2" id="support-{{ player.pk }}"></i>
+                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+                  <style>
+                    @keyframes pulsate {
+
+                      0%,
+                      to {
+                        transform: scale(1);
+                      }
+
+                      50% {
+                        transform: scale(.9);
+                      }
+                    }
+                  </style>
+                  <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                    <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                    <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                  </g>
+                </svg>
                 <button type="submit" class="btn btn-navy mt-3 mb-1" id="like-{{ player.pk }}">
                   응원하기
                 </button>
+                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="#C82D36">
+                  <style>
+                    @keyframes pulsate {
+
+                      0%,
+                      to {
+                        transform: scale(1);
+                      }
+
+                      50% {
+                        transform: scale(.9);
+                      }
+                    }
+                  </style>
+                  <g style="animation:pulsate .5s ease-in-out infinite both;transform-origin:center center" stroke-width="1.5">
+                    <path stroke="#C82D36" d="M11.515 6.269l.134.132a.5.5 0 00.702 0l.133-.132A4.44 4.44 0 0115.599 5c.578 0 1.15.112 1.684.33a4.41 4.41 0 011.429.939c.408.402.733.88.954 1.406a4.274 4.274 0 010 3.316 4.331 4.331 0 01-.954 1.405l-6.36 6.259a.5.5 0 01-.702 0l-6.36-6.259A4.298 4.298 0 014 9.333c0-1.15.464-2.252 1.29-3.064A4.439 4.439 0 018.401 5c1.168 0 2.288.456 3.114 1.269z"/>
+                    <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
+                  </g>
+                </svg>
               </div>
             {% endif %}
           </form>
@@ -91,7 +165,7 @@
           </div>
           <!-- 로그인 Modal -->
         {% endif %}
-        <small>
+        <small class='d-flex justify-content-center mt-2'>
           <span id="like-count">{{player.fans.all|length}}</span>명이 응원해요
         </small>
       </div>
@@ -126,7 +200,7 @@
                       <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
                       <div>
                         <small class="text-muted">
-                          <i class="bi bi-suit-heart-fill" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                          <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
                         </small>
                         <small class="text-muted">|</small>
                         <small class="text-muted">
@@ -215,18 +289,18 @@
                       {% csrf_token %}
                       {% if request.user in comment.like_users.all %}
                         <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart-fill"></i>
+                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
                         </button>
                       {% else %}
                         <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart"></i>
+                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
                         </button>
                       {% endif %}
                     </form>
                   {% else %}
                     <!-- 로그인 안한 경우 -->
                     <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="like-fficial bi bi-suit-heart"></i>
+                      <i class="like-fficial bi bi-hand-thumbs-up"></i>
                     </button>
                     <!-- 로그인 Modal -->
                     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -258,7 +332,7 @@
                       <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
                       <div>
                         <small class="text-muted">
-                          <i class="bi bi-suit-heart-fill" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                          <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
                         </small>
                         <small class="text-muted">|</small>
                         <small class="text-muted">
@@ -358,18 +432,18 @@
                       {% csrf_token %}
                       {% if request.user in comment.like_users.all %}
                         <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart-fill"></i>
+                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
                         </button>
                       {% else %}
                         <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-suit-heart"></i>
+                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
                         </button>
                       {% endif %}
                     </form>
                   {% else %}
                     <!-- 로그인 안한 경우 -->
                     <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="like-fficial bi bi-suit-heart"></i>
+                      <i class="like-fficial bi bi-hand-thumbs-up"></i>
                     </button>
                     <!-- 로그인 Modal -->
                     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -476,29 +550,17 @@
                 likeBtnp
                   .classList
                   .remove('btn-navy')
-                likeIcon
-                  .classList
-                  .remove('bi-hand-thumbs-up')
                 likeBtnp
                   .classList
                   .add('btn-outline-navy')
-                likeIcon
-                  .classList
-                  .add('bi-x-lg')
                 likeBtnp.innerText = "응원취소"
               } else {
                 likeBtnp
                   .classList
                   .remove('btn-outline-navy')
-                likeIcon
-                  .classList
-                  .remove('bi-x-lg')
                 likeBtnp
                   .classList
                   .add('btn-navy')
-                likeIcon
-                  .classList
-                  .add('bi-hand-thumbs-up')
                 likeBtnp.innerText = "응원하기"
               }
               const likeCountTag = document.querySelector('#like-count')
@@ -539,17 +601,17 @@
               if (isLiked === true) {
                 likeBtn
                   .classList
-                  .remove('bi-suit-heart')
+                  .remove('bi-hand-thumbs-up')
                 likeBtn
                   .classList
-                  .add('bi-suit-heart-fill')
+                  .add('bi-hand-thumbs-up-fill')
               } else {
                 likeBtn
                   .classList
-                  .remove('bi-suit-heart-fill')
+                  .remove('bi-hand-thumbs-up-fill')
                 likeBtn
                   .classList
-                  .add('bi-suit-heart')
+                  .add('bi-hand-thumbs-up')
               }
               const likeCountTag = document.querySelector(`#like-count-${commentId}`)
               const likeCount = response.data.likeCount
