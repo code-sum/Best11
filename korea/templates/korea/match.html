@@ -1,0 +1,759 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- fullcalendar CDN -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+    <!-- fullcalendar 언어 CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <title>베스트일레븐 :: BEST 11</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+  </head>
+  <body>
+
+    <style>
+      @font-face {
+        font-family: 'Y_Spotlight';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      /* body 스타일 
+      html, body {
+        overflow: hidden;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: .8rem;
+      }
+      
+      /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
+      .fc-header-toolbar {
+        padding-top: 1rem;
+        padding-bottom: 3rem;
+        padding-left: 1em;
+        padding-right: 1em;
+        font-size: 1rem;
+      }
+      .fc-col-header-cell-cushion {
+        color: #111b54;
+      }
+      .fc-daygrid-day-number {
+        color: black;
+      }
+      .fc-toolbar-title {
+        font-weight:bold;
+        font-size: .5rem;
+        letter-spacing: -0.2rem;
+      }
+      /* 동영상 큰 화면 */
+      @media only screen and (min-width: 800px) {
+        .fc-toolbar-title {
+          font-weight:bold;
+          font-size: .5rem;
+        }
+      }
+
+      /* 동영상 작은 화면 */
+      @media only screen and (max-width: 800px) {
+        .fc-toolbar-title {
+          font-weight:bold;
+          font-size: .5rem;
+          letter-spacing: -0.6rem;
+        }
+      }
+      .fc-event-time {
+        color: black;
+        font-size: 1.2rem;
+      }
+      .fc-event-title {
+        color: black;
+      }
+      .fc-daygrid-more-link.fc-more-link {
+        color: black;
+      }
+      .fc-list-day-side-text {
+        color: #111b54;
+      }
+      .fc-list-day-text {
+        color: #111b54;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #c82d36;
+      }
+      .guide {
+        font-family: 'Y_Spotlight';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
+
+      }
+    </style>
+
+    <!-- 헤더 영역 - 네비게이션 바 -->
+    <header class="header">
+      <a class="logo" href="{% url 'korea:index' %}"><img src="{% static 'images/logo.png' %}" alt="logo" style="width: 200px;"></a>
+      <input class="menu-btn" type="checkbox" id="menu-btn"/>
+      <label class="menu-icon" for="menu-btn">
+        <span class="navicon"></span></label>
+      <ul class="menu">
+        <li>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'accounts:special_feed' user.pk %}" class="header-a link link-theme link-arrow">피셜피드</a>
+          {% else %}
+          <a href="{% url 'accounts:login' %}" class="header-a link link-theme link-arrow">피셜피드</a>
+          {% endif %}
+        </li>
+        <li>
+          <a href="#three" class="header-a link link-theme link-arrow">경기일정</a>
+        </li>
+        <li>
+          <a href="{% url 'korea:rule' %}" class="header-a link link-theme link-arrow">축구상식</a>
+        </li>
+        <li>
+          <a href="{% url 'korea:game' %}" class="header-a link link-theme link-arrow">미니게임</a>
+        </li>
+      </ul>
+    </header>
+    <!-- 헤더 영역 - 회원관리 버튼 -->
+    <div class="ball-and-shadow" data-bs-toggle="modal" data-bs-target="#ballModal">
+      <div class="ball-container">
+        {% if request.user.is_authenticated %}
+          {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" style="width: 10rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" alt="profile">
+          {% else %}
+            <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+          {% endif %}
+        {% else %}
+          <img src="{% static 'images/Soccer-Ball.png' %}" style="width: 10rem;" alt="profile">
+        {% endif %}
+      </div>
+      <div class="ball-shadow"></div>
+    </div>
+    <!-- 헤더 영역 - 회원관리 버튼 - 클릭 시 열리는 모달 -->
+    <div class="modal fade" id="ballModal" tabindex="-1" aria-labelledby="ballModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- 회원에게 보여지는 모달창 -->
+            {% if request.user.is_authenticated %}
+              <div class="d-flex flex-column align-items-center mt-5 mb-3">
+                {% if request.user.profile_image %}
+                  <img src="{{ request.user.profile_image.url }}" alt="profile" style="width: 15rem; border-radius: 50%; border: 0.6px solid #6c757d7f;" class="mb-5">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
+                {% endif %}
+                <p class="fs-3">
+                  <span class="fw-bold">
+                    {{ request.user.username }}
+                  </span>
+                  님</p>
+              </div>
+              <div class="d-flex justify-content-center align-items-center mb-5">
+                <a href="{% url 'accounts:detail' request.user.pk %}" class="a-black-red">마이페이지</a>
+                <p class="mx-3 mb-0">
+                  |
+                </p>
+                <a href="{% url 'accounts:logout' %}" class="a-black-red">로그아웃</a>
+              </div>
+              <!-- 비회원에게 보여지는 모달창 -->
+            {% else %}
+              <div class="d-flex flex-column align-items-center mt-5 mb-3">
+                <img src="{% static 'images/Soccer-Ball.png' %}" alt="profile" style="width: 15rem;" class="mb-5">
+                <p class="fs-3">
+                  <span class="fw-bold">
+                    비회원
+                  </span>
+                  님</p>
+              </div>
+              <div class="d-flex justify-content-center align-items-center mb-5">
+                <a href="{% url 'accounts:login' %}" class="a-black-red">로그인</a>
+                <p class="mx-3 mb-0">
+                  |
+                </p>
+                <a href="{% url 'accounts:signup' %}" class="a-black-red">회원가입</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="wrapper" class="container-css">
+      <!-- content -->
+      {% block content %}
+        {% comment %} <body style="padding:30px;"> {% endcomment %}
+        <h2 class='text-center fw-bold' style='padding-top:10rem; font-size:3rem;'>경기 일정</h2>
+        <p class='guide container text-center' style='font-size:2rem; padding:1.875rem'>각 경기를 클릭해보세요!
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes scale-in-center{0%{transform:scale(0);opacity:1}to{transform:scale(1);opacity:1}}</style><g style="animation:scale-in-center 2s cubic-bezier(.25,.46,.45,.94) infinite both;transform-origin:center" stroke-width="1.5"><path stroke="#265BFF" stroke-linecap="round" stroke-linejoin="round" d="M11.5 9v4m-2-2h4"/><rect width="12" height="12" x="5.5" y="5" stroke="#0A0A30" rx="6"/><path stroke="#0A0A30" stroke-linecap="round" d="M15.5 16l3 3"/></g></svg>
+        </p>
+      
+        <!-- calendar 태그 -->
+        <div id='calendar-container' style='padding-top:5rem; padding:30px; font-size'>
+          <div id='calendar'></div>
+        </div>
+      {% endblock content %}
+    </div>
+
+    <!-- Top Button -->
+    <div class="topBtn" style="z-index: 2;">
+      <button id="hexagon" class="text-white fs-4" onclick="topFunction()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-compact-up" viewbox="0 0 16 16">
+          <path fill-rule="evenodd" d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894l6-3z"/>
+        </svg>
+        <div>
+          위로
+        </div>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer style="z-index: 1;">
+      <hr>
+      <!-- Responsive Footer -->
+      <div class="footer-content">
+        <h4>
+          <span class="text-red">
+            베스트
+          </span>
+          <span class="text-navy">
+            일레븐
+          </span>
+        </h4>
+        <a href="https://github.com/code-sum/Best11" class="text-secondary" >BEST11 홈그라운드</a>
+        <a href="#" class="text-secondary">프로젝트 기획서</a>
+        <!-- 깃헙프로필 -->
+        <div class="d-flex mt-3 mb-4">
+          <a href="https://github.com/JeongJinGan" target="_blank" class="">
+            <button class="btn border-0 p-0">
+              <img src="{% static 'images/간정진.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
+              <p class="pt-2 mb-0">간정진</p>
+            </button>
+          </a>
+          <a href="https://github.com/code-sum" target="_blank" class="">
+            <button class="btn border-0 p-0">
+              <img src="{% static 'images/이수경.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
+              <p class="pt-2 mb-0">이수경</p>
+            </button>
+          </a>
+          <a href="https://github.com/snnzzoo" target="_blank" class="">
+            <button class="btn border-0 p-0">
+              <img src="{% static 'images/임선주.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
+              <p class="pt-2 mb-0">임선주</p>
+            </button>
+          </a>
+          <a
+            href="https://github.com/JOO-10000-Zi"
+            target="_blank"
+            class=""
+          >
+            <button class="btn border-0 p-0">
+              <img src="{% static 'images/주세환.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
+              <p class="pt-2 mb-0">주세환</p>
+            </button>
+          </a>
+          <a href="https://github.com/forwardyoung" target="_blank">
+            <button class="btn border-0 p-0">
+              <img src="{% static 'images/차화영.jpg' %}" style="width: 5rem; border-radius: 5rem; border: 0.6px solid #6c757d7f;" alt=""/>
+              <p class="pt-2 mb-0">차화영</p>
+            </button>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="footer-bottom">
+        <small class="text-secondary">© 베스트일레븐. 2022. all rights reserved.</small>
+      </div>
+    </footer>
+
+  <script>
+    (function(){
+      $(function(){
+        // calendar element 취득
+        var calendarEl = $('#calendar')[0];
+        // full-calendar 생성하기
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          height: '700px', // calendar 높이 설정
+          expandRows: true, // 화면에 맞게 높이 재설정
+          slotMinTime: '00:00', // Day 캘린더에서 시작 시간
+          slotMaxTime: '24:00', // Day 캘린더에서 종료 시간
+          // 해더에 표시할 툴바
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          },
+          initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+          initialDate: '2022-12-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+          navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+          editable: true, // 수정 가능?
+          selectable: true, // 달력 일자 드래그 설정가능
+          nowIndicator: true, // 현재 시간 마크
+          dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+          locale: 'ko', // 한국어 설정
+          eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+            console.log(obj);
+          },
+          eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+            console.log(obj);
+          },
+          eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+            console.log(obj);
+          },
+          // select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+          //  var title = prompt('Event Title:');
+          //  if (title) {
+          //    calendar.addEvent({
+          //      title: title,
+          //      start: arg.start,
+          //      end: arg.end,
+          //      allDay: arg.allDay
+          //    })
+          //  }
+          //  calendar.unselect()
+          // },
+          // 이벤트 
+          events: [
+          {
+              title: '조별리그 A조(카타르-에콰도르)',
+              url: 'https://m.sports.naver.com/game/202211211632986719', 
+              start: '2022-11-21T01:00:00',
+              
+          },  
+          {
+              title: '조별리그 B조(잉글랜드-이란)',
+              url: 'https://m.sports.naver.com/game/202211211632986731',
+              start: '2022-11-21T22:00:00',
+              
+          }, 
+          {
+              title: '조별리그 A조(세네갈-네덜란드)',
+              url: 'https://m.sports.naver.com/game/202211221632986721',
+              start: '2022-11-22T01:00:00',
+              
+          }, 
+          {
+              title: '조별리그 B조(미국-웨일스)',
+              url: 'https://m.sports.naver.com/game/202211221632986733',
+              start: '2022-11-22T04:00:00',
+              
+          }, 
+          {
+              title: '조별리그 C조(아르헨티나-사우디아라비아)',
+              url: 'https://m.sports.naver.com/game/202211221632986743',
+              start: '2022-11-22T19:00:00',
+              
+          }, 
+          {
+              title: '조별리그 D조(덴마크-튀니지)',
+              url: 'https://m.sports.naver.com/game/202211221632986757',
+              start: '2022-11-22T22:00:00',
+              
+          }, 
+          {
+              title: '조별리그 C조(멕시코-폴란드)',
+              url: 'https://m.sports.naver.com/game/202211231632986745',
+              start: '2022-11-23T01:00:00',
+              
+          }, 
+          {
+              title: '조별리그 D조(프랑스-호주)',
+              url: 'https://m.sports.naver.com/game/202211231632986755',
+              start: '2022-11-23T04:00:00',
+              
+          }, 
+          {
+              title: '조별리그 F조(모로코-크로아티아)',
+              url: 'https://m.sports.naver.com/game/202211231632986781',
+              start: '2022-11-23T19:00:00',
+              
+          }, 
+          {
+              title: '조별리그 E조(독일-일본)',
+              url: 'https://m.sports.naver.com/game/202211231632986769',
+              start: '2022-11-23T22:00:00',
+              
+          }, 
+          {
+              title: '조별리그 E조(스페인-코스타리카)',
+              url: 'https://m.sports.naver.com/game/202211241632986767',
+              start: '2022-11-24T01:00:00',
+              
+          }, 
+          {
+              title: '조별리그 F조(벨기에-캐나다)',
+              url: 'https://m.sports.naver.com/game/202211241632986779',
+              start: '2022-11-24T04:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(스위스-카메룬)',
+              url: 'https://m.sports.naver.com/game/202211241632986793',
+              start: '2022-11-24T19:00:00',
+              
+          },
+          {  
+              title: '조별리그 H조(우루과이-대한민국)',
+              url: 'https://m.sports.naver.com/game/202211241632986805',
+              start: '2022-11-24T22:00:00',
+              
+          },
+          {
+              title: '조별리그 H조(포르투갈-가나)',
+              url: 'https://m.sports.naver.com/game/202211251632986803',
+              start: '2022-11-25T01:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(브라질-세르비아)',
+              url: 'https://m.sports.naver.com/game/202211251632986791',
+              start: '2022-11-25T04:00:00',
+              
+          },
+          {
+              title: '조별리그 B조(웨일스-이란)',
+              url: 'https://m.sports.naver.com/game/202211251632986737',
+              start: '2022-11-25T19:00:00',
+              
+          },
+          {
+              title: '조별리그 A조(카타르-세네갈)',
+              url: 'https://m.sports.naver.com/game/202211251632986723',
+              start: '2022-11-25T22:00:00',
+              
+          },
+          {
+              title: '조별리그 A조(네덜란드-에콰도르)',
+              url: 'https://m.sports.naver.com/game/202211261632986725',
+              start: '2022-11-26T01:00:00',
+              
+          },
+          {
+              title: '조별리그 B조(잉글랜드-미국)',
+              url: 'https://m.sports.naver.com/game/202211261632986735',
+              start: '2022-11-26T04:00:00',
+              
+          },
+          {
+              title: '조별리그 D조(튀니지-호주)',
+              url: 'https://m.sports.naver.com/game/202211261632986761',
+              start: '2022-11-26T19:00:00',
+              
+          },
+          {
+              title: '조별리그 C조(폴란드-사우디아라비아)',
+              url: 'https://m.sports.naver.com/game/202211261632986749',
+              start: '2022-11-26T22:00:00',
+              
+          },
+          {
+              title: '조별리그 D조(프랑스-덴마크)',
+              url: 'https://m.sports.naver.com/game/202211271632986759',
+              start: '2022-11-27T01:00:00',
+              
+          },
+          {
+              title: '조별리그 C조(아르헨티나-멕시코)',
+              url: 'https://m.sports.naver.com/game/202211271632986747',
+              start: '2022-11-27T04:00:00',
+              
+          },
+          {
+              title: '조별리그 E조(일본-코스타리카)',
+              url: 'https://m.sports.naver.com/game/202211271632986773',
+              start: '2022-11-27T19:00:00',
+              
+          },
+          {
+              title: '조별리그 F조(벨기에-모로코)',
+              url: 'https://m.sports.naver.com/game/202211271632986783',
+              start: '2022-11-27T22:00:00',
+              
+          },
+          {
+              title: '조별리그 F조(크로아티아-캐나다)',
+              url: 'https://m.sports.naver.com/game/202211281632986785',
+              start: '2022-11-28T01:00:00',
+              
+          },
+          {
+              title: '조별리그 E조(스페인-독일)',
+              url: 'https://m.sports.naver.com/game/202211281632986771',
+              start: '2022-11-28T04:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(카메룬-세르비아)',
+              url: 'https://m.sports.naver.com/game/202211281632986797',
+              start: '2022-11-28T19:00:00',
+              
+          },
+          {
+              title: '조별리그 H조(대한민국-가나)',
+              url: 'https://m.sports.naver.com/game/202211281632986809',
+              start: '2022-11-28T22:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(브라질-스위스)',
+              url: 'https://m.sports.naver.com/game/202211291632986795',
+              start: '2022-11-29T01:00:00',
+              
+          },
+          {
+              title: '조별리그 H조(포르투갈-우루과이)',
+              url: 'https://m.sports.naver.com/game/202211291632986807',
+              start: '2022-11-29T04:00:00',
+              
+          },
+          {
+              title: '조별리그 A조(네덜란드-카타르)',
+              url: 'https://m.sports.naver.com/game/202211301632986727',
+              start: '2022-11-30T00:00:00',
+              
+          },
+          {
+              title: '조별리그 A조(에콰도르-세네갈)',
+              url: 'https://m.sports.naver.com/game/202211301632986729',
+              start: '2022-11-30T00:00:00',
+              
+          },
+          {
+              title: '조별리그 B조(웨일스-잉글랜드)',
+              url: 'https://m.sports.naver.com/game/202211301632986729',
+              start: '2022-11-30T04:00:00',
+              
+          },
+          {
+              title: '조별리그 B조(이란-미국)',
+              url: 'https://m.sports.naver.com/game/202211301632986741',
+              start: '2022-11-30T04:00:00',
+              
+          },
+          {
+              title: '조별리그 D조(튀니지-프랑스)',
+              url: 'https://m.sports.naver.com/game/202212011632986763',
+              start: '2022-12-01T00:00:00',
+              
+          },
+          {
+              title: '조별리그 D조(호주-덴마크)',
+              url: 'https://m.sports.naver.com/game/202212011632986765',
+              start: '2022-12-01T00:00:00',
+              
+          },
+          {
+              title: '조별리그 C조(폴란드-아르헨티나)',
+              url: 'https://m.sports.naver.com/game/202212011632986751',
+              start: '2022-12-01T04:00:00',
+              
+          },
+          {
+              title: '조별리그 C조(사우디아라비아-멕시코)',
+              url: 'https://m.sports.naver.com/game/202212011632986753',
+              start: '2022-12-01T04:00:00',
+              
+          },
+          {
+              title: '조별리그 F조(크로아티아-벨기에)',
+              url: 'https://m.sports.naver.com/game/202212021632986787',
+              start: '2022-12-02T00:00:00',
+              
+          },
+          {
+              title: '조별리그 F조(캐나다-모로코)',
+              url: 'https://m.sports.naver.com/game/202212021632986789',
+              start: '2022-12-02T00:00:00',
+              
+          },
+          {
+              title: '조별리그 E조(일본-스페인)',
+              url: 'https://m.sports.naver.com/game/202212021632986775',
+              start: '2022-12-02T04:00:00',
+              
+          },
+          {
+              title: '조별리그 E조(코스타리카-독일)',
+              url: 'https://m.sports.naver.com/game/202212021632986777',
+              start: '2022-12-02T04:00:00',
+              
+          },
+          {
+              title: '조별리그 H조(대한민국-포르투갈)',
+              url: 'https://m.sports.naver.com/game/202212031632986811',
+              start: '2022-12-03T00:00:00',
+              
+          },
+          {
+              title: '조별리그 H조(가나-우루과이)',
+              url: 'https://m.sports.naver.com/game/202212031632986813',
+              start: '2022-12-03T00:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(카메룬-브라질)',
+              url: 'https://m.sports.naver.com/game/202212031632986799',
+              start: '2022-12-03T04:00:00',
+              
+          },
+          {
+              title: '조별리그 G조(세르비아-스위스)',
+              url: 'https://m.sports.naver.com/game/202212031632986801',
+              start: '2022-12-03T04:00:00',
+              
+          },
+          {
+              title: '16강(네덜란드-미국)',
+              url: 'https://m.sports.naver.com/game/202212041632972217',
+              start: '2022-12-04T00:00:00',
+              
+          },
+          {
+              title: '16강(아르헨티나-호주)',
+              url: 'https://m.sports.naver.com/game/202212041632972203',
+              start: '2022-12-04T04:00:00',
+              
+          },
+          {
+              title: '16강(프랑스-폴란드)',
+              url: 'https://m.sports.naver.com/game/202212051632972227',
+              start: '2022-12-05T00:00:00',
+              
+          },
+          {
+              title: '16강(잉글랜드-세네갈)',
+              url: 'https://m.sports.naver.com/game/202212051632972209',
+              start: '2022-12-05T04:00:00',
+              
+          },
+          {
+              title: '16강(일본-크로아티아)',
+              url: 'https://m.sports.naver.com/game/202212061632972205',
+              start: '2022-12-06T00:00:00',
+              
+          },
+          {
+              title: '16강(브라질-대한민국)',
+              url: 'https://m.sports.naver.com/game/202212061632972207',
+              start: '2022-12-06T04:00:00',
+              
+          },
+          {
+              title: '16강(모로코-스페인)',
+              url: 'https://m.sports.naver.com/game/202212071632972229',
+              start: '2022-12-07T00:00:00',
+              
+          },
+          {
+              title: '16강(포르투갈-스위스)',
+              url: 'https://m.sports.naver.com/game/202212071632972231',
+              start: '2022-12-07T04:00:00',
+              
+          },  
+          {
+              title: '8강(크로아티아-브라질)',
+              url: 'https://m.sports.naver.com/game/202212101632972219',
+              start: '2022-12-10T00:00:00',
+              
+          },
+          {
+              title: '8강(네덜란드-아르헨티나)',
+              url: 'https://m.sports.naver.com/game/202212101632972233',
+              start: '2022-12-10T04:00:00',
+              
+          },
+          {
+              title: '8강(모로코-포르투갈)',
+              url: 'https://m.sports.naver.com/game/202212111632972223',
+              start: '2022-12-11T00:00:00',
+              
+          },
+          {
+              title: '8강(잉글랜드-프랑스)',
+              url: 'https://m.sports.naver.com/game/202212111632972221',
+              start: '2022-12-11T04:00:00',
+              
+          },
+          {
+              title: '준결승',
+              url: 'https://m.sports.naver.com/game/202212141632972225',
+              start: '2022-12-14T04:00:00',
+              
+          },
+          {
+              title: '준결승',
+              url: 'https://m.sports.naver.com/game/202212151632972211',
+              start: '2022-12-14T04:00:00',
+              
+          },
+          {
+              title: '3위결정전',
+              url: 'https://m.sports.naver.com/game/202212181632972215',
+              start: '2022-12-18T00:00:00',
+              
+          },
+          {
+              title: '결승',
+              url: 'https://m.sports.naver.com/game/202212191632972213',
+              start: '2022-12-19T00:00:00',
+              
+          },
+          ]
+        });
+        // 캘린더 랜더링
+        calendar.render();
+      });
+    })();
+  </script>
+  <script>
+      // Top Button
+      
+      // get the button
+      let myBtn = document.getElementById("hexagon")
+      
+      // When the user scrolls down 30px from the top of the document, show the button
+      window.onscroll = function () {
+      scrollFunction();
+      };
+      
+      function scrollFunction() {
+      if (document.body.scrollTop > 650 || document.documentElement.scrollTop > 650) {
+        myBtn.style.display = "block";
+      } else {
+        myBtn.style.display = "none";
+      }
+      }
+      
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+      document.body.scrollTop = 0; // for Safari
+      document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE, and Opera
+      }
+  </script>
+      
+  <!-- Jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  <!-- jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+  <!-- fullcalendar 언어 CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+  </body>
+  </html>
