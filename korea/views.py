@@ -6,6 +6,7 @@ from .forms import PlayersForm, CommentForm, BlockForm
 from .models import Players, Comment
 from sns.models import Sns
 from django.db.models import Count
+import collections
 
 
 def comment_table(p):
@@ -45,9 +46,6 @@ def index(request):
     like_players = Players.objects.annotate(like_count=Count("fans")).order_by(
         "-like_count"
     )[:11]
-    like_comments = Comment.objects.annotate(count=Count("like_users")).order_by(
-        "-count"
-    )[:5]
     context = {
         "players": players,
         "fw_players": fw_players,
@@ -55,7 +53,6 @@ def index(request):
         "df_players": df_players,
         "gk_players": gk_players,
         "like_players": like_players,
-        "like_comments": like_comments,
     }
 
     return render(request, "korea/index.html", context)
@@ -108,14 +105,27 @@ def detail(request, player_pk):
     sns = Sns.objects.get(pk=player_pk)
     master = str(request.user)
     blocks = Block.objects.filter(players=player)  # 신고한 댓글 목록
-    block_list = []
-    block_comment = []
+    block_list = []  # 신고한 사용자 PK 리스트
+    block_comment = []  # 신고된 피셜 pk 리스트
+
     for b in blocks:
         if request.user.pk == b.user.pk:
             block_list.append(b.user.pk)
             block_comment.append(b.comment.pk)
+    block_count = []  # 신고 카운트 위한 피셜 목록
 
-    print(block)
+    for k in blocks:
+        block_count.append(k.comment.pk)
+    dict = {}
+    dict = collections.Counter(block_count)  # 딕셔러니로 카운트
+
+    block_dict = {}
+    for block in block_count:
+        if block in block_dict:
+            block_dict[block] = block_dict[block] + 1
+        else:
+            block_dict[block] = 1
+    print(block_dict)
     context = {
         "player": player,
         "master": master,
@@ -124,6 +134,8 @@ def detail(request, player_pk):
         "blocks": blocks,
         "block_list": block_list,
         "block_comment": block_comment,
+        "block_count": block_count,
+        "block_dict": block_dict,
     }
     return render(request, "korea/detail_player.html", context)
 
@@ -241,8 +253,10 @@ def comment_delete(request, comment_pk, player_pk):
         comment.user.exp -= 2 * comment.like_users.count()
         comment.delete()
         comment.user.save()
+    # accounts/detail.html 이나 korea/datail_player.html 어디서든
+    # 삭제 성공 시, 작업하고 있던 페이지로 리다이렉트 시킴
+    return redirect(request.META.get("HTTP_REFERER", "redirect_if_referer_not_found"))
 
-    return redirect("korea:detail", player_pk)
 
 # 피셜 좋아요
 @login_required
@@ -267,26 +281,32 @@ def likes(request, player_pk, comment_pk):
         }
         return JsonResponse(context)
 
+
 # 규칙
 def rule(request):
     return render(request, "korea/rule.html")
+
 
 # 게임 메인
 def game(request):
     return render(request, "korea/game.html")
 
+
 # 1인 게임
 def game_1p(request):
     return render(request, "korea/game_1p.html")
+
 
 # 2인 게임
 def game_2p(request):
     return render(request, "korea/game_2p.html")
 
+
 # 댓글 신고하기
 def block(request, player_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     player = Players.objects.get(pk=player_pk)
+    blocks = Block.objects.filter(players=player_pk)
     if request.user.is_authenticated:
         if request.method == "POST":
             form = BlockForm(request.POST)
