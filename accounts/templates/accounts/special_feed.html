@@ -163,7 +163,7 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">Sumit Kapoor</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -181,7 +181,7 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">Andrew Neil</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -199,7 +199,7 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">Jasmine Carter</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -217,7 +217,7 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">Justin Chung</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -235,7 +235,7 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">Adrina Calvo</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
