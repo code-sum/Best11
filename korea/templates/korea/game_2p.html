@@ -3,16 +3,22 @@
 
 {% block content %}
 <style>
+/* 스크롤 자체를 없애주었음 - js에 stop-scrolling이라는 class 부여 */
+.stop-scrolling { 
+  height: 100%; 
+  overflow: hidden; 
+} 
+
 .two-player {
 	background-color: #dddddd;
     width:43.75rem;
-
 }
+
 </style>
 
-<div class="container" style="padding-top: 10rem;">
+<div class="container" style="padding-top:3rem; padding-bottom:7rem;">
 	<div class='container'>
-		<p class='fw-bold mb-5' style='font-size:2rem'>⚽ 한 명은 키보드 화살표 방향키로, <br>다른 한 명은 A, S, D, W 키로 조작하며 골을 넣는 게임!</p>
+		<p class='fw-bold mb-3' style='font-size:1.7rem'>⚽ 한 명은 키보드 화살표 방향키로, <br>다른 한 명은 A, S, D, W 키로 조작하며 골을 넣는 게임!</p>
 	</div>
     <div class="two-player d-flex align-items-center" style='background-color:transparent'>
 		<canvas id="canvas" width="700" height="500" style="background-color:white;"></canvas>
@@ -431,5 +437,11 @@ function clear(){
 	c.clearRect(0,0,canvas.width,canvas.height);
 }
 
+// 스크롤 disable
+function disableScroll() { 
+  document.body.classList.add("stop-scrolling"); 
+} 
+
+let stopScroll = disableScroll();
 </script>
 {% endblock content %}
