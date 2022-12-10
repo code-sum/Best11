@@ -18,16 +18,6 @@
       height: 10rem;
     }
 
-    .account-detail-img {
-      min-width: 40px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: rgb(255, 255, 255);
-      background-position: center center;
-      background-size: cover;
-    }
-
     .tags {
       display: inline-block;
       padding: 0.4087vw 1.0218vw 0.1362vw;
@@ -165,9 +155,15 @@
           <div class="card" style="--delay:-1;">
             <div class="content">
               {% for comment in like_comments_first %}
-              <div class="img"><img src="#" alt=""></div>
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
               <div class="details">
-                <span class="name">Sumit Kapoor</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -177,9 +173,15 @@
           <div class="card" style="--delay:0;">
             <div class="content">
               {% for comment in like_comments_second %}
-              <div class="img"><img src="#" alt=""></div>
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
               <div class="details">
-                <span class="name">Andrew Neil</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -189,9 +191,15 @@
           <div class="card" style="--delay:1;">
             <div class="content">
               {% for comment in like_comments_third %}
-              <div class="img"><img src="#" alt=""></div>
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
               <div class="details">
-                <span class="name">Jasmine Carter</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -201,9 +209,15 @@
           <div class="card" style="--delay:2;">
             <div class="content">
               {% for comment in like_comments_four %}
-              <div class="img"><img src="#" alt=""></div>
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
               <div class="details">
-                <span class="name">Justin Chung</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -213,9 +227,15 @@
           <div class="card" style="--delay:2;">
             <div class="content">
               {% for comment in like_comments_five %}
-              <div class="img"><img src="#" alt=""></div>
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
               <div class="details">
-                <span class="name">Adrina Calvo</span>
+                <span class="name">{{ comment.user.username }}</span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
