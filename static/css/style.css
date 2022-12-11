@@ -924,6 +924,20 @@ footer {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.card .img div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111b54;
+  color: white;
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 12rem;
+  top: 0.1rem;
+}
+
 .card .details{
   margin: 0;
   padding: 0;
@@ -985,8 +999,29 @@ footer {
     box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
   }
 
+  .wrapper .card .content{
+    display: flex;
+    align-items: center;
+    height: 15rem;
+    margin-left: 10rem;
+  }
+
+
   .card a{
     display: none;
+  }
+
+  .card .img div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #111b54;
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    left: 8rem;
+    top: 0;
   }
 }
 

@@ -157,8 +157,10 @@
               {% for comment in like_comments_first %}
               <div class="img">
                 {% if comment.user.profile_image %}
+                  <div>1위</div>
                   <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
                 {% else %}
+                  <div>1위</div>
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
                 {% endif %}
               </div>
@@ -176,8 +178,10 @@
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                  <div>2위</div>
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div>2위</div>
                 {% endif %}
               </div>
               <div class="details">
@@ -194,8 +198,10 @@
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                  <div>3위</div>
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div>3위</div>
                 {% endif %}
               </div>
               <div class="details">
@@ -212,8 +218,10 @@
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                  <div>4위</div>
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div>4위</div>
                 {% endif %}
               </div>
               <div class="details">
@@ -230,8 +238,10 @@
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
+                  <div>5위</div>
                 {% else %}
                   <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div>5위</div>
                 {% endif %}
               </div>
               <div class="details">
