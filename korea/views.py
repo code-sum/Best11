@@ -6,7 +6,6 @@ from .forms import PlayersForm, CommentForm, BlockForm
 from .models import Players, Comment
 from sns.models import Sns
 from django.db.models import Count
-import collections
 
 
 def comment_table(p):
@@ -112,12 +111,10 @@ def detail(request, player_pk):
         if request.user.pk == b.user.pk:
             block_list.append(b.user.pk)
             block_comment.append(b.comment.pk)
-    block_count = []  # 신고 카운트 위한 피셜 목록
 
+    block_count = []  # 신고 카운트 위한 피셜 목록
     for k in blocks:
         block_count.append(k.comment.pk)
-    dict = {}
-    dict = collections.Counter(block_count)  # 딕셔러니로 카운트
 
     block_dict = {}
     for block in block_count:
@@ -322,6 +319,7 @@ def block(request, player_pk, comment_pk):
         }
 
         return JsonResponse(context)
+
 
 # 경기 일정
 def match(request):

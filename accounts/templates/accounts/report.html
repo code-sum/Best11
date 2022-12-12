@@ -42,10 +42,11 @@
   <!-- 신고한 피셜 모아보기 content-->
 
   <div class="container text-center" style="padding-top: 13rem;">
-    <h2 style="padding-bottom: 2rem;" class="fw-bolder text-center">내가 신고한 피셜</h2>
-    <p class="fw-bolder" style="color:#111B54">총
-      {{ blocks.count }}개</p>
-    <table class="table text-center">
+    <h1 style="font-size: 3rem; padding-bottom: 2rem;" class="fw-bold text-center">내가 신고한 피셜</h1>
+    <p class="text-navy fw-bolder text-start">총
+      <span class="text-red">{{ blocks.count }}</span>개</p>
+    <hr>
+    <table class="table">
       <thead>
         <tr class="thead-dark">
           <th>작성 선수</th>
@@ -53,17 +54,17 @@
           <th>신고 취소</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="align-middle">
         {% for block in blocks %}
           <tr>
             <td>{{ block.players.name }}</td>
             <td>
-              <a style="color: inherit" href="{% url 'korea:detail' block.players.pk %}">{{ block.comment.content|safe}}</a>
+              <a style="color: inherit" href="{% url 'korea:detail' block.players.pk %}">
+                {{ block.comment.content|safe}}
+              </a>
             </td>
             <td>
-              <button class="btn btn-danger" style="width: 10rem;">
-                <a style="color: inherit" href="{% url "accounts:report_delete" user.pk block.comment.pk %}">신고 취소</a>
-              </button>
+              <a class="bi bi-x-circle" style="color: #c82d36; font-size: 3rem;" href="{% url "accounts:report_delete" user.pk block.comment.pk %}"></a>
             </td>
           </tr>
           {% endfor%}
