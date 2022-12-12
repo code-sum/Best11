@@ -30,119 +30,119 @@
       <div class="wrapper">
         <div class="outer">
           <div class="card" style="--delay:-1;">
-            <div class="content">
-              {% for comment in like_comments_first %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <div class="gold-box">1위</div>
-                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
-                {% else %}
-                  <div class="gold-box">1위</div>
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                {% endif %}
+            {% for comment in like_comments_first %}
+              <div class="content">
+                <div class="img">
+                  {% if comment.user.profile_image %}
+                    <div class="gold-box">1위</div>
+                    <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                  {% else %}
+                    <div class="gold-box">1위</div>
+                    <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  {% endif %}
+                </div>
+                <div class="details">
+                  <span class="name">{{ comment.user.username }} 
+                    <span class="fw-normal fs-4 text-muted ms-4">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      {{ comment.like_users.count }}명이 추천해요</span></span>
+                  <p>{{ comment.content|safe }}</p>
+                </div>
               </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }} 
-                  <span class="fw-normal fs-4 text-muted ms-4">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+            {% endfor %}
           </div>
           <div class="card" style="--delay:0;">
-            <div class="content">
-              {% for comment in like_comments_second %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
-                  <div class="silver-box">2위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div class="silver-box">2위</div>
-                {% endif %}
+            {% for comment in like_comments_second %}
+              <div class="content">
+                <div class="img">
+                  {% if comment.user.profile_image %}
+                    <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                    <div class="silver-box">2위</div>
+                  {% else %}
+                    <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                    <div class="silver-box">2위</div>
+                  {% endif %}
+                </div>
+                <div class="details">
+                  <span class="name">{{ comment.user.username }} 
+                    <span class="fw-normal fs-4 text-muted ms-4">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      {{ comment.like_users.count }}명이 추천해요</span></span>
+                  <p>{{ comment.content|safe }}</p>
+                </div>
               </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }} 
-                  <span class="fw-normal fs-4 text-muted ms-4">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+            {% endfor %}
           </div>
           <div class="card" style="--delay:1;">
-            <div class="content">
-              {% for comment in like_comments_third %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
-                  <div class="bronze-box">3위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div class="bronze-box">3위</div>
-                {% endif %}
+            {% for comment in like_comments_third %}
+              <div class="content">
+                <div class="img">
+                  {% if comment.user.profile_image %}
+                    <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                    <div class="bronze-box">3위</div>
+                  {% else %}
+                    <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                    <div class="bronze-box">3위</div>
+                  {% endif %}
+                </div>
+                <div class="details">
+                  <span class="name">{{ comment.user.username }} 
+                    <span class="fw-normal fs-4 text-muted ms-4">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      {{ comment.like_users.count }}명이 추천해요</span></span>
+                  <p>{{ comment.content|safe }}</p>
+                </div>
               </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }} 
-                  <span class="fw-normal fs-4 text-muted ms-4">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+            {% endfor %}
           </div>
           <div class="card" style="--delay:2;">
-            <div class="content">
-              {% for comment in like_comments_four %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
-                  <div class="bg-navy">4위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div class="bg-navy">4위</div>
-                {% endif %}
+            {% for comment in like_comments_four %}
+              <div class="content">
+                <div class="img">
+                  {% if comment.user.profile_image %}
+                    <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                    <div class="bg-navy">4위</div>
+                  {% else %}
+                    <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                    <div class="bg-navy">4위</div>
+                  {% endif %}
+                </div>
+                <div class="details">
+                  <span class="name">{{ comment.user.username }} 
+                    <span class="fw-normal fs-4 text-muted ms-4">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      {{ comment.like_users.count }}명이 추천해요</span></span>
+                  <p>{{ comment.content|safe }}</p>
+                </div>
               </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }} 
-                  <span class="fw-normal fs-4 text-muted ms-4">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+            {% endfor %}
           </div>
           <div class="card" style="--delay:2;">
-            <div class="content">
-              {% for comment in like_comments_five %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
-                  <div class="bg-navy">5위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div class="bg-navy">5위</div>
-                {% endif %}
+            {% for comment in like_comments_five %}
+              <div class="content">
+                <div class="img">
+                  {% if comment.user.profile_image %}
+                    <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                    <div class="bg-navy">5위</div>
+                  {% else %}
+                    <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                    <div class="bg-navy">5위</div>
+                  {% endif %}
+                </div>
+                <div class="details">
+                  <span class="name">{{ comment.user.username }} 
+                    <span class="fw-normal fs-4 text-muted ms-4">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                      {{ comment.like_users.count }}명이 추천해요</span></span>
+                  <p>{{ comment.content|safe }}</p>
+                </div>
               </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }} 
-                  <span class="fw-normal fs-4 text-muted ms-4">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+              <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+            {% endfor %}
           </div>
         </div>
       </div>
