@@ -825,13 +825,13 @@ footer {
   width: auto;
   background-color:#F6F6F6;
   padding-top: 4rem;
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
 }
 
 .rolling_box {
   width: 90vw;
   height: 6rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .rolling_box ul {
@@ -839,7 +839,9 @@ footer {
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding-top: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0;
 }
 
 .rolling_box ul li {
