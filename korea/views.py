@@ -77,11 +77,18 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
+    # 좋아요 순 댓글 
     comments = (
         Comment.objects.annotate(count=Count("like_users"))
         .filter(players=player_pk)
         .order_by("-count")
     )
+    # 최신순 댓글
+    sort_date = (
+        Comment.objects.filter(players=player_pk)
+        .order_by("-created_at")
+    )
+    print(sort_date)
 
     for t in comments:
         with open("filter.txt", "r", encoding="utf-8") as txtfile:
@@ -133,6 +140,7 @@ def detail(request, player_pk):
         "block_comment": block_comment,
         "block_count": block_count,
         "block_dict": block_dict,
+        "sort_date": sort_date, 
     }
     return render(request, "korea/detail_player.html", context)
 
