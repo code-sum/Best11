@@ -932,7 +932,6 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #111b54;
   color: white;
   font-weight: bold;
   width: 5rem;
@@ -940,6 +939,21 @@ footer {
   position: absolute;
   left: 12rem;
   top: 0.1rem;
+}
+
+.bronze-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgb(223, 171, 103) 0%,rgb(231, 214, 181) 56%,rgb(231, 170, 116) 96%); 
+}
+
+.silver-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgba(160,160,160,1) 0%,rgba(232,232,232,1) 56%);
+}
+
+.gold-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgb(242, 204, 12) 0%,rgb(255, 249, 177) 56%,rgb(252, 227, 0) 96%);
 }
 
 .card .details{
@@ -1033,7 +1047,6 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #111b54;
     color: white;
     width: 4rem;
     height: 4rem;
