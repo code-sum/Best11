@@ -2,130 +2,6 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
-  <style>
-    .layout-ct {
-      padding-top: 5rem;
-      margin-bottom: 5rem;
-      display: flex;
-      justify-content: center;
-      margin-right: 25rem;
-      margin-left: 25rem;
-    }
-
-    .ho {
-      border: 0.1rem solid rgb(105, 105, 105);
-      width: 0.1rem;
-      height: 10rem;
-    }
-
-    .tags {
-      display: inline-block;
-      padding: 0.4087vw 1.0218vw 0.1362vw;
-      margin: 0.5450vw 0.8856vw;
-      background-color: #111b54;
-      border-radius: 1.3624vw;
-      font-size: 1.0218vw;
-    }
-
-    .feed {
-      display: flex;
-      flex-direction: column;
-      width: auto;
-      margin-left: 32px;
-    }
-
-    .feed-content-space {
-      width: 100%;
-      margin-bottom: 32px;
-    }
-
-    .feed-content {
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
-      background-color: rgb(255, 255, 255);
-      border: 1px solid #111b54;
-      border-radius: 24px;
-      transition: all 0.2s ease-in-out 0s;
-      cursor: pointer;
-      pointer-events: auto;
-      box-sizing: border-box;
-    }
-
-    .feed-content-tag {
-      display: flex;
-      flex-direction: column;
-      -webkit-box-align: center;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .feed-content-tag .card-header-wrapper {
-      display: flex;
-      flex-direction: row;
-      -webkit-box-pack: justify;
-      justify-content: space-between;
-      width: 100%;
-      align-items: flex-start;
-    }
-
-    .content-tag {
-      display: flex;
-      margin-top: 0;
-    }
-
-    .tag-detail.tag {
-      color: white;
-      background-color: #111b54;
-      border: 1px solid #111b54;
-    }
-
-    .tag-detail {
-      flex-direction: row;
-      -webkit-box-pack: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      align-items: center;
-      margin-right: 6px;
-      padding: 5px 7px;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1em;
-      white-space: nowrap;
-      color: rgb(109, 85, 255);
-      background-color: rgb(241, 238, 252);
-      border: 1px solid rgb(241, 238, 252);
-      cursor: pointer;
-      transition: all 0.2s ease-in-out 0s;
-    }
-
-    .comment-space {
-      display: flex;
-      flex-direction: column;
-      -webkit-box-align: center;
-      align-items: center;
-      margin-bottom: 8px;
-      width: 100%;
-      position: relative;
-    }
-
-    .comment-content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      margin-bottom: 8px;
-      max-height: 288px;
-      word-break: break-word;
-      white-space: pre-line;
-      overflow: hidden;
-      color: rgb(51, 51, 51);
-      font-size: 15px;
-      line-height: 1.6em;
-      transition: all 0.2s ease-in-out 0s;
-      position: relative;
-    }
-  </style>
 
   <div style="padding-top: 10rem;">
     <!-- section 1 : 뉴스 영역 시작 -->
@@ -137,240 +13,163 @@
             <ul id="scroll">
               {% for key, value in dic.items %}
                 <li style="list-style:none;">
-                  <a href="{{ value }}" class="a-black-red" style="font-size: 1.5rem;">🆕
+                  <a href="{{ value }}" class="a-black-red" style="font-size: 1.5rem;">
+                    <span class="fw-bold" style="color: #c82d36;">NEW</span>
                     {{ key }}</a>
                 </li>
               {% endfor %}
             </ul>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- section 1 : 뉴스 영역 끝 -->
-
-    <!-- section 2 : 피셜랭킹 영역 시작 -->
-    <div class="feed-section-two">
-      <div class="wrapper">
-        <div class="outer">
-          <div class="card" style="--delay:-1;">
-            <div class="content">
-              {% for comment in like_comments_first %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <div>1위</div>
-                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
-                {% else %}
-                  <div>1위</div>
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                {% endif %}
-              </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
-          </div>
-          <div class="card" style="--delay:0;">
-            <div class="content">
-              {% for comment in like_comments_second %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
-                  <div>2위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div>2위</div>
-                {% endif %}
-              </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
-          </div>
-          <div class="card" style="--delay:1;">
-            <div class="content">
-              {% for comment in like_comments_third %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
-                  <div>3위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div>3위</div>
-                {% endif %}
-              </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
-          </div>
-          <div class="card" style="--delay:2;">
-            <div class="content">
-              {% for comment in like_comments_four %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
-                  <div>4위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div>4위</div>
-                {% endif %}
-              </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
-          </div>
-          <div class="card" style="--delay:2;">
-            <div class="content">
-              {% for comment in like_comments_five %}
-              <div class="img">
-                {% if comment.user.profile_image %}
-                  <img src="{{ comment.user.profile_image }}" alt="작성자프로필">
-                  <div>5위</div>
-                {% else %}
-                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
-                  <div>5위</div>
-                {% endif %}
-              </div>
-              <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
-                <p>{{ comment.content|safe }}</p>
-              </div>
-              {% endfor %}
-            </div>
-            <a href="#" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- section 2 : 피셜랭킹 영역 끝 -->
-  </div>
-
-{% comment %} <!-- 좋아요 많은 피셜 -->
-<div class="text-center">
-  <h1 class="text-red" style="font-size: 4rem; font-weight: bold; margin-top: 3rem;">피셜 랭킹</h1>
-</div>
-{% for comment in like_comments %}
-  <div class="card">
-    <div class="card-body">
-      <span style="font-weight: bold;">
-        {{comment.like_users.count }}
-        건의 좋아요</span>{{ comment.content|safe }}
-    </div>
-  </div>
-{% endfor %} {% endcomment %}
-
-{% comment %} <!-- 따라서 -->
-{% for comment in comments %}
-  <div class="feed">
-    <div class="detail-user-profile">
-      <a href="{% url 'accounts:detail' comment.user.pk %}">
-        <!-- 프로필 사진이 있으면 -->
-        {% if comment.user.profile_image %}
-          <img src="{{ comment.user.profile_image.url }}" alt="유저프로필" class="account-detail-img">
-        {% else %}
-          <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필" class="account-detail-img">
-        {% endif %}
-      </a>
-      <div class="d-flex flex-column">
-        <div class="detail-user-comment">
-          <!-- 피셜 작성자 -->
-          <p>{{ comment.user.username }}
-            <small class="text-muted">
-              님이 피셜을 작성했습니다.</small>
-          </p>
-          <!-- 날짜 -->
-          <div>
-            <small class="text-muted">
-              {% if comment.is_updated == False %}
-                {% if comment.created_string == False %}
-                  {{ comment.created|date:'Y.m.d' }}
-                {% else %}
-                  {{ comment.created_string }}
-                {% endif %}
-              {% else %}
-                {% if comment.created_string == False %}
-                  {{ comment.updated_at|date:'Y.m.d' }}
-                {% else %}
-                  {{ comment.created_string }}
-                {% endif %}
-                (수정됨)
-              {% endif %}
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="feed-content-space">
-      <div class="feed-content">
-        <div class="feed-content-tag">
-          <div class="card-header-wrapper">
-            <div class="content-tag">
-              <div class="tag-detail tag">
-                <a href="{% url 'korea:detail' comment.players.pk %}" style="color: white;">#
-                  {{comment.players.name}}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="comment-space">
-          <div class="comment-content">
-            {{comment.content|safe}}
-          </div>
-        </div>
+        </ul>
       </div>
     </div>
   </div>
-{% endfor %}
-<!-- 따라서 --> {% endcomment %}
+  <!-- section 1 : 뉴스 영역 끝 -->
 
-<div class="flex-wrap my-3 pb-5">
-  <main class="container d-flex justify-content-center rounded bg-white border my-5">
-    <section class="container" style="width: 85%; height: auto;">
-      <table class="table my-5 mt-3">
-        <thead>
-          <tr>
-            <th scope="col">피셜 No.</th>
-            <th scope="col">피셜 작성자</th>
-            <th scope="col">선수</th>
-            <th scope="col">피셜</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for comment in comments %}
-            <tr>
-              <td scope="row" class="align-middle">{{ forloop.counter }}</td>
-              <td scope="row" class="align-middle">{{ comment.user.username }}</td>
-              <td class="align-middle">
-                <a href="" class="text-decoration-none text-dark">
-                  <span class="nav1-text">{{ comment.players.name }}</span>
-                </a>
-              </td>
-              <td>
-                <a href="" class="text-decoration-none text-dark">
-                  <span class="nav1-text">
-                    <a href="{% url 'korea:detail' comment.players.pk %}">{{comment.content|safe}}</a>
-                  </span>
-                </a>
-              </td>
-            </tr>
+  <!-- section 2 : 피셜랭킹 영역 시작 -->
+  <div class="feed-section-two">
+    <div class="wrapper">
+      <div class="outer">
+        <div class="card" style="--delay:-1;">
+          {% for comment in like_comments_first %}
+            <div class="content">
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <div class="gold-box">1위</div>
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                {% else %}
+                  <div class="gold-box">1위</div>
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                {% endif %}
+              </div>
+              <div class="details">
+                <span class="name">{{ comment.user.username }}
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+            </div>
+            <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
           {% endfor %}
-        </tbody>
-      </table>
-    </section>
-  </main>
+        </div>
+        <div class="card" style="--delay:0;">
+          {% for comment in like_comments_second %}
+            <div class="content">
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                  <div class="silver-box">2위</div>
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div class="silver-box">2위</div>
+                {% endif %}
+              </div>
+              <div class="details">
+                <span class="name">{{ comment.user.username }}
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+            </div>
+            <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          {% endfor %}
+        </div>
+        <div class="card" style="--delay:1;">
+          {% for comment in like_comments_third %}
+            <div class="content">
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                  <div class="bronze-box">3위</div>
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div class="bronze-box">3위</div>
+                {% endif %}
+              </div>
+              <div class="details">
+                <span class="name">{{ comment.user.username }}
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+            </div>
+            <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          {% endfor %}
+        </div>
+        <div class="card" style="--delay:2;">
+          {% for comment in like_comments_four %}
+            <div class="content">
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                  <div class="bg-navy">4위</div>
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div class="bg-navy">4위</div>
+                {% endif %}
+              </div>
+              <div class="details">
+                <span class="name">{{ comment.user.username }}
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+            </div>
+            <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          {% endfor %}
+        </div>
+        <div class="card" style="--delay:2;">
+          {% for comment in like_comments_five %}
+            <div class="content">
+              <div class="img">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+                  <div class="bg-navy">5위</div>
+                {% else %}
+                  <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+                  <div class="bg-navy">5위</div>
+                {% endif %}
+              </div>
+              <div class="details">
+                <span class="name">{{ comment.user.username }}
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
+                <p>{{ comment.content|safe }}</p>
+              </div>
+            </div>
+            <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">보러가기</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- section 2 : 피셜랭킹 영역 끝 -->
+
+  <!-- section 3 : 팔로우 하는 유저의 피셜피드 영역 시작 -->
+  <div class="feed-section-three">
+    {% for comment in comments %}
+      <div class="fficial-card position-color">
+        <div class="overlay"></div>
+        <div class="d-flex flex-row align-items-center justify-content-between">
+          <div>
+            <span class="badge bg-navy me-3" style="font-size: 2rem;">#{{ comment.players.name }}</span>
+            <span class="badge bg-red" style="font-size: 2rem;">♥&nbsp;{{ comment.like_users.count }}</span>
+          </div>
+        </div>
+        <a href="{% url 'korea:detail' comment.players.pk %}" class="a-black-red">
+          <div class="d-flex flex-column mt-4">
+            <p>{{ comment.content|safe }}</p>
+            <p class="text-end">{{ comment.created_at|date:'Y-m-d' }}</p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- section 3 : 팔로우 하는 유저의 피셜피드 영역 끝 -->
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
