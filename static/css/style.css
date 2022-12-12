@@ -1056,6 +1056,13 @@ footer {
   }
 }
 
+/* accounts/special_feed.html 팔로우하는 유저의 피셜피드 영역 */
+.feed-section-three{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 /* korea/index.html main 태그 내부 div */
 .under-main {
