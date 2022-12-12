@@ -42,7 +42,10 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
+                <span class="name">{{ comment.user.username }} 
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -62,7 +65,10 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
+                <span class="name">{{ comment.user.username }} 
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -82,7 +88,10 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
+                <span class="name">{{ comment.user.username }} 
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -102,7 +111,10 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
+                <span class="name">{{ comment.user.username }} 
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}
@@ -122,7 +134,10 @@
                 {% endif %}
               </div>
               <div class="details">
-                <span class="name">{{ comment.user.username }}</span>
+                <span class="name">{{ comment.user.username }} 
+                  <span class="fw-normal fs-4 text-muted ms-4">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    {{ comment.like_users.count }}명이 추천해요</span></span>
                 <p>{{ comment.content|safe }}</p>
               </div>
               {% endfor %}

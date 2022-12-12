@@ -875,7 +875,7 @@ footer {
   width: 90%;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 1rem 1rem 2rem 1rem;
   opacity: 0;
   pointer-events: none;
   position: absolute;
@@ -916,6 +916,7 @@ footer {
 }
 .card .content{
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   height: 15rem;
 }
@@ -933,6 +934,7 @@ footer {
   justify-content: center;
   background-color: #111b54;
   color: white;
+  font-weight: bold;
   width: 5rem;
   height: 5rem;
   position: absolute;
@@ -944,14 +946,17 @@ footer {
   margin: 0;
   padding: 0;
   height: 10rem;
+  width: 60rem;
+  overflow: hidden;
 }
 .details span{
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .details p{
   font-size: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 /* 큰 화면 */
@@ -994,7 +999,7 @@ footer {
     height: 10rem;
     width: 10rem;
     position: absolute;
-    left: 1rem;
+    left: 2rem;
     top: 23%;
     background: #fff;
     border-radius: 50%;
@@ -1004,15 +1009,20 @@ footer {
     display: flex;
     align-items: center;
     height: 15rem;
-    margin-left: 10rem;
+    padding-left: 12rem;
   }
 
   .card .details{
     margin: 0;
     padding: 0;
     height: 10rem;
-    width: 20rem;
+    width: 22rem;
     overflow: hidden;
+  }
+
+  .details span{
+    font-weight: 600;
+    font-size: 2rem;
   }
 
   .card a{
