@@ -1433,6 +1433,64 @@ label[for="toggle-pears"] {
   padding: 0 0.5rem;
 }
 
+/* 댓글 정렬 */
+.comment-tab {
+  height: 100%;
+  width: 100%;
+  display: none;
+  padding: 4rem 1rem 1rem;
+}
+
+input[name="sort"] {
+  float: left;
+  opacity: 0;
+  position: absolute;
+}
+
+input[name="sort"] ~ label {
+  padding: 1em;
+  width: 20%;
+  margin-right: 2rem;
+  float: right;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+input[name="sort"] ~ label:hover {
+  background: #d9d9d9;
+}
+input[name="sort"] ~ label:focus {
+  outline: 0;
+}
+
+
+label[for="toggle-like"] {
+  text-transform: uppercase;
+}
+
+#toggle-like:checked ~ .tab-like {
+  display: block;
+}
+
+#toggle-like:checked ~ label[for="toggle-like"] {
+  cursor: default;
+  color: #b52b33;
+}
+
+label[for="toggle-date"] {
+  text-transform: uppercase;
+}
+
+#toggle-date:checked ~ .tab-date {
+  display: block;
+}
+
+#toggle-date:checked ~ label[for="toggle-date"] {
+  cursor: default;
+  color: #b52b33;
+}
+
 /* 채팅창 디자인 */
 .wrap {
   padding: 4rem 0;

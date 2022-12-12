@@ -181,6 +181,7 @@
             <div class="d-flex align-items-center mb-4">
               <p class="text-navy fw-bold mb-0" style="font-size: 1.8rem;">{{ player.comment_set.count }}개의 피셜</p>
               <button class="reload bi bi-arrow-clockwise rounded-circle ms-3" onclick="window.location.reload()"></button>
+              
             </div>
             <a href="{% url 'korea:comment_create' player.pk %}">
               <div class="input-group mb-3" style="height: 4.1rem;">
@@ -189,288 +190,587 @@
               </div>
             </a>
           </div>
-          <!-- 피셜 출력 -->
-          {% for comment in comments %}
-            <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
-            {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %} <!-- 신고가 5개 이상이면 모든 사용사 숨김처리 -->
-              {% if request.user.pk in block_list and comment.pk in block_comment %}
-              <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
-                <div class="chat ch1 align-items-center">
-                  <div class="textbox">
-                    <div class="d-flex justify-content-between mb-4">
-                      <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
-                      <div>
-                        <small class="text-muted">
-                          <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
-                        </small>
-                        <small class="text-muted">|</small>
-                        <small class="text-muted">
-                          <!-- 작성/수정시간 -->
-                          {% if comment.is_updated == False %}
-                            {% if comment.created_string == False %}
-                              <span>{{ comment.created|date:'Y.m.d' }}</span>
-                            {% else %}
-                              <span>{{ comment.created_string }}</span>
-                            {% endif %}
-                          {% else %}
-                            {% if comment.created_string == False %}
-                              {{ comment.updated_at|date:'Y.m.d' }}
-                            {% else %}
-                              {{ comment.created_string }}
-                            {% endif %}
-                            (수정됨)
-                          {% endif %}
-                        </small>
-                        {% if request.user.is_authenticated %}
-                          <small class="text-muted">|</small>
-                          <!-- 작성자만 수정 삭제 -->
-                          {% if user.is_authenticated and comment.user == request.user %}
-                            <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+          <!-- 피셜 카테고리 시작-->
+          <div class='tabs'>
+            <input type="radio" name="sort" id="toggle-like" checked="checked"/>
+            <label for="toggle-like">
+              <span class="text-title">좋아요순</span>
+            </label>
+            <input type="radio" name="sort" id="toggle-date"/>
+            <label for="toggle-date">
+              <span class="text-title">최신순</span>
+            </label> 
+            <!-- 피셜 카테고리 끝 -->
+
+            <!-- 피셜 출력(좋아요순) -->
+            <div class="comment-tab tab-like">
+              {% for comment in comments %}
+                <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
+                {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %} <!-- 신고가 5개 이상이면 모든 사용사 숨김처리 -->
+                  {% if request.user.pk in block_list and comment.pk in block_comment %}
+                  <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                    <div class="chat ch1 align-items-center">
+                      <div class="textbox">
+                        <div class="d-flex justify-content-between mb-4">
+                          <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
+                          <div>
+                            <small class="text-muted">
+                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                            </small>
                             <small class="text-muted">|</small>
-                            <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
-                            <!-- 댓글 삭제 Modal -->
-                            <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                                <div class="modal-content" style="width: 40rem; height: rem;">
-                                  <div class="d-flex justify-content-end my-4">
-                                    <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
-                                    피셜을 삭제하시면
-                                    {{user.exp}}점에서
-                                    {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
-                                  </div>
-                                  <div class="d-flex justify-content-center my-4">
-                                    <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
-                                    <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- 댓글 삭제 Modal -->
-                          {% else %}
-                            <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                                <div class="modal-content" style="width: 40rem; height: rem;">
-                                  <div class="d-flex justify-content-end my-4">
-                                    <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
-                                    해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
-                                  </div>
-                                  <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
-                                    {% csrf_token %}
-                                    <div class="d-flex justify-content-center my-4">
-                                      <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
-                                      <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
-                                        신고하기
-                                      </button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- 신고 Modal -->
-                          {% endif %}
-                        {% endif %}
-                      </div>
-                    </div>
-
-                    <!-- 피셜 내용 -->
-                    <p>
-                      <!-- 이미지가 있으면 크기 조정-->
-                      {{ comment.content | safe }}
-                    </p>
-                  </div>
-                  <!-- textbox -->
-
-                  <!-- 좋아요 버튼 -->
-                  {% if request.user.is_authenticated %}
-                    <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
-                      {% csrf_token %}
-                      {% if request.user in comment.like_users.all %}
-                        <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
-                        </button>
-                      {% else %}
-                        <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
-                        </button>
-                      {% endif %}
-                    </form>
-                  {% else %}
-                    <!-- 로그인 안한 경우 -->
-                    <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="like-fficial bi bi-hand-thumbs-up"></i>
-                    </button>
-                    <!-- 로그인 Modal -->
-                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                        <div class="modal-content" style="width: 40rem; height: rem;">
-                          <div class="d-flex justify-content-end my-4">
-                            <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body text-center pt-0">
-                            로그인 후 이용해 주세요.
-                          </div>
-                          <div class="d-flex justify-content-center my-4">
-                            <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
-                            <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- 로그인 Modal -->
-                  {% endif %}
-                </div>
-              </div>
-              {% else %}
-              <!-- 피셜 조건문 비로그인 및 신고안한 유저 다 보이도록-->
-              <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
-                <div class="chat ch1 align-items-center">
-                  <div class="textbox">
-                    <div class="d-flex justify-content-between mb-4">
-                      <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
-                      <div>
-                        <small class="text-muted">
-                          <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
-                        </small>
-                        <small class="text-muted">|</small>
-                        <small class="text-muted">
-                          {% if comment.is_updated == False %}
-                            {% if comment.created_string == False %}
-                              {{ comment.created|date:'Y.m.d' }}
-                            {% else %}
-                              {{ comment.created_string }}
-                            {% endif %}
-                          {% else %}
-                            {% if comment.created_string == False %}
-                              {{ comment.updated_at|date:'Y.m.d' }}
-                            {% else %}
-                              {{ comment.created_string }}
-                            {% endif %}
-                            (수정됨)
-                          {% endif %}
-                        </small>
-                        {% if request.user.is_authenticated %}
-                          <small class="text-muted">|</small>
-                          <!-- 작성자만 수정 삭제 -->
-                          {% if user.is_authenticated and comment.user == request.user %}
-                            <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
-                            <small class="text-muted">|</small>
-                            <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
-                            <!-- 댓글 삭제 Modal -->
-                            <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                                <div class="modal-content" style="width: 40rem; height: rem;">
-                                  <div class="d-flex justify-content-end my-4">
-                                    <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
-                                    피셜을 삭제하시면
-                                    {{user.exp}}점에서
-                                    {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
-                                  </div>
-                                  <div class="d-flex justify-content-center my-4">
-                                    <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
-                                    <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- 댓글 삭제 Modal -->
-                          {% else %}
-
-                            <!-- 신고 버튼 -->
-                            {% if comment.pk in block_count %}
-                              {% for k, v in block_dict.items %}
-                                {% if comment.pk == k %}
-                                  <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고({{v}})</a>
+                            <small class="text-muted">
+                              <!-- 작성/수정시간 -->
+                              {% if comment.is_updated == False %}
+                                {% if comment.created_string == False %}
+                                  <span>{{ comment.created|date:'Y.m.d' }}</span>
+                                {% else %}
+                                  <span>{{ comment.created_string }}</span>
                                 {% endif %}
-                              {% endfor %}
-                            {% else %}
-                              <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고</a>
-                            {% endif %}
-                            <!-- 신고 Modal -->
-                            <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                                <div class="modal-content" style="width: 40rem; height: rem;">
-                                  <div class="d-flex justify-content-end my-4">
-                                    <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
-                                    해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
-                                  </div>
-                                  <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
-                                    {% csrf_token %}
-                                    <div class="d-flex justify-content-center my-4">
-                                      <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
-                                      <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
-                                        신고하기
-                                      </button>
+                              {% else %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.updated_at|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                                (수정됨)
+                              {% endif %}
+                            </small>
+                            {% if request.user.is_authenticated %}
+                              <small class="text-muted">|</small>
+                              <!-- 작성자만 수정 삭제 -->
+                              {% if user.is_authenticated and comment.user == request.user %}
+                                <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+                                <small class="text-muted">|</small>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <!-- 댓글 삭제 Modal -->
+                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                        피셜을 삭제하시면
+                                        {{user.exp}}점에서
+                                        {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
+                                      </div>
+                                      <div class="d-flex justify-content-center my-4">
+                                        <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                        <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
+                                      </div>
                                     </div>
-                                  </form>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            <!-- 신고 Modal -->
-                          {% endif %}
-                        {% endif %}
-                      </div>
-                    </div>
-
-                    <!-- 피셜 내용 -->
-                    <p>
-                      <!-- 이미지가 있으면 크기 조정-->
-                      {{ comment.content | safe }}
-                    </p>
-                  </div>
-                  <!-- textbox -->
-
-                  <!-- 좋아요 버튼 -->
-                  {% if request.user.is_authenticated %}
-                    <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
-                      {% csrf_token %}
-                      {% if request.user in comment.like_users.all %}
-                        <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
-                        </button>
-                      {% else %}
-                        <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                          <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
-                        </button>
-                      {% endif %}
-                    </form>
-                  {% else %}
-                    <!-- 로그인 안한 경우 -->
-                    <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="like-fficial bi bi-hand-thumbs-up"></i>
-                    </button>
-                    <!-- 로그인 Modal -->
-                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-                        <div class="modal-content" style="width: 40rem; height: rem;">
-                          <div class="d-flex justify-content-end my-4">
-                            <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body text-center pt-0">
-                            로그인 후 이용해 주세요.
-                          </div>
-                          <div class="d-flex justify-content-center my-4">
-                            <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
-                            <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                                <!-- 댓글 삭제 Modal -->
+                              {% else %}
+                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                        해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
+                                      </div>
+                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                        {% csrf_token %}
+                                        <div class="d-flex justify-content-center my-4">
+                                          <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                          <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
+                                            신고하기
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 신고 Modal -->
+                              {% endif %}
+                            {% endif %}
                           </div>
                         </div>
+
+                        <!-- 피셜 내용 -->
+                        <p>
+                          <!-- 이미지가 있으면 크기 조정-->
+                          {{ comment.content | safe }}
+                        </p>
                       </div>
+                      <!-- textbox -->
+
+                      <!-- 좋아요 버튼 -->
+                      {% if request.user.is_authenticated %}
+                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                          {% csrf_token %}
+                          {% if request.user in comment.like_users.all %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                            </button>
+                          {% else %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                            </button>
+                          {% endif %}
+                        </form>
+                      {% else %}
+                        <!-- 로그인 안한 경우 -->
+                        <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                          <i class="like-fficial bi bi-hand-thumbs-up"></i>
+                        </button>
+                        <!-- 로그인 Modal -->
+                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                            <div class="modal-content" style="width: 40rem; height: rem;">
+                              <div class="d-flex justify-content-end my-4">
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body text-center pt-0">
+                                로그인 후 이용해 주세요.
+                              </div>
+                              <div class="d-flex justify-content-center my-4">
+                                <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
+                                <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- 로그인 Modal -->
+                      {% endif %}
                     </div>
-                    <!-- 로그인 Modal -->
+                  </div>
+                  {% else %}
+                  <!-- 피셜 조건문 비로그인 및 신고안한 유저 다 보이도록-->
+                  <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                    <div class="chat ch1 align-items-center">
+                      <div class="textbox">
+                        <div class="d-flex justify-content-between mb-4">
+                          <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
+                          <div>
+                            <small class="text-muted">
+                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                            </small>
+                            <small class="text-muted">|</small>
+                            <small class="text-muted">
+                              {% if comment.is_updated == False %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.created|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                              {% else %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.updated_at|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                                (수정됨)
+                              {% endif %}
+                            </small>
+                            {% if request.user.is_authenticated %}
+                              <small class="text-muted">|</small>
+                              <!-- 작성자만 수정 삭제 -->
+                              {% if user.is_authenticated and comment.user == request.user %}
+                                <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+                                <small class="text-muted">|</small>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <!-- 댓글 삭제 Modal -->
+                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                        피셜을 삭제하시면
+                                        {{user.exp}}점에서
+                                        {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
+                                      </div>
+                                      <div class="d-flex justify-content-center my-4">
+                                        <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                        <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 댓글 삭제 Modal -->
+                              {% else %}
+
+                                <!-- 신고 버튼 -->
+                                {% if comment.pk in block_count %}
+                                  {% for k, v in block_dict.items %}
+                                    {% if comment.pk == k %}
+                                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고({{v}})</a>
+                                    {% endif %}
+                                  {% endfor %}
+                                {% else %}
+                                  <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고</a>
+                                {% endif %}
+                                <!-- 신고 Modal -->
+                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                        해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
+                                      </div>
+                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                        {% csrf_token %}
+                                        <div class="d-flex justify-content-center my-4">
+                                          <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                          <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
+                                            신고하기
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 신고 Modal -->
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+
+                        <!-- 피셜 내용 -->
+                        <p>
+                          <!-- 이미지가 있으면 크기 조정-->
+                          {{ comment.content | safe }}
+                        </p>
+                      </div>
+                      <!-- textbox -->
+
+                      <!-- 좋아요 버튼 -->
+                      {% if request.user.is_authenticated %}
+                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                          {% csrf_token %}
+                          {% if request.user in comment.like_users.all %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                            </button>
+                          {% else %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                            </button>
+                          {% endif %}
+                        </form>
+                      {% else %}
+                        <!-- 로그인 안한 경우 -->
+                        <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                          <i class="like-fficial bi bi-hand-thumbs-up"></i>
+                        </button>
+                        <!-- 로그인 Modal -->
+                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                            <div class="modal-content" style="width: 40rem; height: rem;">
+                              <div class="d-flex justify-content-end my-4">
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body text-center pt-0">
+                                로그인 후 이용해 주세요.
+                              </div>
+                              <div class="d-flex justify-content-center my-4">
+                                <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
+                                <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- 로그인 Modal -->
+                      {% endif %}
+                    </div>
+                  </div>
                   {% endif %}
-                </div>
-              </div>
-              {% endif %}
-              <!-- 신고하기 조건문 -->
-              {% endif %}
-          {% endfor %}
+                  <!-- 신고하기 조건문 -->
+                  {% endif %}
+              {% endfor %}
+            </div>
+            <!-- 피셜 출력(최신순) -->
+            <div class="comment-tab tab-date">
+              {% for comment in sort_date %}
+                <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
+                {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %} <!-- 신고가 5개 이상이면 모든 사용사 숨김처리 -->
+                  {% if request.user.pk in block_list and comment.pk in block_comment %}
+                  <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                    <div class="chat ch1 align-items-center">
+                      <div class="textbox">
+                        <div class="d-flex justify-content-between mb-4">
+                          <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
+                          <div>
+                            <small class="text-muted">
+                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                            </small>
+                            <small class="text-muted">|</small>
+                            <small class="text-muted">
+                              <!-- 작성/수정시간 -->
+                              {% if comment.is_updated == False %}
+                                {% if comment.created_string == False %}
+                                  <span>{{ comment.created|date:'Y.m.d' }}</span>
+                                {% else %}
+                                  <span>{{ comment.created_string }}</span>
+                                {% endif %}
+                              {% else %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.updated_at|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                                (수정됨)
+                              {% endif %}
+                            </small>
+                            {% if request.user.is_authenticated %}
+                              <small class="text-muted">|</small>
+                              <!-- 작성자만 수정 삭제 -->
+                              {% if user.is_authenticated and comment.user == request.user %}
+                                <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+                                <small class="text-muted">|</small>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <!-- 댓글 삭제 Modal -->
+                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                        피셜을 삭제하시면
+                                        {{user.exp}}점에서
+                                        {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
+                                      </div>
+                                      <div class="d-flex justify-content-center my-4">
+                                        <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                        <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 댓글 삭제 Modal -->
+                              {% else %}
+                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                        해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
+                                      </div>
+                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                        {% csrf_token %}
+                                        <div class="d-flex justify-content-center my-4">
+                                          <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                          <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
+                                            신고하기
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 신고 Modal -->
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+
+                        <!-- 피셜 내용 -->
+                        <p>
+                          <!-- 이미지가 있으면 크기 조정-->
+                          {{ comment.content | safe }}
+                        </p>
+                      </div>
+                      <!-- textbox -->
+
+                      <!-- 좋아요 버튼 -->
+                      {% if request.user.is_authenticated %}
+                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                          {% csrf_token %}
+                          {% if request.user in comment.like_users.all %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                            </button>
+                          {% else %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                            </button>
+                          {% endif %}
+                        </form>
+                      {% else %}
+                        <!-- 로그인 안한 경우 -->
+                        <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                          <i class="like-fficial bi bi-hand-thumbs-up"></i>
+                        </button>
+                        <!-- 로그인 Modal -->
+                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                            <div class="modal-content" style="width: 40rem; height: rem;">
+                              <div class="d-flex justify-content-end my-4">
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body text-center pt-0">
+                                로그인 후 이용해 주세요.
+                              </div>
+                              <div class="d-flex justify-content-center my-4">
+                                <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
+                                <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- 로그인 Modal -->
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% else %}
+                  <!-- 피셜 조건문 비로그인 및 신고안한 유저 다 보이도록-->
+                  <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                    <div class="chat ch1 align-items-center">
+                      <div class="textbox">
+                        <div class="d-flex justify-content-between mb-4">
+                          <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
+                          <div>
+                            <small class="text-muted">
+                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                            </small>
+                            <small class="text-muted">|</small>
+                            <small class="text-muted">
+                              {% if comment.is_updated == False %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.created|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                              {% else %}
+                                {% if comment.created_string == False %}
+                                  {{ comment.updated_at|date:'Y.m.d' }}
+                                {% else %}
+                                  {{ comment.created_string }}
+                                {% endif %}
+                                (수정됨)
+                              {% endif %}
+                            </small>
+                            {% if request.user.is_authenticated %}
+                              <small class="text-muted">|</small>
+                              <!-- 작성자만 수정 삭제 -->
+                              {% if user.is_authenticated and comment.user == request.user %}
+                                <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
+                                <small class="text-muted">|</small>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <!-- 댓글 삭제 Modal -->
+                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                        피셜을 삭제하시면
+                                        {{user.exp}}점에서
+                                        {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
+                                      </div>
+                                      <div class="d-flex justify-content-center my-4">
+                                        <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                        <a href="{% url 'korea:comment_delete' player.pk comment.pk %}" class="btn btn-outline-navy ms-2">삭제</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 댓글 삭제 Modal -->
+                              {% else %}
+
+                                <!-- 신고 버튼 -->
+                                {% if comment.pk in block_count %}
+                                  {% for k, v in block_dict.items %}
+                                    {% if comment.pk == k %}
+                                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고({{v}})</a>
+                                    {% endif %}
+                                  {% endfor %}
+                                {% else %}
+                                  <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고</a>
+                                {% endif %}
+                                <!-- 신고 Modal -->
+                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                                    <div class="modal-content" style="width: 40rem; height: rem;">
+                                      <div class="d-flex justify-content-end my-4">
+                                        <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                        해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
+                                      </div>
+                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                        {% csrf_token %}
+                                        <div class="d-flex justify-content-center my-4">
+                                          <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
+                                          <button type="submit" class="btn btn-outline-navy ms-2" data-bs-dismiss="modal">
+                                            신고하기
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- 신고 Modal -->
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+
+                        <!-- 피셜 내용 -->
+                        <p>
+                          <!-- 이미지가 있으면 크기 조정-->
+                          {{ comment.content | safe }}
+                        </p>
+                      </div>
+                      <!-- textbox -->
+
+                      <!-- 좋아요 버튼 -->
+                      {% if request.user.is_authenticated %}
+                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                          {% csrf_token %}
+                          {% if request.user in comment.like_users.all %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                            </button>
+                          {% else %}
+                            <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
+                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                            </button>
+                          {% endif %}
+                        </form>
+                      {% else %}
+                        <!-- 로그인 안한 경우 -->
+                        <button class="btn border-0 ms-3" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                          <i class="like-fficial bi bi-hand-thumbs-up"></i>
+                        </button>
+                        <!-- 로그인 Modal -->
+                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+                            <div class="modal-content" style="width: 40rem; height: rem;">
+                              <div class="d-flex justify-content-end my-4">
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body text-center pt-0">
+                                로그인 후 이용해 주세요.
+                              </div>
+                              <div class="d-flex justify-content-center my-4">
+                                <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
+                                <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- 로그인 Modal -->
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  <!-- 신고하기 조건문 -->
+                  {% endif %}
+              {% endfor %}
+            </div>
+          </div>
         </div>
         <!-- wrap -->
       </div>
