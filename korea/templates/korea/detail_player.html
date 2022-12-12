@@ -2,6 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% load django_bootstrap5 %}
+{% load custom_tags %}
 
 {% block content %}
 
@@ -93,7 +94,7 @@
               </div>
             {% else %}
               <div class='d-flex align-items-center'>
-                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+                <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="#C82D36">
                   <style>
                     @keyframes pulsate {
 
@@ -188,11 +189,11 @@
               </div>
             </a>
           </div>
-
           <!-- 피셜 출력 -->
           {% for comment in comments %}
-            <!-- 피셜 수정 시간 조건문 -->
-            {% if request.user.pk in block_list and comment.pk in block_comment %}
+            <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
+            {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %}
+              {% if request.user.pk in block_list and comment.pk in block_comment %}
               <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
                 <div class="chat ch1 align-items-center">
                   <div class="textbox">
@@ -323,8 +324,8 @@
                   {% endif %}
                 </div>
               </div>
-            {% else %}
-              <!-- 피셜 수정 시간 조건문 -->
+              {% else %}
+              <!-- 피셜 조건문 비로그인 및 신고안한 유저 다 보이도록-->
               <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
                 <div class="chat ch1 align-items-center">
                   <div class="textbox">
@@ -466,8 +467,9 @@
                   {% endif %}
                 </div>
               </div>
-            {% endif %}
-            <!-- 신고하기 조건문 -->
+              {% endif %}
+              <!-- 신고하기 조건문 -->
+              {% endif %}
           {% endfor %}
         </div>
         <!-- wrap -->
