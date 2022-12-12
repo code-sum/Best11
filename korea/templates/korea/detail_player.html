@@ -192,7 +192,7 @@
           <!-- 피셜 출력 -->
           {% for comment in comments %}
             <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
-            {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %}
+            {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %} <!-- 신고가 5개 이상이면 모든 사용사 숨김처리 -->
               {% if request.user.pk in block_list and comment.pk in block_comment %}
               <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
                 <div class="chat ch1 align-items-center">
