@@ -1502,7 +1502,7 @@ label[for="toggle-pears"] {
 }
 
 .menuitem{
-  border-top: 1px solid #ef584a;
+  border-top: 1px solid #111b54;
   overflow: hidden;
 }
 
@@ -1580,7 +1580,7 @@ label[for="toggle-pears"] {
 .rule-btn{
   display: block;
   padding: 15px 20px;
-  background-color: #ff6f61;
+  background-color: #111b54;
   color: #fff;
   position: relative;
 
@@ -1592,7 +1592,7 @@ label[for="toggle-pears"] {
   height: 0;
   border-left: 8px solid transparent;
   border-right:8px solid transparent;
-  border-top:10px solid #ff6f61;
+  border-top:10px solid #c82d36;
   right: 15px;
   bottom: -10px;
   z-index: 9;
@@ -1601,4 +1601,3 @@ label[for="toggle-pears"] {
 .rule-btn i {
   margin-right: 10px;
 }
-
