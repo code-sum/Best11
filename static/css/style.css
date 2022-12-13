@@ -1245,6 +1245,10 @@ footer {
 .feed-section-three .feed-header{
   display: flex;
   align-items: center;
+  background-color: #eaeaea;
+  padding: 1rem;
+  width: 35rem;
+  border-radius: 25rem 0 0 25rem;
 }
 
 .feed-header img{
@@ -1255,6 +1259,10 @@ footer {
 
 .feed-header h2{
   font-weight: bold;
+}
+
+.nameBox{
+  margin-left: 1rem;
 }
 
 .feed-section-three h1{
