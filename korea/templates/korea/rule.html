@@ -33,7 +33,6 @@
       src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff") format('woff');
 
     }
-
     a:hover {
       color: white;
     }
@@ -41,6 +40,7 @@
 
   <div class="rule-width">
     <div>
+
       <h1 style="font-size: 3rem; padding-bottom: 3rem; padding-top: 5rem" class="fw-bold text-center">축구 규칙</h1>
       <div class='d-flex justify-content-center mb-5'>
         <div style="border-top:0.1rem solid black; width: 245px;"></div>
@@ -234,24 +234,6 @@
       </ui>
     </div>
   </div>
-  <script>
-    const Box = document.getElementById('rule-1')
-    function getOffsetTop(el) {
-      var top = 0;
-      if (el.offsetParent) {
-        do {
-          top += el.offsetTop;
-        } while (el = el.offsetParent);
-        return [top];
-      }
-    }
-    window.scroll(0, getOffsetTop(document.getElementById("rule-1")));
-  </script>
+
    
 {% endblock content %}
-
-{% comment %}  function myFunction() {
-      const Box = document.getElementById('rule-1')
-      
-    }
- {% endcomment %}

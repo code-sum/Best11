@@ -26,12 +26,6 @@
   <body>
 
     <style>
-      @font-face {
-        font-family: 'Y_Spotlight';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-      }
       /* body 스타일 
       html, body {
         overflow: hidden;
@@ -92,11 +86,6 @@
       }
       .fc-daygrid-event-dot {
         border-color: #c82d36;
-      }
-      .guide {
-        font-family: 'Y_Spotlight';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
-
       }
     </style>
 
@@ -197,12 +186,12 @@
       {% block content %}
         {% comment %} <body style="padding:30px;"> {% endcomment %} 
         <h1 style="font-size: 3rem; padding-bottom: 2rem; padding-top:15rem" class="fw-bold text-center">경기 일정</h1>
-        <p class='guide container text-center' style='font-size:2rem; padding:1.875rem'>각 경기를 클릭해보세요!
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes scale-in-center{0%{transform:scale(0);opacity:1}to{transform:scale(1);opacity:1}}</style><g style="animation:scale-in-center 2s cubic-bezier(.25,.46,.45,.94) infinite both;transform-origin:center" stroke-width="1.5"><path stroke="#265BFF" stroke-linecap="round" stroke-linejoin="round" d="M11.5 9v4m-2-2h4"/><rect width="12" height="12" x="5.5" y="5" stroke="#0A0A30" rx="6"/><path stroke="#0A0A30" stroke-linecap="round" d="M15.5 16l3 3"/></g></svg>
-        </p>
-      
+        <div class='d-flex justify-content-center mb-5'>
+          <div style="border-top:0.1rem solid black; width: 245px;"></div>
+        </div>
+        <p class='container text-center' style='font-size:1.4rem; padding:1.875rem; color:#6c757d'>각 경기를 클릭해보세요!</p>
         <!-- calendar 태그 -->
-        <div id='calendar-container' style='padding-top:5rem; padding:30px; font-size'>
+        <div id='calendar-container' style="padding-top:5rem; padding:30px; font-size">
           <div id='calendar'></div>
         </div>
       {% endblock content %}
