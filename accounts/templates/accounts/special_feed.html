@@ -26,12 +26,15 @@
   <!-- section 1 : 뉴스 영역 끝 -->
 
   <!-- section 2 : 피셜랭킹 영역 시작 -->
+  <div class="feed-section-two-header">
+    <h1>지금 뜨는 피셜랭킹</h1>
+  </div>
   <div class="feed-section-two">
     <div class="wrapper">
       <div class="outer">
         <div class="card" style="--delay:-1;">
           {% for comment in like_comments_first %}
-            <div class="content">
+            <div class="content" style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">
               <div class="img">
                 {% if comment.user.profile_image %}
                   <div class="gold-box">1위</div>
@@ -46,7 +49,7 @@
                   <span class="fw-normal fs-4 text-muted ms-4">
                     <i class="bi bi-hand-thumbs-up"></i>
                     {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">{{ comment.content|safe }}</p>
+                <p>{{ comment.content|safe }}</p>
               </div>
             </div>
             <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">더보기</a>
@@ -54,7 +57,7 @@
         </div>
         <div class="card" style="--delay:0;">
           {% for comment in like_comments_second %}
-            <div class="content">
+            <div class="content" style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
@@ -69,7 +72,7 @@
                   <span class="fw-normal fs-4 text-muted ms-4">
                     <i class="bi bi-hand-thumbs-up"></i>
                     {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">{{ comment.content|safe }}</p>
+                <p>{{ comment.content|safe }}</p>
               </div>
             </div>
             <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">더보기</a>
@@ -77,7 +80,7 @@
         </div>
         <div class="card" style="--delay:1;">
           {% for comment in like_comments_third %}
-            <div class="content">
+            <div class="content" style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
@@ -92,7 +95,7 @@
                   <span class="fw-normal fs-4 text-muted ms-4">
                     <i class="bi bi-hand-thumbs-up"></i>
                     {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">{{ comment.content|safe }}</p>
+                <p>{{ comment.content|safe }}</p>
               </div>
             </div>
             <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">더보기</a>
@@ -100,7 +103,7 @@
         </div>
         <div class="card" style="--delay:2;">
           {% for comment in like_comments_four %}
-            <div class="content">
+            <div class="content" style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
@@ -115,7 +118,7 @@
                   <span class="fw-normal fs-4 text-muted ms-4">
                     <i class="bi bi-hand-thumbs-up"></i>
                     {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">{{ comment.content|safe }}</p>
+                <p>{{ comment.content|safe }}</p>
               </div>
             </div>
             <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">더보기</a>
@@ -123,7 +126,7 @@
         </div>
         <div class="card" style="--delay:2;">
           {% for comment in like_comments_five %}
-            <div class="content">
+            <div class="content" style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">
               <div class="img">
                 {% if comment.user.profile_image %}
                   <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
@@ -138,7 +141,7 @@
                   <span class="fw-normal fs-4 text-muted ms-4">
                     <i class="bi bi-hand-thumbs-up"></i>
                     {{ comment.like_users.count }}명이 추천해요</span></span>
-                <p style="cursor: pointer;" onclick="location.href='{% url 'korea:detail' comment.players.pk %}'">{{ comment.content|safe }}</p>
+                <p>{{ comment.content|safe }}</p>
               </div>
             </div>
             <a href="{% url 'korea:detail' comment.players.pk %}" class="button button--wayra button--border-thick button--text-upper button--size-s">더보기</a>

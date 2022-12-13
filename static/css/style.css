@@ -938,9 +938,24 @@ footer {
 }
 
 /* accounts/special_feed.html  피셜랭킹 영역 */
+.feed-section-two-header{
+  display: flex;
+  justify-content: center;
+}
+
+.feed-section-two-header h1{
+  margin: 0;
+  padding-top: 5rem;
+  z-index: 1;
+  position: absolute;
+  font-weight: bold;
+}
+
 .feed-section-two{
   width: 100%;
   height: 100vh;
+  margin: 0;
+  padding-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1085,6 +1100,7 @@ footer {
   .feed-section-two{
     width: 100%;
     height: 100vh;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1130,8 +1146,8 @@ footer {
     align-items: center;
     justify-content: center;
     color: white;
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem;
+    height: 3.5rem;
     position: absolute;
     left: 8rem;
     top: 0;
