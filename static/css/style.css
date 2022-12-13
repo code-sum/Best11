@@ -143,7 +143,7 @@ main {
   position: relative;
   z-index: 1;
   text-align: center;
-  -webkit-backface-visibility: hidden;
+  /* -webkit-backface-visibility: hidden; */
   -moz-osx-font-smoothing: grayscale;
 }
 .button:focus {
@@ -318,12 +318,29 @@ main {
   margin: 0.5rem 0 5rem 0;
 }
 
+/* .red-line-left {
+  width: 50rem;
+  height: 10rem;
+  background: linear-gradient(
+    45deg,
+    #c82d36 25%,
+    #111b54 0,
+    #111b54 50%,
+    white 0,
+    white 25%,
+    #c82d36 0,
+    #c82d36 75%,
+    #111b54 0
+  );
+  -webkit-background-size: 100px 100px;
+  background-size: 100px 100px;
+} */
+
 .main-ball {
   width: 15rem;
   border-radius: 70%;
   transition: all ease 1s;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .main-ball:hover {
   transform: rotate(360deg);
@@ -365,7 +382,7 @@ main {
   display: block;
   left: 9.8rem;
   position: absolute;
-  top: -9px;
+  top: -9.5px;
   width: 0;
   z-index: 0;
 }
