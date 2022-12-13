@@ -132,7 +132,7 @@ main {
 .updown {
   border: 0.1rem solid rgb(105, 105, 105);
   width: 0.1rem;
-  height: 20rem;
+  height: 17rem;
 }
 
 /* 기본 버튼(네이비 컬러) CSS */
@@ -1321,7 +1321,7 @@ footer {
 
 #slideshow {
   margin: 0 auto;
-  height: 40rem;
+  height: 35rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -1428,10 +1428,12 @@ footer {
   margin-right: 0;
   margin-top: 3rem;
   line-height: 1.5;
+  display: flex;
+  justify-content: center;
 }
 
 .tabs {
-  width: 100%;
+  width: 80vw;
   height: 100%;
   font-size: 1.5rem;
 }
@@ -1574,7 +1576,7 @@ label[for="toggle-pears"] {
 /* korea/index.html player-card */
 
 .player-card {
-  width: 40rem;
+  width: 35rem;
   background-color: #fff;
   margin: 1.5rem;
   padding: 4rem;
