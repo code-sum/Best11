@@ -20,19 +20,6 @@
     }
     }
 
-    @font-face {
-            font-family: 'Y_Spotlight';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-    .guide {
-            font-family: 'Y_Spotlight';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
-
-        }
-
     a:hover {
         color:white;
     }
@@ -43,9 +30,10 @@
 <div class="rule-width">
     <div>
         <h1 style="font-size: 3rem; padding-bottom: 3rem; padding-top: 5rem" class="fw-bold text-center">축구 규칙</h1>
-        <p class='guide container text-center' style='font-size:2rem; padding:1.875rem'>각 규칙을 클릭해보세요
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes n-info-cir{0%,to{transform:rotate(0deg);transform-origin:center}10%,90%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-6deg)}30%,50%,70%{transform:rotate(6deg)}80%{transform:rotate(-2deg)}}</style><g style="animation:n-info-cir .8s cubic-bezier(.455,.03,.515,.955) both infinite"><circle cx="12.29" cy="12" r="8" stroke="#0A0A30" stroke-width="1.5"/><path stroke="#265BFF" stroke-linecap="round" stroke-width="1.5" d="M12.29 8.143v4.55"/><circle cx="12.29" cy="14.957" r=".9" fill="#265BFF"/></g></svg>
-        </p>
+        <div class='d-flex justify-content-center mb-5'>
+            <div style="border-top:0.1rem solid black; width: 245px;"></div>
+        </div>
+        <p class='container text-center' style='font-size:1.4rem; padding:1.875rem; color:#6c757d'>각 규칙을 클릭해보세요!</p>
         <ui class="mainMenu">
             <li class="menuitem" id="1">
                 <a href="#1" class="rule-btn fw-bold"><i class="fas fa-user-circle"></i>1. 규칙의 제정</a>
