@@ -165,8 +165,11 @@
               <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
             {% endif %}
           </div>
-          <div class="ms-3">
-            <h2>{{ comment.user.username }}
+          <div class="nameBox">
+            <h2>
+              <a href="{% url 'accounts:detail' comment.user.pk %}" class="a-navy-red fs-2">
+                {{ comment.user.username }}
+              </a>
               <span class="fs-4 fw-bolder text-muted">님이 피셜을 공유했습니다.</span></h2>
           </div>
         </div>

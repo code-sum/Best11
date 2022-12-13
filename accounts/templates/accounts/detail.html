@@ -171,7 +171,7 @@
         <div style="width: 100%; height: 100%;">
           <div class="d-flex flex-row">
             <div class="container d-flex flex-row align-items-center justify-content-center">
-              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="#C82D36">
                 <style>
                   @keyframes pulsate {
 
@@ -190,9 +190,9 @@
                   <path stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" d="M15.5 7.5c.802.304 1.862 1.43 2 2"/>
                 </g>
               </svg>
-              <h1 class="fw-bold" style="background-color: #FFFFCC;">
-                <span style="background-color: #FFFFFF;">&nbsp;</span>응원하는 선수</h1>
-              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="#C82D36">
+              <h1 class="fw-bold">
+                응원하는 선수</h1>
+              <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="#C82D36">
                 <style>
                   @keyframes pulsate {
 
@@ -250,7 +250,7 @@
         </div>
 
       </div>
-      <!-- 응원하는 선수 영역 시작 -->
+      <!-- 응원하는 선수 영역 끝 -->
       <!-- 프로필 하단 영역(section-three) 끝 -->
 
       <!-- 프로필 하단 영역(section-four) 시작 -->
@@ -258,67 +258,7 @@
         <div style="width: 100%; height: 100%;">
           <div class="d-flex flex-row">
             <div class="container d-flex flex-row align-items-center justify-content-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="none" viewbox="0 0 24 24">
-                <style>
-                  .rotate-right {
-                    animation: rotate-right 1s cubic-bezier(1, -0.01, 0.13, 1.15) infinite alternate-reverse both;
-                    transform-origin: top center;
-                  }
-
-                  @keyframes rotate-right {
-                    0% {
-                      transform: rotate(0);
-                    }
-
-                    25% {
-                      transform: rotate(10deg);
-                    }
-
-                    50 {
-                      transform: rotate(0deg);
-                    }
-
-                    100% {
-                      transform: rotate(-10deg);
-                    }
-                  }
-                </style>
-                <g class="rotate-right">
-                  <path stroke="#111b54" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0" d="M9.5 7.307h5"/>
-                  <path stroke="#111b54" stroke-width="1.5" d="M9 5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5v11.3a1.5 1.5 0 01-.54 1.152l-1.5 1.249a1.5 1.5 0 01-1.92 0l-1.5-1.249A1.5 1.5 0 019 16.8V5.5z"/>
-                </g>
-              </svg>
-              <h1 class="fw-bold" style="background-color: #FFFFCC;">작성한 My피셜</h1>
-              <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="none" viewbox="0 0 24 24">
-                <style>
-                  .rotate-right {
-                    animation: rotate-right 1s cubic-bezier(1, -0.01, 0.13, 1.15) infinite alternate-reverse both;
-                    transform-origin: top center;
-                  }
-
-                  @keyframes rotate-right {
-                    0% {
-                      transform: rotate(0);
-                    }
-
-                    25% {
-                      transform: rotate(10deg);
-                    }
-
-                    50 {
-                      transform: rotate(0deg);
-                    }
-
-                    100% {
-                      transform: rotate(-10deg);
-                    }
-                  }
-                </style>
-                <g class="rotate-right">
-                  <path stroke="#111b54" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0" d="M9.5 7.307h5"/>
-                  <path stroke="#111b54" stroke-width="1.5" d="M9 5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5v11.3a1.5 1.5 0 01-.54 1.152l-1.5 1.249a1.5 1.5 0 01-1.92 0l-1.5-1.249A1.5 1.5 0 019 16.8V5.5z"/>
-                </g>
-              </svg>
+              <h1 class="fw-bold">작성한 My피셜</h1>
             </div>
           </div>
         </div>
@@ -326,12 +266,14 @@
         <!-- 피셜 카드 여러장 나오는 영역 시작 -->
         <div class="d-flex flex-column container align-items-center my-3">
           {% for comment in user_comment %}
-            <div class="fficial-card position-color">
+            <div class="fficial-card2 position-color">
               <div class="overlay"></div>
               <div class="d-flex flex-row align-items-center justify-content-between">
                 <div>
-                  <span class="badge bg-navy me-3" style="font-size: 2rem;">#{{ comment.players.name }}</span>
-                  <span class="badge bg-red" style="font-size: 2rem;">♥&nbsp;{{ comment.like_users.count }}</span>
+                  <span class="badge bg-red me-2" style="font-size: 1.8rem;">#{{ comment.players.position }}</span>
+                  <span class="badge bg-navy me-2" style="font-size: 1.8rem;">#{{ comment.players.name }}</span>
+                  <span class="badge bg-grey" style="font-size: 1.8rem;">
+                    <i class="bi bi-hand-thumbs-up"></i>&nbsp;{{ comment.like_users.count }}</span>
                 </div>
                 <span>
                   <a href="{% url 'korea:comment_delete' comment.players.pk comment.pk %}">
@@ -348,7 +290,7 @@
                         }
                       </style>
                       <path fill="#0A0A30" d="M16.773 10.083a.75.75 0 00-1.49-.166l1.49.166zm-1.535 7.027l.745.083-.745-.083zm-6.198 0l-.745.083.745-.083zm-.045-7.193a.75.75 0 00-1.49.166l1.49-.166zm5.249 7.333h-4.21v1.5h4.21v-1.5zm1.038-7.333l-.79 7.11 1.491.166.79-7.11-1.49-.166zm-5.497 7.11l-.79-7.11-1.49.166.79 7.11 1.49-.165zm.249.223a.25.25 0 01-.249-.222l-1.49.165a1.75 1.75 0 001.739 1.557v-1.5zm4.21 1.5c.892 0 1.64-.67 1.74-1.557l-1.492-.165a.25.25 0 01-.248.222v1.5z"/>
-                      <path fill="#265BFF" fill-rule="evenodd" d="M11 6a1 1 0 00-1 1v.25H7a.75.75 0 000 1.5h10a.75.75 0 000-1.5h-3V7a1 1 0 00-1-1h-2z" clip-rule="evenodd" style="animation:rotate-tr 1s cubic-bezier(1,-.28,.01,1.13) infinite alternate-reverse both;transform-origin:right center"/>
+                      <path fill="#c82d36" fill-rule="evenodd" d="M11 6a1 1 0 00-1 1v.25H7a.75.75 0 000 1.5h10a.75.75 0 000-1.5h-3V7a1 1 0 00-1-1h-2z" clip-rule="evenodd" style="animation:rotate-tr 1s cubic-bezier(1,-.28,.01,1.13) infinite alternate-reverse both;transform-origin:right center"/>
                     </svg>
                   </a>
                 </span>
