@@ -77,11 +77,18 @@ def create(request):
 # 선수 디테일 정보
 def detail(request, player_pk):
     player = Players.objects.get(pk=player_pk)
+    # 좋아요 순 댓글 
     comments = (
         Comment.objects.annotate(count=Count("like_users"))
         .filter(players=player_pk)
         .order_by("-count")
     )
+    # 최신순 댓글
+    sort_date = (
+        Comment.objects.filter(players=player_pk)
+        .order_by("-created_at")
+    )
+    print(sort_date)
 
     for t in comments:
         with open("filter.txt", "r", encoding="utf-8") as txtfile:
@@ -104,14 +111,25 @@ def detail(request, player_pk):
     sns = Sns.objects.get(pk=player_pk)
     master = str(request.user)
     blocks = Block.objects.filter(players=player)  # 신고한 댓글 목록
-    block_list = []
-    block_comment = []
+    block_list = []  # 신고한 사용자 PK 리스트
+    block_comment = []  # 신고된 피셜 pk 리스트
+
     for b in blocks:
         if request.user.pk == b.user.pk:
             block_list.append(b.user.pk)
             block_comment.append(b.comment.pk)
 
-    print(block)
+    block_count = []  # 신고 카운트 위한 피셜 목록
+    for k in blocks:
+        block_count.append(k.comment.pk)
+
+    block_dict = {}
+    for block in block_count:
+        if block in block_dict:
+            block_dict[block] = block_dict[block] + 1
+        else:
+            block_dict[block] = 1
+
     context = {
         "player": player,
         "master": master,
@@ -120,6 +138,9 @@ def detail(request, player_pk):
         "blocks": blocks,
         "block_list": block_list,
         "block_comment": block_comment,
+        "block_count": block_count,
+        "block_dict": block_dict,
+        "sort_date": sort_date, 
     }
     return render(request, "korea/detail_player.html", context)
 
@@ -238,8 +259,9 @@ def comment_delete(request, comment_pk, player_pk):
         comment.delete()
         comment.user.save()
     # accounts/detail.html 이나 korea/datail_player.html 어디서든
-    # 삭제 성공 시, 작업하고 있던 페이지로 리다이렉트 시킴 
-    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+    # 삭제 성공 시, 작업하고 있던 페이지로 리다이렉트 시킴
+    return redirect(request.META.get("HTTP_REFERER", "redirect_if_referer_not_found"))
+
 
 # 피셜 좋아요
 @login_required
@@ -264,26 +286,32 @@ def likes(request, player_pk, comment_pk):
         }
         return JsonResponse(context)
 
+
 # 규칙
 def rule(request):
     return render(request, "korea/rule.html")
+
 
 # 게임 메인
 def game(request):
     return render(request, "korea/game.html")
 
+
 # 1인 게임
 def game_1p(request):
     return render(request, "korea/game_1p.html")
+
 
 # 2인 게임
 def game_2p(request):
     return render(request, "korea/game_2p.html")
 
+
 # 댓글 신고하기
 def block(request, player_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     player = Players.objects.get(pk=player_pk)
+    blocks = Block.objects.filter(players=player_pk)
     if request.user.is_authenticated:
         if request.method == "POST":
             form = BlockForm(request.POST)
@@ -299,3 +327,8 @@ def block(request, player_pk, comment_pk):
         }
 
         return JsonResponse(context)
+
+
+# 경기 일정
+def match(request):
+    return render(request, "korea/match.html")

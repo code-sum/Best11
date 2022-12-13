@@ -899,6 +899,252 @@ footer {
   transform: scale(4) translateZ(0);
 }
 
+/* accounts/special_feed.html  실시간 뉴스 영역 */
+.feed-section-one {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+  background-color:#F6F6F6;
+  padding-top: 4rem;
+  padding-bottom: 1rem;
+}
+
+.rolling_box {
+  width: 90vw;
+  height: 6rem;
+  margin-top: 1rem;
+}
+
+.rolling_box ul {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0;
+}
+
+.rolling_box ul li {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  position: absolute;
+  transition: top 0.75s;
+  top: 100%;
+  z-index: 1;
+  background-color: #F6F6F6;
+}
+
+/* accounts/special_feed.html  피셜랭킹 영역 */
+.feed-section-two{
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
+}
+
+.wrapper .outer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper .card{
+  background: #fff;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1rem 2rem 1rem;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  justify-content: space-between;
+  border-radius: 25rem 0 0 25rem;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+  animation: animate 15s linear infinite;
+  animation-delay: calc(3s * var(--delay));
+}
+.outer:hover .card{
+  animation-play-state: paused;
+}
+.wrapper .card:last-child{
+  animation-delay: calc(-3s * var(--delay));
+}
+@keyframes animate {
+  0%{
+    opacity: 0;
+    transform: translateY(100%) scale(0.5);
+  }
+  5%, 20%{
+    opacity: 0.4;
+    transform: translateY(100%) scale(0.7);
+  }
+  25%, 40%{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0%) scale(1);
+  }
+  45%, 60%{
+    opacity: 0.4;
+    transform: translateY(-100%) scale(0.7);
+  }
+  65%, 100%{
+    opacity: 0;
+    transform: translateY(-100%) scale(0.5);
+  }
+}
+.card .content{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 15rem;
+}
+
+.card .img img{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card .img div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 12rem;
+  top: 0.1rem;
+}
+
+.bronze-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgb(223, 171, 103) 0%,rgb(231, 214, 181) 56%,rgb(231, 170, 116) 96%); 
+}
+
+.silver-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgba(160,160,160,1) 0%,rgba(232,232,232,1) 56%);
+}
+
+.gold-box{
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  background: linear-gradient(45deg,  rgb(242, 204, 12) 0%,rgb(255, 249, 177) 56%,rgb(252, 227, 0) 96%);
+}
+
+.card .details{
+  margin: 0;
+  padding: 0;
+  height: 10rem;
+  width: 60rem;
+  overflow: hidden;
+}
+.details span{
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+.details p{
+  font-size: 1.5rem;
+  padding-top: 0.5rem;
+}
+
+/* 큰 화면 */
+@media only screen and (min-width: 800px) {
+  .wrapper .card .img{
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+    left: 3rem;
+    top: 18%;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+  }
+
+  .card a{
+    text-decoration: none;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    transition: all 0.3s ease;
+  }
+  .card a:hover{
+    transform: scale(0.94);
+  }
+}
+
+/* 작은 화면 */
+@media only screen and (max-width: 800px) {
+
+  .feed-section-two{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
+  }
+
+  .wrapper .card .img{
+    height: 10rem;
+    width: 10rem;
+    position: absolute;
+    left: 2rem;
+    top: 23%;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  .wrapper .card .content{
+    display: flex;
+    align-items: center;
+    height: 15rem;
+    padding-left: 12rem;
+  }
+
+  .card .details{
+    margin: 0;
+    padding: 0;
+    height: 10rem;
+    width: 22rem;
+    overflow: hidden;
+  }
+
+  .details span{
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  .card a{
+    display: none;
+  }
+
+  .card .img div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    left: 8rem;
+    top: 0;
+  }
+}
+
+/* accounts/special_feed.html 팔로우하는 유저의 피셜피드 영역 */
+.feed-section-three{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* korea/index.html main 태그 내부 div */
 .under-main {
   display: flex;
@@ -1306,6 +1552,64 @@ label[for="toggle-pears"] {
   padding: 0 0.5rem;
 }
 
+/* 댓글 정렬 */
+.comment-tab {
+  height: 100%;
+  width: 100%;
+  display: none;
+  padding: 4rem 1rem 1rem;
+}
+
+input[name="sort"] {
+  float: left;
+  opacity: 0;
+  position: absolute;
+}
+
+input[name="sort"] ~ label {
+  padding: 1em;
+  width: 20%;
+  margin-right: 2rem;
+  float: right;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+input[name="sort"] ~ label:hover {
+  background: #d9d9d9;
+}
+input[name="sort"] ~ label:focus {
+  outline: 0;
+}
+
+
+label[for="toggle-like"] {
+  text-transform: uppercase;
+}
+
+#toggle-like:checked ~ .tab-like {
+  display: block;
+}
+
+#toggle-like:checked ~ label[for="toggle-like"] {
+  cursor: default;
+  color: #b52b33;
+}
+
+label[for="toggle-date"] {
+  text-transform: uppercase;
+}
+
+#toggle-date:checked ~ .tab-date {
+  display: block;
+}
+
+#toggle-date:checked ~ label[for="toggle-date"] {
+  cursor: default;
+  color: #b52b33;
+}
+
 /* 채팅창 디자인 */
 .wrap {
   padding: 4rem 0;
@@ -1355,11 +1659,122 @@ label[for="toggle-pears"] {
 
 /* 아이콘 */
 .like-fficial {
-  color: #c82d36;
+  color: #111b54;
   font-size: 2rem;
 }
 
 /* 신고하기 form hidden */
 .form-hidden {
   display: none;
+}
+
+/* 축구 규칙 */
+.mainMenu{
+  width: auto;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  list-style: none;
+  text-decoration: none;
+}
+
+.menuitem{
+  border-top: 1px solid #111b54;
+  overflow: hidden;
+}
+
+.subMenu{
+  background: #fff;
+  color: #111b54;
+  overflow: auto;
+  transition: max-height 0.7s;
+  max-height: 0;
+}
+.subMenu a{
+  display: block;
+  padding: 15px 20px;
+  color: #fff;
+  font-size: 14px;
+  border-bottom: 1px solid #394c7f;
+  position: relative;
+  
+}
+.subMenu a:before{
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s;
+
+}
+.subMenu a:hover:before{
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 6px;
+  left: 0;
+  top:0;
+  opacity: 1;
+  /* background-color: #d8d824; */
+  border-top: 24px solid transparent;
+  border-left: 11px solid #fcdc29;
+  border-bottom: 24px solid transparent;
+}
+.subMenu a:after{
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s;
+
+}
+.subMenu a:hover:after{
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 6px;
+  right: 0px;
+  top:0;
+  opacity: 1;
+  /* background-color: #d8d824; */
+  border-top: 24px solid transparent;
+  border-right: 11px solid #fcdc29;
+  border-bottom: 24px solid transparent;
+}
+.subMenu a:hover{
+  background: #273057;
+  background: -moz-linear-gradient(top, #273057 0%, #273057 50%, #394c7f 51%, #394c7f 100%);
+  background: -webkit-linear-gradient(top, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
+  background: linear-gradient(to bottom, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#273057', endColorstr='#394c7f',GradientType=0 );
+  transition: all 0.3s;
+  border-bottom: 1px solid #394c7f;
+}
+.subMenu a:last-child{
+  border:none;
+}
+
+.menuitem:target .subMenu{
+  max-height: 20em;
+}
+
+.rule-btn{
+  display: block;
+  padding: 15px 20px;
+  background-color: #111b54;
+  color: #fff;
+  position: relative;
+
+}
+.rule-btn:before{
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:10px solid #c82d36;
+  right: 15px;
+  bottom: -10px;
+  z-index: 9;
+  
+}
+.rule-btn i {
+  margin-right: 10px;
 }
