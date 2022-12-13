@@ -153,20 +153,38 @@
   <!-- section 2 : 피셜랭킹 영역 끝 -->
 
   <!-- section 3 : 팔로우 하는 유저의 피셜피드 영역 시작 -->
-  <div class="feed-section-three">
+  <div class="feed-section-three container">
+    <h1>친구들이 작성한 피셜</h1>
     {% for comment in comments %}
+      <div style="width: 100%; margin-top: 2rem;">
+        <div class="feed-header">
+          <div>
+            {% if comment.user.profile_image %}
+              <img src="{{ comment.user.profile_image.url }}" alt="작성자프로필">
+            {% else %}
+              <img src="{% static 'images/Soccer-Ball.png' %}" alt="디폴트프로필">
+            {% endif %}
+          </div>
+          <div class="ms-3">
+            <h2>{{ comment.user.username }}
+              <span class="fs-4 fw-bolder text-muted">님이 피셜을 공유했습니다.</span></h2>
+          </div>
+        </div>
+      </div>
       <div class="fficial-card position-color">
         <div class="overlay"></div>
         <div class="d-flex flex-row align-items-center justify-content-between">
           <div>
-            <span class="badge bg-navy me-3" style="font-size: 2rem;">#{{ comment.players.name }}</span>
-            <span class="badge bg-red" style="font-size: 2rem;">♥&nbsp;{{ comment.like_users.count }}</span>
+            <span class="badge bg-red me-2" style="font-size: 1.8rem;">#{{ comment.players.position }}</span>
+            <span class="badge bg-navy me-2" style="font-size: 1.8rem;">#{{ comment.players.name }}</span>
+            <span class="badge bg-grey" style="font-size: 1.8rem;">
+              <i class="bi bi-hand-thumbs-up"></i>&nbsp;{{ comment.like_users.count }}</span>
           </div>
         </div>
         <a href="{% url 'korea:detail' comment.players.pk %}" class="a-black-red">
           <div class="d-flex flex-column mt-4">
             <p>{{ comment.content|safe }}</p>
-            <p class="text-end">{{ comment.created_at|date:'Y-m-d' }}</p>
+            <p class="text-end pe-5">{{ comment.created_at|date:'Y-m-d' }}</p>
           </div>
         </a>
       </div>
