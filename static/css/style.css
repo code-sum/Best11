@@ -941,6 +941,12 @@ footer {
   transform: scale(4) translateZ(0);
 }
 
+.fficial-card:active {
+  transform: scale(1) translateZ(0);
+  box-shadow: 0 15px 24px rgba(0,0,0,0.11),
+    0 15px 24px var(--box-shadow-color);
+}
+
 .fficial-card2 {
   width: 100%;
   height: 100%;
@@ -961,6 +967,12 @@ footer {
 
 .fficial-card2:hover .overlay {
   transform: scale(4) translateZ(0);
+}
+
+.fficial-card2:active {
+  transform: scale(1) translateZ(0);
+  box-shadow: 0 15px 24px rgba(0,0,0,0.11),
+    0 15px 24px var(--box-shadow-color);
 }
 
 /* accounts/special_feed.html  실시간 뉴스 영역 */
@@ -1594,6 +1606,20 @@ label[for="toggle-pears"] {
 
 .player-card:hover .overlay {
   transform: scale(4) translateZ(0);
+}
+
+.player-card:active {
+  transform: scale(1) translateZ(0);
+  box-shadow: 0 15px 24px rgba(0,0,0,0.11),
+    0 15px 24px var(--box-shadow-color);
+}
+
+.circle-profile {
+  border-radius: 50%;
+  margin-left: 2rem;
+  margin-right: 1rem;
+  width: 10rem; 
+  height: 12rem;
 }
 
 /* korea/index.html position-color */
