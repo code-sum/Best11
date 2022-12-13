@@ -127,10 +127,11 @@
                         <!-- 작성/수정시간 -->
                          {% if comment.is_updated == False %}
                            {% if comment.created_string == False %}
-                             <span>{{ comment.created|date:'Y.m.d' }}</span>
+                             {{ comment.created_at|date:'Y.m.d' }}
                            {% else %}
-                             <span>{{ comment.created_string }}</span>
+                             {{ comment.created_string }}
                            {% endif %}
+                        <!-- 수정된 글은 (수정됨) 표시 -->
                          {% else %}
                            {% if comment.created_string == False %}
                              {{ comment.updated_at|date:'Y.m.d' }}
@@ -250,7 +251,7 @@
                         <small class="text-muted">
                           {% if comment.is_updated == False %}
                             {% if comment.created_string == False %}
-                              {{ comment.created|date:'Y.m.d' }}
+                              {{ comment.created_at|date:'Y.m.d' }}
                             {% else %}
                               {{ comment.created_string }}
                             {% endif %}
