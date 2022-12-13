@@ -48,8 +48,7 @@
       <p class='container text-center' style='font-size:1.4rem; padding:1.875rem; color:#6c757d'>각 규칙을 클릭해보세요!</p>
       <ui class="mainMenu">
         <li class="menuitem" id="1">
-          <span class="anchor" id="rule-1"></span>
-          <a href="#1" class="rule-btn fw-bold" onclick="myFunction()">
+          <a href="#1" class="rule-btn fw-bold">
             <i class="fas fa-user-circle"></i>1. 규칙의 제정
           </a>
           <div class="subMenu"><br>
@@ -234,24 +233,4 @@
       </ui>
     </div>
   </div>
-  <script>
-    const Box = document.getElementById('rule-1')
-    function getOffsetTop(el) {
-      var top = 0;
-      if (el.offsetParent) {
-        do {
-          top += el.offsetTop;
-        } while (el = el.offsetParent);
-        return [top];
-      }
-    }
-    window.scroll(0, getOffsetTop(document.getElementById("rule-1")));
-  </script>
-   
 {% endblock content %}
-
-{% comment %}  function myFunction() {
-      const Box = document.getElementById('rule-1')
-      
-    }
- {% endcomment %}
