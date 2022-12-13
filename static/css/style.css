@@ -304,11 +304,32 @@ main {
 }
 
 /* main.html */
-.main-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+@media only screen and (min-width: 800px) {
+  .main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(../images/main_웹.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(../images/main_iPhone.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .main h1 {
@@ -317,24 +338,6 @@ main {
   font-weight: 950;
   margin: 0.5rem 0 5rem 0;
 }
-
-/* .red-line-left {
-  width: 50rem;
-  height: 10rem;
-  background: linear-gradient(
-    45deg,
-    #c82d36 25%,
-    #111b54 0,
-    #111b54 50%,
-    white 0,
-    white 25%,
-    #c82d36 0,
-    #c82d36 75%,
-    #111b54 0
-  );
-  -webkit-background-size: 100px 100px;
-  background-size: 100px 100px;
-} */
 
 .main-ball {
   width: 15rem;
@@ -385,6 +388,40 @@ main {
   top: -9.5px;
   width: 0;
   z-index: 0;
+}
+
+.bounce {
+  animation: bounce 2s ease infinite;
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.main-line {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  margin: 50px 0;
+}
+.main-line::before,
+.main-line::after {
+  content: " ";
+  flex-grow: 1;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.4;
 }
 
 /* base.html - header CSS */
@@ -905,7 +942,7 @@ footer {
   justify-content: center;
   text-align: center;
   width: auto;
-  background-color:#F6F6F6;
+  background-color: #f6f6f6;
   padding-top: 4rem;
   padding-bottom: 1rem;
 }
@@ -934,11 +971,11 @@ footer {
   transition: top 0.75s;
   top: 100%;
   z-index: 1;
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
 }
 
 /* accounts/special_feed.html  피셜랭킹 영역 */
-.feed-section-two{
+.feed-section-two {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -947,12 +984,12 @@ footer {
   background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
 }
 
-.wrapper .outer{
+.wrapper .outer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.wrapper .card{
+.wrapper .card {
   background: #fff;
   width: 90%;
   display: flex;
@@ -963,54 +1000,58 @@ footer {
   position: absolute;
   justify-content: space-between;
   border-radius: 25rem 0 0 25rem;
-  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
   animation: animate 15s linear infinite;
   animation-delay: calc(3s * var(--delay));
 }
-.outer:hover .card{
+.outer:hover .card {
   animation-play-state: paused;
 }
-.wrapper .card:last-child{
+.wrapper .card:last-child {
   animation-delay: calc(-3s * var(--delay));
 }
 @keyframes animate {
-  0%{
+  0% {
     opacity: 0;
     transform: translateY(100%) scale(0.5);
   }
-  5%, 20%{
+  5%,
+  20% {
     opacity: 0.4;
     transform: translateY(100%) scale(0.7);
   }
-  25%, 40%{
+  25%,
+  40% {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0%) scale(1);
   }
-  45%, 60%{
+  45%,
+  60% {
     opacity: 0.4;
     transform: translateY(-100%) scale(0.7);
   }
-  65%, 100%{
+  65%,
+  100% {
     opacity: 0;
     transform: translateY(-100%) scale(0.5);
   }
 }
-.card .content{
+.card .content {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   height: 15rem;
 }
 
-.card .img img{
+.card .img img {
   height: 100%;
   width: 100%;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.card .img div{
+.card .img div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1023,41 +1064,55 @@ footer {
   top: 0.1rem;
 }
 
-.bronze-box{
+.bronze-box {
   -webkit-text-fill-color: rgb(0, 0, 0);
-  background: linear-gradient(45deg,  rgb(223, 171, 103) 0%,rgb(231, 214, 181) 56%,rgb(231, 170, 116) 96%); 
+  background: linear-gradient(
+    45deg,
+    rgb(223, 171, 103) 0%,
+    rgb(231, 214, 181) 56%,
+    rgb(231, 170, 116) 96%
+  );
 }
 
-.silver-box{
+.silver-box {
   -webkit-text-fill-color: rgb(0, 0, 0);
-  background: linear-gradient(45deg,  rgba(160,160,160,1) 0%,rgba(232,232,232,1) 56%);
+  background: linear-gradient(
+    45deg,
+    rgba(160, 160, 160, 1) 0%,
+    rgba(232, 232, 232, 1) 56%
+  );
 }
 
-.gold-box{
+.gold-box {
   -webkit-text-fill-color: rgb(0, 0, 0);
-  background: linear-gradient(45deg,  rgb(242, 204, 12) 0%,rgb(255, 249, 177) 56%,rgb(252, 227, 0) 96%);
+  background: linear-gradient(
+    45deg,
+    rgb(242, 204, 12) 0%,
+    rgb(255, 249, 177) 56%,
+    rgb(252, 227, 0) 96%
+  );
 }
 
-.card .details{
+.card .details {
   margin: 0;
   padding: 0;
   height: 10rem;
   width: 60rem;
   overflow: hidden;
 }
-.details span{
+.details span {
   font-weight: 600;
   font-size: 2.5rem;
 }
 
-.details p{
+.details p {
   font-size: 1.5rem;
   padding-top: 0.5rem;
 }
 
 /* 큰 화면 */
 @media only screen and (min-width: 800px) {
-  .wrapper .card .img{
+  .wrapper .card .img {
     height: 15rem;
     width: 15rem;
     position: absolute;
@@ -1065,24 +1120,23 @@ footer {
     top: 18%;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   }
 
-  .card a{
+  .card a {
     text-decoration: none;
     text-align: center;
     color: rgb(0, 0, 0);
     transition: all 0.3s ease;
   }
-  .card a:hover{
+  .card a:hover {
     transform: scale(0.94);
   }
 }
 
 /* 작은 화면 */
 @media only screen and (max-width: 800px) {
-
-  .feed-section-two{
+  .feed-section-two {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -1091,7 +1145,7 @@ footer {
     background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
   }
 
-  .wrapper .card .img{
+  .wrapper .card .img {
     height: 10rem;
     width: 10rem;
     position: absolute;
@@ -1101,14 +1155,14 @@ footer {
     border-radius: 50%;
   }
 
-  .wrapper .card .content{
+  .wrapper .card .content {
     display: flex;
     align-items: center;
     height: 15rem;
     padding-left: 12rem;
   }
 
-  .card .details{
+  .card .details {
     margin: 0;
     padding: 0;
     height: 10rem;
@@ -1116,16 +1170,16 @@ footer {
     overflow: hidden;
   }
 
-  .details span{
+  .details span {
     font-weight: 600;
     font-size: 2rem;
   }
 
-  .card a{
+  .card a {
     display: none;
   }
 
-  .card .img div{
+  .card .img div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1143,7 +1197,7 @@ footer {
 }
 
 /* accounts/special_feed.html 팔로우하는 유저의 피셜피드 영역 */
-.feed-section-three{
+.feed-section-three {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1587,7 +1641,6 @@ input[name="sort"] ~ label:focus {
   outline: 0;
 }
 
-
 label[for="toggle-like"] {
   text-transform: uppercase;
 }
@@ -1673,7 +1726,7 @@ label[for="toggle-date"] {
 }
 
 /* 축구 규칙 */
-.mainMenu{
+.mainMenu {
   width: auto;
   display: block;
   border-radius: 10px;
@@ -1682,102 +1735,115 @@ label[for="toggle-date"] {
   text-decoration: none;
 }
 
-.menuitem{
+.menuitem {
   border-top: 1px solid #111b54;
   overflow: hidden;
 }
 
-.subMenu{
+.subMenu {
   background: #fff;
   color: #111b54;
   overflow: auto;
   transition: max-height 0.7s;
   max-height: 0;
 }
-.subMenu a{
+.subMenu a {
   display: block;
   padding: 15px 20px;
   color: #fff;
   font-size: 14px;
   border-bottom: 1px solid #394c7f;
   position: relative;
-  
 }
-.subMenu a:before{
-  content: '';
+.subMenu a:before {
+  content: "";
   opacity: 0;
   transition: opacity 0.3s;
-
 }
-.subMenu a:hover:before{
-  content: '';
+.subMenu a:hover:before {
+  content: "";
   position: absolute;
   height: 0;
   width: 6px;
   left: 0;
-  top:0;
+  top: 0;
   opacity: 1;
   /* background-color: #d8d824; */
   border-top: 24px solid transparent;
   border-left: 11px solid #fcdc29;
   border-bottom: 24px solid transparent;
 }
-.subMenu a:after{
-  content: '';
+.subMenu a:after {
+  content: "";
   opacity: 0;
   transition: opacity 0.3s;
-
 }
-.subMenu a:hover:after{
-  content: '';
+.subMenu a:hover:after {
+  content: "";
   position: absolute;
   height: 0;
   width: 6px;
   right: 0px;
-  top:0;
+  top: 0;
   opacity: 1;
   /* background-color: #d8d824; */
   border-top: 24px solid transparent;
   border-right: 11px solid #fcdc29;
   border-bottom: 24px solid transparent;
 }
-.subMenu a:hover{
+.subMenu a:hover {
   background: #273057;
-  background: -moz-linear-gradient(top, #273057 0%, #273057 50%, #394c7f 51%, #394c7f 100%);
-  background: -webkit-linear-gradient(top, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
-  background: linear-gradient(to bottom, #273057 0%,#273057 50%,#394c7f 51%,#394c7f 100%);
+  background: -moz-linear-gradient(
+    top,
+    #273057 0%,
+    #273057 50%,
+    #394c7f 51%,
+    #394c7f 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    #273057 0%,
+    #273057 50%,
+    #394c7f 51%,
+    #394c7f 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    #273057 0%,
+    #273057 50%,
+    #394c7f 51%,
+    #394c7f 100%
+  );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#273057', endColorstr='#394c7f',GradientType=0 );
   transition: all 0.3s;
   border-bottom: 1px solid #394c7f;
 }
-.subMenu a:last-child{
-  border:none;
+.subMenu a:last-child {
+  border: none;
 }
 
-.menuitem:target .subMenu{
+.menuitem:target .subMenu {
   max-height: 20em;
 }
 
-.rule-btn{
+.rule-btn {
   display: block;
   padding: 15px 20px;
   background-color: #111b54;
   color: #fff;
   position: relative;
-
 }
-.rule-btn:before{
-  content: '';
+.rule-btn:before {
+  content: "";
   position: absolute;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
-  border-right:8px solid transparent;
-  border-top:10px solid #c82d36;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #c82d36;
   right: 15px;
   bottom: -10px;
   z-index: 9;
-  
 }
 .rule-btn i {
   margin-right: 10px;
