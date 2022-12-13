@@ -940,7 +940,7 @@ footer {
 /* accounts/special_feed.html  피셜랭킹 영역 */
 .feed-section-two{
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1084,7 +1084,7 @@ footer {
 
   .feed-section-two{
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1135,6 +1135,10 @@ footer {
     position: absolute;
     left: 8rem;
     top: 0;
+  }
+
+  .plus-btn-mobile{
+    display: block;
   }
 }
 
