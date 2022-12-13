@@ -19,6 +19,34 @@ from django.views.decorators.http import require_POST, require_safe
 import requests
 from bs4 import BeautifulSoup
 
+# 욕설 필터 함수
+def comment_table(p):
+    table = [0] * len(p)
+    i = 0
+    for j in range(1, len(p)):
+        while i > 0 and p[i] != p[j]:
+            i = table[i - 1]
+        if p[i] == p[j]:
+            i += 1
+            table[j] = i
+    return table
+
+
+def KMP(p, t):
+    ans = []
+    table = comment_table(p)
+    i = 0
+    for j in range(len(t)):
+        while i > 0 and p[i] != t[j]:
+            i = table[i - 1]
+        if p[i] == t[j]:
+            if i == len(p) - 1:
+                ans.append(j - len(p) + 2)
+                i = table[i]
+            else:
+                i += 1
+    return ans
+
 # 전체 회원관리 페이지(관리자만 접속 가능)
 @login_required
 def index(request):
@@ -95,10 +123,31 @@ def detail(request, pk):
         job = "감독"
     else:
         job = "선수"
+
+    user_comment = user.comment_set.all()
+    for t in user_comment:
+        with open("filter.txt", "r", encoding="utf-8") as txtfile:
+            for word in txtfile.readlines():
+                word = word.strip()
+                ans = KMP(word, t.content)
+                if ans:
+                    for k in ans:
+                        k = int(k)
+                        if k < len(t.content) // 2:
+                            t.content = (
+                                len(t.content[k - 1 : len(word)]) * "*"
+                                + t.content[len(word) :]
+                            )
+                        else:
+                            t.content = (
+                                t.content[0 : k - 1] + len(t.content[k - 1 :]) * "*"
+                            )
+
     context = {
         "user": user,
         "comment_count": comment_count,
         "job": job,
+        "user_comment": user_comment,
     }
     return render(request, "accounts/detail.html", context)
 
