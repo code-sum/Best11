@@ -89,6 +89,10 @@ main {
   background-color: #c82d36;
 }
 
+.bg-grey {
+  background-color: #c6c6c6;
+}
+
 /* text */
 .text-red {
   color: #c82d36;
@@ -921,9 +925,10 @@ footer {
   border: 1px solid #c6c6c6;
   position: relative;
   overflow: hidden;
-  margin: 2rem;
-  padding: 3rem;
+  margin: 1.5rem;
+  padding: 2.5rem;
   transition: all 0.3s ease-out;
+  border-radius: 0 25rem 25rem 0;
 }
 
 .fficial-card:hover {
@@ -975,13 +980,28 @@ footer {
 }
 
 /* accounts/special_feed.html  피셜랭킹 영역 */
-.feed-section-two {
+.feed-section-two-header{
+  display: flex;
+  justify-content: center;
+}
+
+.feed-section-two-header h1{
+  margin: 0;
+  padding-top: 5rem;
+  z-index: 1;
+  position: absolute;
+  font-weight: bold;
+}
+
+.feed-section-two{
   width: 100%;
   height: 100vh;
+  margin: 0;
+  padding-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
+  background: linear-gradient(to bottom, #a9e6c0 0%, #86b7e7 100%);
 }
 
 .wrapper .outer {
@@ -991,7 +1011,7 @@ footer {
 }
 .wrapper .card {
   background: #fff;
-  width: 90%;
+  width: 80%;
   display: flex;
   align-items: center;
   padding: 1rem 1rem 2rem 1rem;
@@ -1139,10 +1159,27 @@ footer {
   .feed-section-two {
     width: 100%;
     height: 100vh;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #bea2e7 0%, #86b7e7 100%);
+    background: linear-gradient(to bottom, #a9e6c0 0%, #86b7e7 100%);
+  }
+
+  .wrapper .card{
+    background: #fff;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1rem 2rem 1rem;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    justify-content: space-between;
+    border-radius: 25rem 0 0 25rem;
+    box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+    animation: animate 15s linear infinite;
+    animation-delay: calc(3s * var(--delay));
   }
 
   .wrapper .card .img {
@@ -1184,8 +1221,8 @@ footer {
     align-items: center;
     justify-content: center;
     color: white;
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem;
+    height: 3.5rem;
     position: absolute;
     left: 8rem;
     top: 0;
@@ -1197,10 +1234,32 @@ footer {
 }
 
 /* accounts/special_feed.html 팔로우하는 유저의 피셜피드 영역 */
-.feed-section-three {
+.feed-section-three{
+  padding-top: 8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 80%;
+}
+
+.feed-section-three .feed-header{
+  display: flex;
+  align-items: center;
+}
+
+.feed-header img{
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+}
+
+.feed-header h2{
+  font-weight: bold;
+}
+
+.feed-section-three h1{
+  font-weight: bold;
+  padding-bottom: 5rem;
 }
 
 /* korea/index.html main 태그 내부 div */
