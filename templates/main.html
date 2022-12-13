@@ -1,0 +1,48 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>베스트일레븐 :: BEST 11</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+
+      <div class="main-content d-flex flex-column justify-content-center align-items-center main">
+        <p style="font-size: 2.2rem; font-weight: 600;">우리 모두의 국대위키</p>
+        <h1>
+          <span class="text-red">
+            베스트
+          </span>
+          <span class="text-navy">
+            일레븐
+          </span>
+        </h1>
+        <div class="red-line-left"></div>
+        <div class="navy-line-left"></div>
+        <a href="{% url 'accounts:login' %}">
+          <img src="{% static 'images/Soccer-Ball.png' %}" class="main-ball" alt="로그인/회원가입 축구공">
+        </a>
+        <div class="red-line-right"></div>
+        <div class="navy-line-right"></div>
+        <div class="main-tooltip">회원으로 시작하기</div>
+        <a href="{% url 'accounts:signup' %}" class="button button--wayra button--border-thick button--text-upper button--size-s mt-5 mb-4" style="font-size: 1.3rem; letter-spacing: 0.2rem; width: 22rem;">비회원으로 시작하기</a>
+        <p class="text-muted">비회원의 경우, 서비스 이용에 제한이 있을 수 있습니다.</p>
+      </div>
+    </div>
+
+    <!-- script -->
+    <script>
+
+    </script>
+  </body>
+</html>
