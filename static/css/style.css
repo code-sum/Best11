@@ -304,11 +304,32 @@ main {
 }
 
 /* main.html */
-.main-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+@media only screen and (min-width: 800px) {
+  .main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(../images/main_웹.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(../images/main_iPhone.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .main h1 {
@@ -386,6 +407,21 @@ main {
   60% {
     transform: translateY(-5px);
   }
+}
+
+.main-line {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  margin: 50px 0;
+}
+.main-line::before,
+.main-line::after {
+  content: " ";
+  flex-grow: 1;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.4;
 }
 
 /* base.html - header CSS */
