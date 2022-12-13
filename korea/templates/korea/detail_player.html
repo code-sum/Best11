@@ -492,14 +492,14 @@
                 <!-- 피셜 조건문 신고한 피셜이 있으면 안보이도록 -->
                 {% if block_dict|get_item:comment.pk < 6 or block_dict|get_item:comment.pk == none %} <!-- 신고가 5개 이상이면 모든 사용사 숨김처리 -->
                   {% if request.user.pk in block_list and comment.pk in block_comment %}
-                  <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                  <div class="comment form-hidden" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="reportdate-{{comment.pk}}">
                     <div class="chat ch1 align-items-center">
                       <div class="textbox">
                         <div class="d-flex justify-content-between mb-4">
                           <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
                           <div>
                             <small class="text-muted">
-                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                              <i class="bi bi-hand-thumbs-up" id="datelike-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
                             </small>
                             <small class="text-muted">|</small>
                             <small class="text-muted">
@@ -525,15 +525,15 @@
                               {% if user.is_authenticated and comment.user == request.user %}
                                 <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
                                 <small class="text-muted">|</small>
-                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModaldate-{{ comment.pk }}">삭제</a>
                                 <!-- 댓글 삭제 Modal -->
-                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteModaldate-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModaldateLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                                     <div class="modal-content" style="width: 40rem; height: rem;">
                                       <div class="d-flex justify-content-end my-4">
                                         <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
-                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                      <div class="modal-body text-center" data-bs-target="#deleteModaldate-{{ comment.pk }}">
                                         피셜을 삭제하시면
                                         {{user.exp}}점에서
                                         {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
@@ -547,16 +547,16 @@
                                 </div>
                                 <!-- 댓글 삭제 Modal -->
                               {% else %}
-                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModaldateLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                                     <div class="modal-content" style="width: 40rem; height: rem;">
                                       <div class="d-flex justify-content-end my-4">
                                         <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
-                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                      <div class="modal-body text-center" data-bs-target="#reportModaldate-{{ comment.pk }}">
                                         해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
                                       </div>
-                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                      <form class="reportdate-form" method="POST" data-bs-target="#reportModaldate-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
                                         {% csrf_token %}
                                         <div class="d-flex justify-content-center my-4">
                                           <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
@@ -584,15 +584,15 @@
 
                       <!-- 좋아요 버튼 -->
                       {% if request.user.is_authenticated %}
-                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                        <form class=" datelike-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
                           {% csrf_token %}
                           {% if request.user in comment.like_users.all %}
                             <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                              <i id="datelike-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
                             </button>
                           {% else %}
                             <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                              <i id="datelike-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
                             </button>
                           {% endif %}
                         </form>
@@ -624,14 +624,14 @@
                   </div>
                   {% else %}
                   <!-- 피셜 조건문 비로그인 및 신고안한 유저 다 보이도록-->
-                  <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="report-{{comment.pk}}">
+                  <div class="comment" data-comment-id="{{comment.pk}}" data-player-id="{{ player.pk }}" id="reportdate-{{comment.pk}}">
                     <div class="chat ch1 align-items-center">
                       <div class="textbox">
                         <div class="d-flex justify-content-between mb-4">
                           <a class="a-navy-red fw-bold" href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user.username }}</a>
                           <div>
                             <small class="text-muted">
-                              <i class="bi bi-hand-thumbs-up" id="like-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
+                              <i class="bi bi-hand-thumbs-up" id="datelike-count-{{ comment.pk }}">{{ comment.like_users.all|length }}</i>
                             </small>
                             <small class="text-muted">|</small>
                             <small class="text-muted">
@@ -656,15 +656,15 @@
                               {% if user.is_authenticated and comment.user == request.user %}
                                 <a href="{% url 'korea:comment_update' player.pk comment.pk %}" class="small text-muted">수정</a>
                                 <small class="text-muted">|</small>
-                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.pk }}">삭제</a>
+                                <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#deleteModaldate-{{ comment.pk }}">삭제</a>
                                 <!-- 댓글 삭제 Modal -->
-                                <div class="modal fade" id="deleteModal-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteModaldate-{{ comment.pk}}" tabindex="-1" aria-labelledby="deleteModaldateLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                                     <div class="modal-content" style="width: 40rem; height: rem;">
                                       <div class="d-flex justify-content-end my-4">
                                         <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
-                                      <div class="modal-body text-center" data-bs-target="#deleteModal-{{ comment.pk }}">
+                                      <div class="modal-body text-center" data-bs-target="#deleteModaldate-{{ comment.pk }}">
                                         피셜을 삭제하시면
                                         {{user.exp}}점에서
                                         {{ comment.like_users.count|mul:2 |add:1 }}점이 차감됩니다. 삭제하시겠습니까?
@@ -683,23 +683,23 @@
                                 {% if comment.pk in block_count %}
                                   {% for k, v in block_dict.items %}
                                     {% if comment.pk == k %}
-                                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고({{v}})</a>
+                                      <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModaldate-{{ comment.pk }}">신고({{v}})</a>
                                     {% endif %}
                                   {% endfor %}
                                 {% else %}
-                                  <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModal-{{ comment.pk }}">신고</a>
+                                  <a href="" class="small text-muted" data-bs-toggle="modal" data-bs-target="#reportModaldate-{{ comment.pk }}">신고</a>
                                 {% endif %}
                                 <!-- 신고 Modal -->
-                                <div class="modal fade" id="reportModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="reportModaldate-{{ comment.pk }}" tabindex="-1" aria-labelledby="reportModaldateLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                                     <div class="modal-content" style="width: 40rem; height: rem;">
                                       <div class="d-flex justify-content-end my-4">
                                         <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
-                                      <div class="modal-body text-center" data-bs-target="#reportModal-{{ comment.pk }}">
+                                      <div class="modal-body text-center" data-bs-target="#reportModaldate-{{ comment.pk }}">
                                         해당 피셜을 신고하시겠어요?<br>(신고 후 해당 피셜은 숨김 처리 됩니다.)
                                       </div>
-                                      <form class="report-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
+                                      <form class="reportdate-form" method="POST" data-bs-target="#reportModal-{{ comment.pk }}" data-comment-id="{{ comment.pk }}" data-player-id="{{ comment.players.pk }}">
                                         {% csrf_token %}
                                         <div class="d-flex justify-content-center my-4">
                                           <button type="button" class="btn btn-navy me-1" data-bs-dismiss="modal">취소</button>
@@ -727,15 +727,15 @@
 
                       <!-- 좋아요 버튼 -->
                       {% if request.user.is_authenticated %}
-                        <form class=" like-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
+                        <form class=" datelike-form" data-comment-id="{{ comment.pk }}" data-player-id="{{ player.pk }}">
                           {% csrf_token %}
                           {% if request.user in comment.like_users.all %}
                             <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
+                              <i id="datelike-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up-fill"></i>
                             </button>
                           {% else %}
                             <button class="btn border-0 ms-3" style="background-color: transparent;" type="submit" id="like-comment-{{ comment.pk }}">
-                              <i id="like-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
+                              <i id="datelike-i-{{ comment.pk }}" class="like-fficial bi bi-hand-thumbs-up"></i>
                             </button>
                           {% endif %}
                         </form>
@@ -876,6 +876,7 @@
   <!-- 좋아요 -->
   <script>
     const form = document.querySelectorAll('.like-form')
+    const dateform = document.querySelectorAll('.datelike-form')
     const csrftokens = document
       .querySelector('[name=csrfmiddlewaretoken]')
       .value
@@ -924,11 +925,57 @@
             })
           })
       })
+
+      dateform
+      .forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault()
+          const playerId = event.target.dataset.playerId
+          const commentId = event
+            .target
+            .dataset
+            .commentId
+
+            axios({
+              method: 'post',
+              url: `/korea/detail/${playerId}/${commentId}/likes/`,
+              headers: {
+                'X-CSRFToken': csrftokens
+              }
+            })
+            .then((response) => {
+              const isLiked = response.data.is_liked
+              const likeBtn = document.querySelector(`#datelike-i-${commentId}`)
+              if (isLiked === true) {
+                likeBtn
+                  .classList
+                  .remove('bi-hand-thumbs-up')
+                likeBtn
+                  .classList
+                  .add('bi-hand-thumbs-up-fill')
+              } else {
+                likeBtn
+                  .classList
+                  .remove('bi-hand-thumbs-up-fill')
+                likeBtn
+                  .classList
+                  .add('bi-hand-thumbs-up')
+              }
+              const likeCountTag = document.querySelector(`#datelike-count-${commentId}`)
+              const likeCount = response.data.likeCount
+              likeCountTag.innerText = likeCount
+            })
+            .catch((error) => {
+              console.log(error.response)
+            })
+          })
+      })
   </script>
 
   <!-- 신고하기 스크립트 -->
   <script>
     const reportForm = document.querySelectorAll(".report-form")
+    const reportdateForm = document.querySelectorAll(".reportdate-form")
     const csrftoken_report = document
       .querySelector('[name=csrfmiddlewaretoken]')
       .value
@@ -953,6 +1000,38 @@
             .then((response) => {
               const isReport = response.data.is_report
               const reportDiv = document.querySelector(`#report-${commentId}`)
+              if (isReport === true) {
+                reportDiv
+                  .classList
+                  .add('form-hidden')
+              }
+            })
+            .catch((error) => {
+              console.log(error.response)
+            })
+          })
+      })
+
+      reportdateForm
+      .forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault()
+          const playerId = event.target.dataset.playerId
+          const commentId = event
+            .target
+            .dataset
+            .commentId
+
+            axios({
+              method: 'post',
+              url: `/korea/detail/${playerId}/${commentId}/block/`,
+              headers: {
+                'X-CSRFToken': csrftoken_report
+              }
+            })
+            .then((response) => {
+              const isReport = response.data.is_report
+              const reportDiv = document.querySelector(`#reportdate-${commentId}`)
               if (isReport === true) {
                 reportDiv
                   .classList
