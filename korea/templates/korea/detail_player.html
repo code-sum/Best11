@@ -506,7 +506,7 @@
                               <!-- 작성/수정시간 -->
                               {% if comment.is_updated == False %}
                                 {% if comment.created_string == False %}
-                                  <span>{{ comment.created|date:'Y.m.d' }}</span>
+                                  <span>{{ comment.created_at|date:'Y.m.d' }}</span>
                                 {% else %}
                                   <span>{{ comment.created_string }}</span>
                                 {% endif %}
@@ -637,7 +637,7 @@
                             <small class="text-muted">
                               {% if comment.is_updated == False %}
                                 {% if comment.created_string == False %}
-                                  {{ comment.created|date:'Y.m.d' }}
+                                  {{ comment.created_at|date:'Y.m.d' }}
                                 {% else %}
                                   {{ comment.created_string }}
                                 {% endif %}
@@ -749,4 +749,220 @@
                           <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                             <div class="modal-content" style="width: 40rem; height: rem;">
                               <div class="d-flex justify-content-end my-4">
-                                <button type="button" cla... (8KB 남음)
+                                <button type="button" class="btn-close me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body text-center pt-0">
+                                로그인 후 이용해 주세요.
+                              </div>
+                              <div class="d-flex justify-content-center my-4">
+                                <a class="btn btn-navy me-1" href="{% url 'accounts:login' %}">로그인</a>
+                                <a class="btn btn-outline-navy ms-2" href="{% url 'accounts:signup' %}">회원가입</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- 로그인 Modal -->
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  <!-- 신고하기 조건문 -->
+                  {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- wrap -->
+      </div>
+      <!-- col-8 -->
+    </div>
+    <!-- 하단 채팅 레이아웃 -->
+  </div>
+  <!-- container -->
+
+  <!-- script -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
+
+  <script>
+    // summernote 적용, 커스텀
+    $('#summernote').summernote({
+      height: 300,
+      focus: true,
+      maxWidth: 500,
+      lang: 'ko-KR',
+      callbacks: {
+        onImageUpload: function (image) {
+          var file = image[0];
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            var image = $('<img>').attr('src', reader.result);
+            image.attr('width', '100%');
+            $('#summernote').summernote("insertNode", image[0]);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+  </script>
+
+  <script type="text/javascript">
+    // 페이지 벗어나기 경고창
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+      if (checkUnload) 
+        return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+      }
+    );
+    $("#write").on("click", function () {
+      checkUnload = false;
+      $("submit").submit();
+    });
+  </script>
+
+  <!-- <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> <script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script> <script src="summernote-bs5.js"></script> -->
+  <!-- 응원하기 -->
+  <script>
+    const forms = document.querySelectorAll(".like-forms")
+    const csrftoken = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value
+
+      forms
+      .forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const playerId = event
+            .target
+            .dataset
+            .playerId
+
+            axios({
+              method: 'post',
+              url: `/korea/like_player/${playerId}`,
+              headers: {
+                'X-CSRFToken': csrftoken
+              }
+            })
+            .then((response) => {
+              const isLikeds = response.data.is_likeds
+              const likeBtnp = document.querySelector(`#like-${playerId}`)
+              const likeIcon = document.querySelector(`#support-${playerId}`)
+              if (isLikeds === true) {
+                likeBtnp
+                  .classList
+                  .remove('btn-navy')
+                likeBtnp
+                  .classList
+                  .add('btn-outline-navy')
+                likeBtnp.innerText = "응원취소"
+              } else {
+                likeBtnp
+                  .classList
+                  .remove('btn-outline-navy')
+                likeBtnp
+                  .classList
+                  .add('btn-navy')
+                likeBtnp.innerText = "응원하기"
+              }
+              const likeCountTag = document.querySelector('#like-count')
+              const likeCount = response.data.like_count
+              likeCountTag.innerText = likeCount
+            })
+        })
+      })
+  </script>
+
+  <!-- 좋아요 -->
+  <script>
+    const form = document.querySelectorAll('.like-form')
+    const csrftokens = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value
+
+      form
+      .forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault()
+          const playerId = event.target.dataset.playerId
+          const commentId = event
+            .target
+            .dataset
+            .commentId
+
+            axios({
+              method: 'post',
+              url: `/korea/detail/${playerId}/${commentId}/likes/`,
+              headers: {
+                'X-CSRFToken': csrftokens
+              }
+            })
+            .then((response) => {
+              const isLiked = response.data.is_liked
+              const likeBtn = document.querySelector(`#like-i-${commentId}`)
+              if (isLiked === true) {
+                likeBtn
+                  .classList
+                  .remove('bi-hand-thumbs-up')
+                likeBtn
+                  .classList
+                  .add('bi-hand-thumbs-up-fill')
+              } else {
+                likeBtn
+                  .classList
+                  .remove('bi-hand-thumbs-up-fill')
+                likeBtn
+                  .classList
+                  .add('bi-hand-thumbs-up')
+              }
+              const likeCountTag = document.querySelector(`#like-count-${commentId}`)
+              const likeCount = response.data.likeCount
+              likeCountTag.innerText = likeCount
+            })
+            .catch((error) => {
+              console.log(error.response)
+            })
+          })
+      })
+  </script>
+
+  <!-- 신고하기 스크립트 -->
+  <script>
+    const reportForm = document.querySelectorAll(".report-form")
+    const csrftoken_report = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value
+
+      reportForm
+      .forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault()
+          const playerId = event.target.dataset.playerId
+          const commentId = event
+            .target
+            .dataset
+            .commentId
+
+            axios({
+              method: 'post',
+              url: `/korea/detail/${playerId}/${commentId}/block/`,
+              headers: {
+                'X-CSRFToken': csrftoken_report
+              }
+            })
+            .then((response) => {
+              const isReport = response.data.is_report
+              const reportDiv = document.querySelector(`#report-${commentId}`)
+              if (isReport === true) {
+                reportDiv
+                  .classList
+                  .add('form-hidden')
+              }
+            })
+            .catch((error) => {
+              console.log(error.response)
+            })
+          })
+      })
+  </script>
+{% endblock %}
