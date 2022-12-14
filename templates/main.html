@@ -2,10 +2,13 @@
 {% load django_bootstrap5 %}
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/Soccer-Ball2.png' %}">
     <!-- Bootstrap Font Icon CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- Bootstrap CSS -->
@@ -17,7 +20,7 @@
   <body>
     <div class="main-wrapper">
       <div class="main-content d-flex flex-column justify-content-center align-items-center main">
-        <p style="font-size: 2.2rem; font-weight: 600;">우리 모두의 국대위키</p>        
+        <p style="font-size: 2.2rem; font-weight: 600;">우리 모두의 국대위키</p>
         <h1>
           <span class="text-red">
             베스트
@@ -26,18 +29,17 @@
             일레븐
           </span>
         </h1>
-            <a href="{% url 'accounts:login' %}">
-              <img src="{% static 'images/Soccer-Ball.png' %}" class="main-ball" alt="로그인/회원가입 축구공">    
-            </a>
-            <div class="main-tooltip bounce">회원으로 시작하기</div>
-        <a href="{% url 'accounts:signup' %}" class="button button--wayra button--border-thick button--text-upper button--size-s mt-5 mb-4" style="font-size: 1.3rem; letter-spacing: 0.2rem; width: 22rem;">비회원으로 시작하기</a>
+        <a href="{% url 'accounts:login' %}">
+          <img src="{% static 'images/Soccer-Ball.png' %}" class="main-ball" alt="로그인/회원가입 축구공">
+        </a>
+        <div class="main-tooltip bounce">회원으로 시작하기</div>
+        <a href="{% url 'korea:index' %}" class="button button--wayra button--border-thick button--text-upper button--size-s mt-5 mb-4" style="font-size: 1.3rem; letter-spacing: 0.2rem; width: 22rem;">비회원으로 시작하기</a>
         <p class="text-muted">비회원의 경우, 서비스 이용에 제한이 있을 수 있습니다.</p>
       </div>
     </div>
 
     <!-- script -->
-    <script>
-
-    </script>
+    <script></script>
   </body>
+
 </html>
