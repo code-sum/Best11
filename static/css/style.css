@@ -844,6 +844,7 @@ footer {
 .profile-section-one {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: auto;
   margin-top: 8rem;
 }

@@ -321,7 +321,7 @@
         {% if request.user == user and request.user.is_superuser %}
           <a class="a-black-red" style="color: inherit" href="{% url 'accounts:report' request.user.pk %}">신고한 피셜</a>
           <span>
-            |
+            &nbsp;|&nbsp;
           </span>
           <a class="a-black-red" style="color: inherit" href="{% url 'accounts:index' %}">전체 회원관리</a>
         {% else %}
