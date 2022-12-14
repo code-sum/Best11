@@ -1729,6 +1729,10 @@ label[for="toggle-pears"] {
 }
 
 /* 댓글 정렬 */
+.comment-tabs {
+  height: 100%;
+  font-size: 1.5rem;
+}
 .comment-tab {
   height: 100%;
   width: 100%;
