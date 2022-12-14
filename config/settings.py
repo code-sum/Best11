@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "imagekit",  # 11/27 등록(이수경)
     "korea",  # 11/27 등록(이수경)
     "accounts",  # 11/27 등록(이수경)
-    "sns",  # 12월5일(주세환)
+    "sns",  # 12/5 등록(주세환)
     "django_bootstrap5",  # 11/27 등록(이수경)
     "django_cleanup.apps.CleanupConfig",  # 11/27 등록(이수경) - 글이 삭제되었을 때 로컬에 남은 이미지들도 삭제될 수 있게 처리
     "django_summernote",  # 11/28 등록(차화영)
@@ -170,31 +170,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 
 
-# 기존 미디어 코드 주석처리 후, AWS S3 관련 코드 추가
-# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-# AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-
-# AWS_REGION = "ap-northeast-2"
-# AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
-#     AWS_STORAGE_BUCKET_NAME,
-#     AWS_REGION,
-# )
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "best11_rds",
-#         "USER": "postgres",
-#         "PASSWORD": "1q2w3e4r!",
-#         "HOST": "best-11-kdt.cgyji6nar9u7.ap-northeast-2.rds.amazonaws.com",
-#         "PORT": "5432",
-#     }
-# }
-
 DEBUG = os.getenv("DEBUG") == "True"
 # DEBUG = False
 
@@ -209,7 +184,6 @@ if DEBUG:
     }
 
 else:
-    # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     DEFAULT_FILE_STORAGE = "config.storages.MediaStorage"
 
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
@@ -224,10 +198,10 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DATABASE_NAME"),  # .env 파일에 value 작성
+            "NAME": os.getenv("DATABASE_NAME"),
             "USER": "postgres",
-            "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # .env 파일에 value 작성
-            "HOST": os.getenv("DATABASE_HOST"),  # .env 파일에 value 작성
+            "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+            "HOST": os.getenv("DATABASE_HOST"),
             "PORT": "5432",
         }
     }
